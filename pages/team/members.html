@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iGEM Team - Seleção de Personagem</title>
+  <link rel="stylesheet" href="../../css/team.css" />
+</head>
+
+<body>
+  <div class="arcade-container">
+    <!-- Header -->
+    <header class="igem-header" style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 20px;
+        ">
+      <a href="../../index.html" style="
+            color: #fff;
+            text-decoration: none;
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 2px solid #00e5ff;
+            padding: 5px 15px;
+            border-radius: 5px;
+          ">&larr; BACK TO HOME</a>
+      <h1>CHOOSE YOUR RESEARCHER</h1>
+      <div style="width: 150px"></div>
+    </header>
+
+    <main class="combat-arena">
+      <div class="player-side p1-side">
+        <div class="health-bar-container">
+          <div class="health-bar-name" id="p1-name">SELECT PLAYER</div>
+        </div>
+
+        <div class="character-display">
+          <div class="character-sprite" id="p1-sprite">?</div>
+        </div>
+
+        <div class="stats-box">
+          <div class="stat-row">
+            <span>Biologia Sintética</span>
+            <div class="stat-segments" id="stat-bio"></div>
+          </div>
+          <div class="stat-row">
+            <span>Modelagem</span>
+            <div class="stat-segments" id="stat-mod"></div>
+          </div>
+          <div class="stat-row">
+            <span>Design</span>
+            <div class="stat-segments" id="stat-des"></div>
+          </div>
+        </div>
+
+        <div class="bio-box" style="
+              margin-top: 15px;
+              background: rgba(0, 0, 0, 0.8);
+              border: 1px solid #00e5ff;
+              padding: 15px;
+              border-radius: 5px;
+              min-height: 80px;
+              width: 100%;
+            ">
+          <p id="p1-bio" style="
+                font-family: sans-serif;
+                font-size: 0.9rem;
+                color: #ddd;
+                line-height: 1.4;
+              ">
+            Selecione um membro da equipe para ver sua história e função
+            principal no iGEM UFRGS 2026.
+          </p>
+        </div>
+      </div>
+
+      <div class="vs-badge">
+        <span class="glitch-text" data-text="VS">VS</span>
+      </div>
+
+      <div class="player-side p2-side">
+        <div class="health-bar-container">
+          <div class="health-bar-name">2,4-D HERBICIDE</div>
+        </div>
+
+        <div class="character-display">
+          <div class="character-sprite cpu-sprite">
+            <img src="../../assets/images/team/2-4d.jpg" alt="Molécula 2,4-D" id="cpu-image" />
+          </div>
+        </div>
+
+        <div class="stats-box">
+          <div class="stat-row">
+            <span>Toxicidade</span>
+            <div class="stat-segments p2-stat" data-value="90"></div>
+          </div>
+          <div class="stat-row">
+            <span>Resistência</span>
+            <div class="stat-segments p2-stat" data-value="85"></div>
+          </div>
+          <div class="stat-row">
+            <span>Dispersão</span>
+            <div class="stat-segments p2-stat" data-value="95"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <section class="roster-section">
+      <div class="roster-grid" id="roster-grid">
+      </div>
+    </section>
+
+    <footer class="igem-footer">
+      <p>
+        GitLab Repository Link | © 2026 Creative Commons Attribution 4.0
+        International license
+      </p>
+    </footer>
+  </div>
+
+  <script src="../../js/team.js"></script>
+</body>
+
+</html>
