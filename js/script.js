@@ -204,6 +204,100 @@ const newsData = [
     { title: "The 2,4-D impasse: soybean and grape producers' conflict", summary: "This report describes the conflict between different agricultural sectors regarding the use of 2,4-D. Soybean producers emphasize productivity, whereas grape growers report economic losses.", link: "https://gauchazh.clicrbs.com.br/campo-e-lavoura/noticia/2025/09/justica-libera-uso-de-agrotoxico-24-d-apos-proibicao-no-rs-entenda-cmfyo18vc01de014isnu148wr.html", img: "assets/images/news3.jpg" },
 ];
 
+const carouselTrackNews = document.getElementById('carouselTrack');
+const prevNewsBtn = document.getElementById('prevNewsBtn');
+const nextNewsBtn = document.getElementById('nextNewsBtn');
+
+if (carouselTrackNews && newsData.length > 0) {
+
+    // 1. Injetar os itens originais no HTML
+    const originalHTML = newsData.map(news => `
+        <div class="news-card">
+            <img src="${news.img}" alt="News Image">
+            <h3 class="news-headline">${news.title}</h3>
+            <p style="font-family: sans-serif; color: #555; font-size: 0.9rem;">${news.summary}</p>
+            <a href="${news.link}" target="_blank" style="color:var(--primary-green); font-weight:bold; text-decoration:none; font-family: sans-serif; font-size:0.9rem;">Read full report &rarr;</a>
+        </div>
+    `).join('');
+    carouselTrackNews.innerHTML = originalHTML;
+
+    // 2. Clonagem para efeito Infinito/Circular
+    const cards = Array.from(carouselTrackNews.children);
+    const firstClone = cards[0].cloneNode(true);
+    const lastClone = cards[cards.length - 1].cloneNode(true);
+
+    carouselTrackNews.appendChild(firstClone);
+    carouselTrackNews.insertBefore(lastClone, cards[0]);
+
+let currentNewsIndex = 1;
+    let isTransitioning = false;
+
+    function updateNewsCarousel(smooth = true) {
+        const allCards = carouselTrackNews.children;
+        if (allCards.length === 0) return;
+
+        if (smooth) {
+            carouselTrackNews.style.transition = "transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)";
+        } else {
+            carouselTrackNews.style.transition = "none";
+        }
+
+        // Como cada card tem 100% de largura, mover em múltiplos de -100%
+        // garante centralização matemática perfeita e constante
+        carouselTrackNews.style.transform = `translateX(-${currentNewsIndex * 100}%)`;
+
+        // Atualiza as classes de Destaque
+        Array.from(allCards).forEach((card, idx) => {
+            card.classList.remove('active-card');
+            if (idx === currentNewsIndex) {
+                card.classList.add('active-card');
+            }
+        });
+    }
+
+    // Looping infinito limpo baseado em porcentagem
+    carouselTrackNews.addEventListener('transitionend', () => {
+        isTransitioning = false;
+        const allCards = carouselTrackNews.children;
+
+        if (currentNewsIndex === 0) {
+            carouselTrackNews.style.transition = "none";
+            currentNewsIndex = allCards.length - 2;
+            updateNewsCarousel(false);
+        } else if (currentNewsIndex === allCards.length - 1) {
+            carouselTrackNews.style.transition = "none";
+            currentNewsIndex = 1;
+            updateNewsCarousel(false);
+        }
+    });
+
+    if (nextNewsBtn) {
+        nextNewsBtn.addEventListener('click', () => {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            currentNewsIndex++;
+            updateNewsCarousel();
+        });
+    }
+
+    if (prevNewsBtn) {
+        prevNewsBtn.addEventListener('click', () => {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            currentNewsIndex--;
+            updateNewsCarousel();
+        });
+    }
+    
+
+    // Inicialização segura esperando o carregamento completo do DOM e CSS
+    window.addEventListener('load', () => updateNewsCarousel(false));
+    window.addEventListener('resize', () => updateNewsCarousel(false));
+
+    // Fallback caso o evento 'load' já tenha passado
+    setTimeout(() => updateNewsCarousel(false), 200);
+}
+
 function openTab(i) {
     const folderCover = document.getElementById('folderCover');
     const paper = document.getElementById('folderPaper');

@@ -234,32 +234,35 @@
     </div>
 
 
-    <section class="archive-section">
-        <div class="archive-header">
-            <h2>SO HOW DOES <span class="highlight-green">OURS PROJECT</span> FIT INTO THIS?</h2>
-        </div>
-        <div class="archive-grid">
-            <div class="folder-container">
-                <div class="folder-tabs">
-                    <button class="tab-btn active" onclick="openTab(0)">HOME</button>
-                    <button class="tab-btn" onclick="openTab(1)">News 1</button>
-                    <button class="tab-btn" onclick="openTab(2)">News 2</button>
-                    <button class="tab-btn" onclick="openTab(3)">News 3</button>
-                </div>
-                <div class="folder-body">
-                    <div class="folder-cover-content" id="folderCover">iGEM</div>
-                    <div class="folder-paper" id="folderPaper">
-                        <div id="tab-content"></div>
-                    </div>
-                    <button class="archive-btn">iGEM Archive</button>
+<section class="archive-section">
+    <div class="archive-header">
+        <h2>ECHOES FROM <span class="highlight-green">THE DRIFT</span></h2>
+    </div>
+
+    <!-- Novo contêiner de duas colunas wrap-grid -->
+    <div class="archive-grid-layout">
+
+        <!-- Coluna da Esquerda: O Carrossel -->
+        <div class="carousel-container">
+            <button class="carousel-btn prev-btn" id="prevNewsBtn">&#10094;</button>
+
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Os cartões de notícias permanecem injetados dinamicamente aqui -->
                 </div>
             </div>
-            <div class="archive-context">
-                <p>There is a growing controversy surrounding the use of the herbicide 2,4-D in southern Brazil, particularly in the state of Rio Grande do Sul. While the product is widely used by soybean farmers as an effective tool for weed control, repeated cases of herbicide drift have caused damage to sensitive crops such as grapes, apples, olives, and other fruits. As a result, the issue has triggered conflicts between different agricultural sectors, legal disputes, and new regulatory proposals aimed at controlling or restricting its application. This situation illustrates the broader challenge of balancing agricultural productivity with environmental protection, crop coexistence, and the safety of rural communities.
-</p>
-            </div>
+
+            <button class="carousel-btn next-btn" id="nextNewsBtn">&#10095;</button>
         </div>
-    </section>
+
+        <!-- Coluna da Direita: O Texto Informativo -->
+        <div class="archive-context">
+            <p>There is a growing controversy surrounding the use of the herbicide 2,4-D in Brazil. While the product is key for soybean productivity, repeated cases of drift cause massive damage to sensitive fruit cultures. This illustrates the national challenge of balancing agricultural scale with environmental coexistence.</p>
+        </div>
+
+    </div>
+</section>
+
     <section class="hardware-section">
     <div class="hardware-header">
         <h2>OUR <span class="highlight-green">HARDWARE</span></h2>
@@ -273,7 +276,7 @@
                 camera-controls
                 shadow-intensity="1"
                 environment-image="neutral"
-                camera-orbit="45deg 55deg 2m"
+                camera-orbit="45deg 55deg 250m"
                 min-camera-orbit="auto auto 1m"
                 style="width: 100%; height: 500px;">
         </model-viewer>
