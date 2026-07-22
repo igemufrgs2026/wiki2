@@ -288,7 +288,7 @@ let currentNewsIndex = 1;
             updateNewsCarousel();
         });
     }
-    
+
 
     // Inicialização segura esperando o carregamento completo do DOM e CSS
     window.addEventListener('load', () => updateNewsCarousel(false));
@@ -531,3 +531,84 @@ if (document.readyState === 'loading') {
 } else {
     InfectionSys.init();
 }
+// ==========================================
+// INTERATIVIDADE DO DESIGN BIOLÓGICO
+// ==========================================
+const bioPins = document.querySelectorAll('.bio-pin');
+const bioInfoViewer = document.getElementById('bioInfoViewer');
+const bioActiveTitle = document.getElementById('bioActiveTitle');
+const bioActiveDesc = document.getElementById('bioActiveDesc');
+
+if (bioPins.length > 0 && bioInfoViewer) {
+    bioPins.forEach(pin => {
+        pin.addEventListener('click', (e) => {
+            e.stopPropagation(); // Impede o fechamento imediato pela janela
+
+            const title = pin.getAttribute('data-title');
+            const desc = pin.getAttribute('data-desc');
+
+            bioActiveTitle.textContent = title;
+            bioActiveDesc.textContent = desc;
+
+            bioInfoViewer.classList.add('visible');
+        });
+    });
+
+    // Fecha a janela ao clicar em qualquer área vazia do site
+    window.addEventListener('click', () => {
+        if (bioInfoViewer) {
+            bioInfoViewer.classList.remove('visible');
+        }
+    });
+}
+
+// ==========================================
+// INTERATIVIDADE DO VISUALIZADOR 3D DE HARDWARE
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const viewer = document.querySelector('#meu-dispositivo');
+    const slider = document.querySelector('#slider-abertura');
+    const hotspotFinal = document.querySelector('#ponto-final');
+
+    if (viewer && slider && hotspotFinal) {
+        viewer.addEventListener('load', () => {
+            viewer.pause();
+            viewer.currentTime = 0;
+            viewer.loop = false;
+
+            // Ajuste dos materiais se aplicável (cor e brilho)
+            const material = viewer.model.materials[0];
+            if (material) {
+                material.pbrMetallicRoughness.setBaseColorFactor([0.5, 0.5, 0.5, 1.0]);
+                material.pbrMetallicRoughness.setRoughnessFactor(0.4);
+            }
+        });
+
+        slider.addEventListener('input', () => {
+            if (viewer.duration) {
+                viewer.currentTime = slider.value * viewer.duration;
+                viewer.pause();
+
+                // Exibe o hotspot quando a animação chega perto do fim (95%)
+                if (slider.value > 0.95) {
+                    hotspotFinal.style.display = 'block';
+                } else {
+                    hotspotFinal.style.display = 'none';
+                    document.getElementById('anotacao-1').style.display = 'none';
+                }
+            }
+        });
+    }
+});
+
+// Função chamada pelo clique no hotspot
+window.alternarAnotacao = function(idAnotacao) {
+    const anotacao = document.getElementById(idAnotacao);
+    if (anotacao) {
+        if (anotacao.style.display === 'block') {
+            anotacao.style.display = 'none';
+        } else {
+            anotacao.style.display = 'block';
+        }
+    }
+};
