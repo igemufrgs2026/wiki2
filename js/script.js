@@ -360,170 +360,135 @@ const InfectionSys = {
     level: 0,
     max: 100,
     words: [],
-    chars: [],
     infectionStarted: false,
-    maxDist: 1,
-    
+    maxDist: 1,          
+
     init() {
         const moleculeInfo = document.querySelector('.molecule-info');
         if (!moleculeInfo) return;
 
-        function wrapWords(element) {
-            const nodes = Array.from(element.childNodes);
-            nodes.forEach(node => {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    const text = node.nodeValue;
-                    if (!text.trim()) return;
-                    const words = text.split(/(\s+)/);
-                    const fragment = document.createDocumentFragment();
-                    words.forEach(word => {
-                        if (word.trim()) {
-                            const wordSpan = document.createElement('span');
-                            wordSpan.className = 'molecule-word';
-                            for (let i = 0; i < word.length; i++) {
-                                const charSpan = document.createElement('span');
-                                charSpan.className = 'molecule-char';
-                                charSpan.innerText = word[i];
-                                wordSpan.appendChild(charSpan);
-                            }
-                            fragment.appendChild(wordSpan);
-                        } else {
-                            fragment.appendChild(document.createTextNode(word));
-                        }
-                    });
-                    element.replaceChild(fragment, node);
-                } else if (node.nodeType === Node.ELEMENT_NODE) {
-                    wrapWords(node);
-                }
+        // Coleta apenas as palavras inteiras, sem quebrar em letras individuais
+        const h3 = moleculeInfo.querySelector('h3');
+        const h4 = moleculeInfo.querySelector('h4');
+        
+        // Função simples para envolver palavras em spans para receber a cor
+        function wrapWordsSimple(element) {
+            if (!element) return;
+            const text = element.innerHTML;
+            // Mantém as tags HTML existentes (como strong e span.green-highlight) intactas
+            // Vamos apenas mapear os nós de texto das tags h3 e h4
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+            let node;
+            let textNodes = [];
+            while(node = walker.nextNode()) {
+                textNodes.push(node);
+            }
+
+            textNodes.forEach(textNode => {
+                const words = textNode.nodeValue.split(/(\s+)/);
+                const fragment = document.createDocumentFragment();
+                words.forEach(word => {
+                    if (word.trim()) {
+                        const wordSpan = document.createElement('span');
+                        wordSpan.className = 'molecule-word';
+                        wordSpan.innerText = word;
+                        fragment.appendChild(wordSpan);
+                    } else {
+                        fragment.appendChild(document.createTextNode(word));
+                    }
+                });
+                textNode.parentNode.replaceChild(fragment, textNode);
             });
         }
 
-        const h3 = moleculeInfo.querySelector('h3');
-        const h4 = moleculeInfo.querySelector('h4');
-        if (h3) wrapWords(h3);
-        if (h4) wrapWords(h4);
+        wrapWordsSimple(h3);
+        wrapWordsSimple(h4);
 
         this.words = Array.from(moleculeInfo.querySelectorAll('.molecule-word'));
-        this.chars = Array.from(moleculeInfo.querySelectorAll('.molecule-char'));
-        
-        // Animacao das letras
-        this.chars.forEach(char => {
-            char.dataset.rx = (Math.random() - 0.5) * 60;
-            char.dataset.ry = 40 + Math.random() * 80;
-            char.dataset.rdeg = (Math.random() - 0.5) * 90;
-            char.dataset.curlx = (Math.random() - 0.5) * 180;
-            char.dataset.curly = (Math.random() - 0.5) * 180;
-            char.dataset.delay = Math.random() * 0.4; 
-        });
-        
+
         setTimeout(() => {
             const containerRect = moleculeInfo.getBoundingClientRect();
-            // Inicia no canto superior direito do texto
             const centerX = containerRect.right;
-            const centerY = containerRect.top; 
-            
+            const centerY = containerRect.top;
+                          
             this.words.forEach(word => {
                 const rect = word.getBoundingClientRect();
                 const wordX = rect.left + rect.width / 2;
                 const wordY = rect.top + rect.height / 2;
-                
+                              
                 const dist = Math.sqrt(Math.pow(wordX - centerX, 2) + Math.pow(wordY - centerY, 2));
                 word.dataset.dist = dist;
             });
-            
-            this.maxDist = Math.max(...this.words.map(w => parseFloat(w.dataset.dist)));
-        }, 300); // IMPORTANTE: manter delay!
-        
-        // Quando a animacao de morte começa
+
+            if (this.words.length > 0) {
+                this.maxDist = Math.max(...this.words.map(w => parseFloat(w.dataset.dist) || 0));
+            }
+        }, 300);
+
         const scrollStartThreshold = 0.05;
-        const scrollEndThreshold = 0.0001;
-        
+        const scrollEndThreshold = 0.0001;              
+
         window.addEventListener('scroll', () => {
             const mRect = moleculeInfo.getBoundingClientRect();
             const startY = window.innerHeight * scrollStartThreshold;
             const endY = window.innerHeight * scrollEndThreshold;
             const range = startY - endY;
-            
+                          
             let rawProgress = (startY - mRect.top) / range;
             let masterProgress = Math.max(0, Math.min(1, rawProgress));
             
-            // Animacao pelo scroll
-            this.chars.forEach(char => {
-                const delay = parseFloat(char.dataset.delay);
-                let localProgress = (masterProgress - delay) / 0.6;
-                localProgress = Math.max(0, Math.min(1, localProgress));
-                
-                if (localProgress > 0) {
-                    const tx = parseFloat(char.dataset.rx) * localProgress;
-                    const ty = parseFloat(char.dataset.ry) * localProgress;
-                    const rdeg = parseFloat(char.dataset.rdeg) * localProgress;
-                    const curlX = parseFloat(char.dataset.curlx) * localProgress;
-                    const curlY = parseFloat(char.dataset.curly) * localProgress;
-                    
-                    const brightness = 1 - (localProgress * 0.7);
-                    
-                    const scale = 1 - (localProgress * 0.4); 
-                    
-                    char.style.transform = `perspective(400px) translate(${tx}px, ${ty}px) rotate(${rdeg}deg) rotateX(${curlX}deg) rotateY(${curlY}deg) scale(${scale})`;
-                    char.style.opacity = 1 - Math.pow(localProgress, 1.5);
-                    char.style.filter = `brightness(${brightness})`;
-                } else {
-                    char.style.transform = 'none';
-                    char.style.opacity = 1;
-                    char.style.filter = 'none';
-                }
-            });
+            // Atualiza o nível de infecção baseado no scroll (apenas cor)
+            this.level = masterProgress * this.max;
+            this.updateText();
         });
-    },
-    
+    },          
+
     startAutoInfection() {
         if (this.infectionStarted) return;
-        this.infectionStarted = true;
-        
+        this.infectionStarted = true;                  
         const autoInfectionInterval = setInterval(() => {
             if (this.level < this.max) {
-                this.level = Math.min(this.max, this.level + 0.2);
+                this.level = Math.min(this.max, this.level + 0.5);
                 this.updateText();
             } else {
                 clearInterval(autoInfectionInterval);
             }
-        }, 50); // Velocidade da contaminacao
-    },
-    
+        }, 50);
+    },          
+
     createSpore(x, y) {
         const spore = document.createElement('div');
         spore.className = 'brown-spore';
         spore.style.left = x + 'px';
-        spore.style.top = y + 'px';
-        
+        spore.style.top = y + 'px';                  
         const fallDur = 2 + Math.random() * 2;
-        const drift = (Math.random() - 0.5) * 200;
-        
+        const drift = (Math.random() - 0.5) * 200;                  
         spore.style.setProperty('--fall-dur', fallDur + 's');
-        spore.style.setProperty('--drift', drift + 'px');
-        
+        spore.style.setProperty('--drift', drift + 'px');                  
         document.body.appendChild(spore);
-        setTimeout(() => { if (spore.parentNode) spore.remove(); }, fallDur * 1000);
-        
-        this.startAutoInfection();
-        
-        this.level = Math.min(this.max, this.level + 0.2); 
+        setTimeout(() => { if (spore.parentNode) spore.remove(); }, fallDur * 1000);                  
+        this.startAutoInfection();                  
+        this.level = Math.min(this.max, this.level + 2); 
         this.updateText();
-    },
-    
+    },          
+
     updateText() {
-        if (this.words.length === 0 || !this.maxDist) return;
-        
-        const currentRadius = (this.level / this.max) * (this.maxDist * 1.2); 
-        
+        if (this.words.length === 0 || !this.maxDist) return;                  
+        const currentRadius = (this.level / this.max) * (this.maxDist * 1.2);                   
         this.words.forEach(word => {
-            const dist = parseFloat(word.dataset.dist);
-            if (dist < currentRadius + (Math.random() * 30 - 15)) {
+            const dist = parseFloat(word.dataset.dist) || 0;
+            if (dist < currentRadius + 30) {
                 word.classList.add('infected-word');
             }
         });
     }
 };
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => InfectionSys.init());
+} else {
+    InfectionSys.init();
+}
 
 // Inicializa o sistema
 if (document.readyState === 'loading') {

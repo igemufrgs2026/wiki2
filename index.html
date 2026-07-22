@@ -11,7 +11,9 @@
     <div class="custom-cursor" id="customCursor"> </div>
     <nav class="navbar">
         <div class="nav-logos">
-            <div class="team-logo">IGEM UFRGS</div>
+<a href="index.html" class="team-logo-img">
+                <img src="assets/images/logo.jpg" alt="iGEM UFRGS Logo">
+            </a>
         </div>
         <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir Menu">
             <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
@@ -279,15 +281,30 @@
         </div>
     </section>
 
-    <section class="discover-section">
-        <h2>DISCOVER MORE ABOUT <span class="green-highlight">NOME</span></h2>
-        <div class="discover-grid">
-            <a href="#" class="discover-circle circle-green">Página</a>
-            <a href="#" class="discover-circle circle-blue">Página</a>
-            <a href="#" class="discover-circle circle-green">Página</a>
-            <a href="#" class="discover-circle circle-blue">Página</a>
-            <a href="#" class="discover-circle circle-green">Página</a>
-            <a href="#" class="discover-circle circle-blue">Página</a>
+<section class="discover-section">
+        <h2>DISCOVER MORE ABOUT <span class="green-highlight">iGEM UFRGS</span></h2>
+        <div class="grape-cluster-container">
+            <!-- Galho e Folha -->
+            <div class="grape-stem-art">
+                <svg viewBox="0 0 200 100" width="160" height="90" style="transform: scaleY(-1);">
+                    <!-- Apenas o Galho -->
+                    <path d="M100 80 Q 90 40 70 20 M90 50 Q 110 30 130 10" stroke="#1a1a1a" stroke-width="6" fill="none" stroke-linecap="round"/>
+                    
+                    <!-- A Folha (Altere os valores de translate(X, Y) para mover ela individualmente) -->
+                    <path d="M100 20 Q 155 -10 190 20 Q 215 60 165 85 Q 125 90 100 20 Z" fill="#27ae60" stroke="#1a1a1a" stroke-width="4" opacity="0.9" transform="translate(0, 15)"/>
+                </svg>
+            </div>
+            
+            <div class="discover-cluster">
+                <a href="index.html" class="discover-circle circle-green grape-0">Home</a>
+                <a href="pages/problem/context.html" class="discover-circle circle-blue grape-1">The Problem</a>
+                <a href="pages/project/description.html" class="discover-circle circle-green grape-2">Project</a>
+                <a href="pages/wet-lab/dna-parts.html" class="discover-circle circle-blue grape-3">Wet Lab</a>
+                <a href="pages/dry-lab/methodology.html" class="discover-circle circle-green grape-4">Dry Lab</a>
+                <a href="pages/engagement/integrated-hp.html" class="discover-circle circle-blue grape-5">Engagement</a>
+                <a href="pages/team/timeline.html" class="discover-circle circle-green grape-6">Team</a>
+                <a href="pages/gallery/farmers.html" class="discover-circle circle-blue grape-7">Gallery</a>
+            </div>
         </div>
     </section>
 

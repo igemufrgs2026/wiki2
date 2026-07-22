@@ -62,6 +62,19 @@ h4 {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.team-logo-img {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.team-logo-img img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
 .team-logo {
     width: 120px;
     height: 40px;
@@ -443,8 +456,7 @@ h4 {
     margin: 0 auto;
     padding-top: 30px;
     padding-bottom: 30px;
-    /* Alterado para puxar toda a estrutura (linha, anos e caixa) para a esquerda */
-    transform: translateX(-40px);
+    transform: translateX(80px); /* Movido para a direita */
 }
 
 .timeline-today {
@@ -500,6 +512,27 @@ h4 {
     z-index: 10;
 }
 
+.timeline-knob::before {
+    content: '';
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    margin-left: -12px;
+    width: 24px;
+    height: 24px;
+    /* Ícone de Seta em SVG desenhado via CSS */
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="%232E0898" xmlns="http://www.w3.org/2000/svg"><path d="M12 16l-6-6h12z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: bounce-down 1.5s infinite;
+    pointer-events: none; /* Não atrapalha o clique do usuário na bolinha */
+}
+
+@keyframes bounce-down {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+}
+
 /* Anos fixados à direita da linha roxa */
 .year-marker {
     position: absolute;
@@ -515,7 +548,7 @@ h4 {
 /* Títulos fixados à esquerda da linha roxa */
 .year-label {
     position: absolute;
-    right: 25px; /* Mantido na esquerda da linha roxa */
+    right: 25px; 
     transform: translateY(-50%);
     font-size: 0.85rem;
     color: #aaa;
@@ -523,8 +556,14 @@ h4 {
     width: 180px;
     line-height: 1.3;
     text-align: right;
-    transition: color 0.2s, font-weight 0.2s;
+    transition: color 0.2s, font-weight 0.2s, opacity 0.3s, visibility 0.3s;
     pointer-events: none;
+    opacity: 1; /* Fica visível por padrão */
+}
+
+.year-label.active {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .year-marker.active {
@@ -545,9 +584,8 @@ h4 {
 /* Caixa verde — Mantida na direita da linha do tempo */
 .info-bar {
     position: absolute;
-    /* Reduzido de +120px para +95px para aproximá-la do trilho e acompanhar o recuo para a esquerda */
-    left: calc(50% + 120px);
-    right: auto;
+    right: calc(50% + 40px); /* Posicionada à esquerda do eixo central */
+    left: auto; /* Anula a configuração anterior */
     transform: translateY(-50%);
     background-color: var(--primary-green);
     padding: 20px;
@@ -1065,38 +1103,60 @@ h4 {
     }
 }
 
-/* DISCOVER & FOOTER */
+/* ESTRUTURA COM MAIS ESPAÇO PARA O GALHO E FOLHA MAIOR */
 .discover-section {
     padding: 100px 50px;
     text-align: center;
     background: #f9f9f9;
 }
 
-.discover-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-    max-width: 1100px;
-    margin: 60px auto 0;
+.grape-cluster-container {
+    position: relative;
+    width: 320px;
+    height: 460px;
+    margin: 110px auto 0; /* Margem superior aumentada para afastar do título */
+}
+
+.grape-stem-art {
+    position: absolute;
+    top: -45px; /* Mais afastado e posicionado acima do cacho */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.discover-cluster {
+    position: absolute;
+    top: 70px; /* Desloca as bolinhas para baixo, dando espaço ao galho */
+    left: 0;
+    width: 320px;
+    height: 380px;
 }
 
 .discover-circle {
-    width: 250px;
-    height: 250px;
+    position: absolute;
+    width: 105px;
+    height: 105px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     font-weight: 600;
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
     text-decoration: none;
-    margin: 0 auto;
-    transition: transform 0.3s;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 4px solid #1a1a1a;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .discover-circle:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
+    z-index: 10;
 }
 
 .circle-green {
@@ -1107,11 +1167,22 @@ h4 {
     background-color: var(--dark-blue);
 }
 
-.footer {
-    background: var(--primary-green);
-    color: white;
-    padding: 60px 20px 40px;
-    text-align: center;
+/* Posicionamento das 8 bolinhas */
+.grape-0 { top: -50px; left: 60px; }    /* HOME */
+.grape-1 { top: -40px; left: 150px; }   /* PROBLEM */
+.grape-2 { top: 40px; left: 95px; }   /* WET */
+.grape-3 { top: 30px; left: 0px; }   /* PROJECT */
+.grape-4 { top: 55px; left: 185px; }  /* DRY */
+.grape-5 { top: 210px; left: 70px; }  /* ENGAGEMENT */
+.grape-6 { top: 122px; left: 35px; }  /* TEAM */
+.grape-7 { top: 138px; left: 130px; } /* GALLERY */
+
+
+@media (max-width: 480px) {
+    .grape-cluster-container {
+        transform: scale(0.85);
+        margin-top: 20px;
+    }
 }
 
 .footer-social {
@@ -1237,7 +1308,6 @@ h4 {
 .molecule-word {
     display: inline-block;
     transition: color 0.8s ease-out;
-    white-space: pre-wrap;
 }
 
 .molecule-word.infected-word {
@@ -1469,17 +1539,17 @@ h4 {
 
 /* AJUSTES DO TEXTO (DIREITA) */
 .archive-context {
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-    border-right: 5px solid var(--primary-green); /* Detalhe verde elegante na direita */
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border-right: none;
 }
 
 .archive-context p {
     font-family: var(--main-font);
     font-size: 1.15rem;
-    line-height: 1.6;
+    line-height: 1.8;
     color: #444;
     text-align: justify;
     margin: 0;
