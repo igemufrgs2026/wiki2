@@ -1,0 +1,2270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>iGEM UFRGS 2026 - Description</title>
+
+    <link href="css/style.css?v=2" rel="stylesheet">
+    <link href="css/pages.css?v=2" rel="stylesheet">
+
+    <style>
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 110px;
+        }
+
+        body {
+            margin: 0;
+            background-color: #ffffff;
+            color: #111;
+        }
+
+        .description-page {
+            position: relative;
+            min-height: 100vh;
+
+            /* dotted background */
+            background-image: radial-gradient(
+                circle,
+                #cbd5df 1.7px,
+                transparent 1.7px
+            );
+            background-size: 28px 28px;
+        }
+
+        .description-content {
+            width: 100%;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 45px 5vw 80px;
+            box-sizing: border-box;
+        }
+
+
+        /* =========================================================
+           CHAPTER SIDEBAR
+        ========================================================= */
+
+        .description-layout {
+            display: flex;
+            align-items: flex-start;
+            gap: 45px;
+        }
+
+        .description-sidebar {
+            width: 220px;
+            flex: 0 0 220px;
+
+            position: sticky;
+            top: 100px;
+
+            background: rgba(255,255,255,0.96);
+            border-radius: 14px;
+            padding: 20px;
+
+            box-sizing: border-box;
+
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+
+            z-index: 20;
+        }
+
+        .description-sidebar h4 {
+            margin: 0 0 15px 0;
+            font-size: 1rem;
+            color: #222;
+            font-weight: 800;
+        }
+
+        .description-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .description-sidebar li {
+            margin-bottom: 7px;
+        }
+
+        .description-sidebar a {
+            display: block;
+
+            padding: 9px 12px;
+
+            color: #666;
+            text-decoration: none;
+
+            font-size: 0.82rem;
+            font-weight: 600;
+
+            border-left: 3px solid transparent;
+            border-radius: 5px;
+
+            transition:
+                color 0.2s ease,
+                background-color 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .description-sidebar a:hover,
+        .description-sidebar a.active {
+            color: #00bd68;
+            background-color: rgba(0,189,104,0.09);
+            border-left-color: #00bd68;
+        }
+
+        .description-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+
+.page-header-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+
+        /* =========================================================
+           GENERIC SECTION
+        ========================================================= */
+
+        .description-section {
+            margin-bottom: 75px;
+
+            /*
+             * Makes the section title stop below the navbar when
+             * reached by a Chapter link.
+             */
+            scroll-margin-top: 110px;
+        }
+
+
+        /* =========================================================
+           INTRO / AGRO É POP STYLE
+        ========================================================= */
+
+        .intro-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(220px, 0.8fr)
+                minmax(350px, 2fr);
+
+            gap: 55px;
+
+            align-items: center;
+
+            margin-bottom: 55px;
+        }
+
+        .intro-title {
+            margin: 0;
+            font-size: clamp(1.7rem, 3vw, 2.35rem);
+            line-height: 1.08;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+
+            color: #111;
+        }
+
+        .intro-title .green {
+            color: #00bd68;
+        }
+
+        .intro-subtitle {
+            margin-top: 10px;
+
+            font-size: 0.78rem;
+            line-height: 1.3;
+
+            font-style: italic;
+            color: #555;
+        }
+
+        .intro-text {
+            position: relative;
+
+            font-size: clamp(1rem, 1.35vw, 1.2rem);
+            line-height: 1.45;
+
+            color: #222;
+
+            padding-left: 20px;
+        }
+
+        .intro-text::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 7px;
+            height: 100%;
+
+            background-color: #00bd68;
+
+            border-radius: 0 3px 3px 0;
+        }
+
+
+        /* =========================================================
+           SECTION TITLES
+        ========================================================= */
+
+        .section-title {
+            margin: 0 0 28px 0;
+
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+            line-height: 1.05;
+
+            font-weight: 900;
+
+            color: #111;
+        }
+
+        .section-title.green-title {
+            color: #00bd68;
+        }
+
+
+        /* =========================================================
+           CAROUSEL
+        ========================================================= */
+
+        .carousel-wrapper {
+            position: relative;
+
+            width: 100%;
+
+            margin: 0 auto;
+
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+
+            transition: transform 0.45s ease;
+        }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            box-sizing: border-box;
+            padding: 0 3px;
+        }
+
+        .carousel-card {
+            width: 100%;
+
+            min-height: 230px;
+
+            display: grid;
+
+            grid-template-columns: 32% 1fr;
+
+            align-items: center;
+
+            background: rgba(255,255,255,0.96);
+
+            border: 1.5px solid #00bd68;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-sizing: border-box;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 230px;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        .carousel-text {
+            padding: 30px 40px;
+        }
+
+        .carousel-text h3 {
+            margin: 0 0 10px;
+
+            font-size: 1.1rem;
+            font-weight: 900;
+
+            color: #111;
+        }
+
+        .carousel-text p {
+            margin: 0;
+
+            font-size: 0.95rem;
+            line-height: 1.45;
+
+            color: #444;
+        }
+
+        .carousel-arrow {
+            position: absolute;
+
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 38px;
+            height: 38px;
+
+            border: none;
+            border-radius: 50%;
+
+            background-color: #5b16d9;
+            color: white;
+
+            font-size: 24px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            z-index: 5;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition:
+                transform 0.2s ease,
+                background-color 0.2s ease;
+        }
+
+        .carousel-arrow:hover {
+            background-color: #4510a8;
+        }
+
+        .carousel-arrow.prev {
+            left: 3px;
+        }
+
+        .carousel-arrow.next {
+            right: 3px;
+        }
+
+        .carousel-dots {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 18px;
+        }
+
+        .carousel-dot {
+            width: 9px;
+            height: 9px;
+
+            padding: 0;
+
+            border: none;
+            border-radius: 50%;
+
+            background-color: #c9c9c9;
+
+            cursor: pointer;
+        }
+
+        .carousel-dot.active {
+            background-color: #00bd68;
+            transform: scale(1.25);
+        }
+
+
+        /* =========================================================
+           MAIN OPEN CONFLICTS / ACCORDION
+        ========================================================= */
+
+        .conflicts-box {
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns: 230px 1fr;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            background: rgba(255,255,255,0.96);
+
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .conflicts-label {
+            min-height: 310px;
+
+            padding: 35px 25px;
+
+            display: flex;
+            align-items: flex-start;
+
+            background-color: #00bd68;
+
+            box-sizing: border-box;
+        }
+
+        .conflicts-label h3 {
+            margin: 0;
+
+            color: white;
+
+            font-size: 2rem;
+            line-height: 1.05;
+
+            font-weight: 900;
+        }
+
+        .conflicts-list {
+            padding: 18px 30px;
+
+            box-sizing: border-box;
+        }
+
+        .conflict-item {
+            border-bottom: 1px dotted #777;
+        }
+
+        .conflict-item:last-child {
+            border-bottom: none;
+        }
+
+        .conflict-button {
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns: 25px 1fr;
+
+            gap: 8px;
+
+            align-items: start;
+
+            padding: 16px 0;
+
+            background: none;
+            border: none;
+
+            text-align: left;
+
+            cursor: pointer;
+        }
+
+        .conflict-symbol {
+            color: #00bd68;
+
+            font-size: 1.8rem;
+            line-height: 1;
+
+            font-weight: 700;
+
+            width: 22px;
+        }
+
+        .conflict-title {
+            font-size: 1.02rem;
+            line-height: 1.1;
+
+            font-weight: 900;
+
+            color: #111;
+
+            padding-top: 2px;
+        }
+
+        .conflict-content {
+            display: none;
+
+            padding: 0 20px 18px 33px;
+
+            color: #444;
+
+            font-size: 0.98rem;
+            line-height: 1.55;
+        }
+
+        .conflict-item.open .conflict-content {
+            display: block;
+        }
+
+
+        /* =========================================================
+           HOW COULD SCIENCE HELP
+        ========================================================= */
+
+        .science-title {
+            margin-bottom: 35px;
+        }
+
+        .quotes-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 55px;
+
+            align-items: start;
+        }
+
+        .quote-person {
+            position: relative;
+
+            min-height: 280px;
+
+            padding-left: 125px;
+        }
+
+        .quote-box {
+            position: relative;
+
+            min-height: 175px;
+
+            padding: 28px 28px 25px 35px;
+
+            border: 2px solid #00bd68;
+
+            border-left: none;
+
+            border-radius: 0 35px 35px 0;
+
+            box-sizing: border-box;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .quote-box::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 2px;
+            height: 40%;
+
+            background-color: #00bd68;
+        }
+
+        .quote-text {
+            margin: 0;
+
+            font-size: clamp(1.2rem, 2vw, 1.7rem);
+
+            line-height: 1.18;
+
+            color: #111;
+        }
+
+        .person-photo {
+            position: absolute;
+
+            left: 0;
+            bottom: 0;
+
+            width: 115px;
+            height: 115px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            border: 3px solid white;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+
+            z-index: 3;
+        }
+
+        .person-info {
+            margin-top: 12px;
+
+            margin-left: 5px;
+
+            padding-left: 0;
+        }
+
+        .person-name {
+            margin: 0;
+
+            font-size: 1.15rem;
+            font-weight: 900;
+
+            color: #111;
+        }
+
+        .person-role {
+            margin: 2px 0 0;
+
+            font-size: 0.95rem;
+            line-height: 1.15;
+
+            color: #333;
+        }
+
+
+        /* =========================================================
+           MISSION & VALUES
+        ========================================================= */
+
+        .mission-title {
+            margin-bottom: 25px;
+        }
+
+        .mission-list {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+        .mission-item {
+            display: grid;
+
+            grid-template-columns: 58px 1fr;
+
+            gap: 14px;
+
+            align-items: center;
+        }
+
+        .mission-icon {
+            width: 58px;
+            height: 58px;
+
+            border-radius: 50%;
+
+            background-color: #00bd68;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+        }
+
+        .mission-icon img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        .mission-content h4 {
+            margin: 0 0 1px;
+
+            font-size: 0.98rem;
+
+            font-weight: 900;
+
+            color: #111;
+        }
+
+        .mission-content p {
+            margin: 0;
+
+            font-size: 0.9rem;
+
+            line-height: 1.25;
+
+            color: #333;
+        }
+
+
+        /* =========================================================
+           FIND OUT MORE
+        ========================================================= */
+
+        .find-more-title {
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+        .find-more-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 35px;
+
+            align-items: stretch;
+        }
+
+        .find-more-card {
+            position: relative;
+
+            min-height: 220px;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            text-decoration: none;
+
+            background-color: #00bd68;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .find-more-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .find-more-card.protein {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 25px;
+
+            box-sizing: border-box;
+        }
+
+        .protein-image {
+            position: absolute;
+
+            right: -5px;
+            top: -15px;
+
+            width: 58%;
+            height: 115%;
+
+            object-fit: contain;
+
+            object-position: center;
+
+            z-index: 1;
+        }
+
+        .find-more-card-content {
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 58%;
+
+            padding: 20px;
+        }
+
+        .find-more-card-content h3 {
+            margin: 0;
+
+            color: white;
+
+            font-size: 1.25rem;
+
+            line-height: 1.05;
+
+            font-weight: 900;
+        }
+
+        .find-more-card-content p {
+            margin-top: 12px;
+
+            color: white;
+
+            font-size: 0.9rem;
+        }
+
+        .simple-link-card {
+            display: flex;
+
+            align-items: center;
+
+            padding: 35px;
+
+            box-sizing: border-box;
+
+            background-color: #00bd68;
+        }
+
+        .simple-link-card h3 {
+            margin: 0;
+
+            color: white;
+
+            font-size: 1.35rem;
+
+            line-height: 1.05;
+
+            font-weight: 900;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .description-footer {
+            background-color: #00bd68;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 45px 20px;
+        }
+
+
+        /* =========================================================
+           RESPONSIVENESS
+        ========================================================= */
+
+        @media screen and (max-width: 1100px) {
+
+            .description-layout {
+                gap: 25px;
+            }
+
+            .description-sidebar {
+                width: 190px;
+                flex-basis: 190px;
+            }
+
+            .intro-grid {
+                gap: 35px;
+            }
+
+            .conflicts-box {
+                grid-template-columns: 190px 1fr;
+            }
+
+            .quotes-grid {
+                gap: 30px;
+            }
+        }
+
+
+        @media screen and (max-width: 900px) {
+
+            .description-layout {
+                display: block;
+            }
+
+            .description-sidebar {
+                position: sticky;
+
+                top: 70px;
+
+                width: 100%;
+
+                margin-bottom: 30px;
+
+                padding: 12px 15px;
+            }
+
+            .description-sidebar h4 {
+                margin-bottom: 8px;
+            }
+
+            .description-sidebar ul {
+                display: flex;
+
+                gap: 5px;
+
+                overflow-x: auto;
+
+                scrollbar-width: thin;
+            }
+
+            .description-sidebar li {
+                flex: 0 0 auto;
+
+                margin-bottom: 0;
+            }
+
+            .description-sidebar a {
+                white-space: nowrap;
+
+                font-size: 0.75rem;
+            }
+
+            .intro-grid {
+                grid-template-columns: 1fr;
+
+                gap: 20px;
+            }
+
+            .carousel-card {
+                grid-template-columns: 1fr;
+            }
+
+            .carousel-image {
+                height: 250px;
+            }
+
+            .carousel-text {
+                padding: 25px;
+            }
+
+            .conflicts-box {
+                grid-template-columns: 1fr;
+            }
+
+            .conflicts-label {
+                min-height: auto;
+
+                padding: 25px;
+            }
+
+            .conflicts-label h3 {
+                font-size: 1.8rem;
+            }
+
+            .quotes-grid {
+                grid-template-columns: 1fr;
+
+                gap: 45px;
+            }
+
+            .find-more-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        @media screen and (max-width: 600px) {
+
+            .description-content {
+                padding: 25px 18px 60px;
+            }
+
+            .description-header {
+                border-radius: 6px;
+
+                margin-bottom: 30px;
+            }
+
+            .intro-title {
+                font-size: 2rem;
+            }
+
+            .intro-text {
+                font-size: 1rem;
+            }
+
+            .carousel-slide {
+                padding: 5px 35px 15px;
+            }
+
+            .carousel-image {
+                height: 190px;
+            }
+
+            .carousel-text {
+                padding: 20px;
+            }
+
+            .carousel-text h3 {
+                font-size: 1rem;
+            }
+
+            .carousel-text p {
+                font-size: 0.88rem;
+            }
+
+            .carousel-arrow {
+                width: 32px;
+                height: 32px;
+
+                font-size: 19px;
+            }
+
+            .conflicts-list {
+                padding: 10px 18px;
+            }
+
+            .conflict-button {
+                grid-template-columns: 23px 1fr;
+            }
+
+            .conflict-title {
+                font-size: 0.92rem;
+            }
+
+            .conflict-content {
+                padding-left: 30px;
+
+                font-size: 0.9rem;
+            }
+
+            .quote-person {
+                padding-left: 0;
+
+                padding-top: 0;
+
+                min-height: auto;
+            }
+
+            .quote-box {
+                margin-left: 0;
+
+                padding: 25px 20px 25px 30px;
+
+                border-radius: 0 25px 25px 0;
+
+                min-height: 160px;
+            }
+
+            .person-photo {
+                position: relative;
+
+                left: auto;
+                bottom: auto;
+
+                margin-top: -30px;
+                margin-left: 15px;
+
+                width: 95px;
+                height: 95px;
+            }
+
+            .person-info {
+                margin-left: 15px;
+            }
+
+            .quote-text {
+                font-size: 1.2rem;
+            }
+
+            .mission-item {
+                grid-template-columns: 50px 1fr;
+            }
+
+            .mission-icon {
+                width: 50px;
+                height: 50px;
+            }
+
+            .mission-content p {
+                font-size: 0.85rem;
+            }
+
+            .find-more-card {
+                min-height: 200px;
+            }
+
+            .protein-image {
+                width: 65%;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+    <div class="custom-cursor" id="customCursor"> </div>
+    <nav class="navbar">
+        <div class="nav-logos">
+            <a href="index.html" class="team-logo-img">
+                <img src="assets/images/logo.jpg" alt="iGEM UFRGS Logo">
+            </a>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir Menu">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </button>
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-item">
+                <a href="index.html"><svg viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                    </svg>Home</a>
+            </div>
+            <div class="nav-item">
+                <a href="meet24D.html"><svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                    </svg>The Problem</a>
+                <div class="dropdown">
+                    <a href="meet24D.html">Meet 2-4D</a>
+                    <a href="challenge.html">The Challenge of 2,4D drift</a>
+                    <a href="povs.html">POVs</a>
+                    <a href="dashboard.html">Dashboard</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="description.html"><svg viewBox="0 0 24 24">
+                        <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z" />
+                    </svg>Project</a>
+                <div class="dropdown">
+                    <a href="description.html">WHY - Description</a>
+                    <a href="biological-design.html">WHAT - Biological Design</a>
+                    <a href="hardware-and-software.html">WHAT - Hardware and Software</a>
+                    <a href="contribution.html">Contribution</a>
+                    <a href="engineering.html">Engineering</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="dna-parts.html"><svg viewBox="0 0 24 24">
+                        <path d="M19.8 18.4L14 10.7V4h1c.6 0 1-.4 1-1s-.4-1-1-1H9c-.6 0-1 .4-1 1s.4 1 1 1h1v6.7l-5.8 7.7c-.4.5-.5 1.1-.2 1.6.3.5.8.8 1.4.8h13.6c.6 0 1.1-.3 1.4-.8.3-.5.2-1.1-.2-1.6zM7.5 19l4.5-6 4.5 6h-9z" />
+                    </svg>Wet Lab</a>
+                <div class="dropdown">
+                    <a href="dna-parts.html">DNA Parts</a>
+                    <a href="materials-methods.html">Material and Methods</a>
+                    <a href="lab-notebook.html">Lab Notebook</a>
+                    <a href="results.html">Results</a>
+                    <a href="safety-and-security.html">Safety and Security</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="structural-analysis.html"><svg viewBox="0 0 24 24">
+                        <path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" />
+                    </svg>Dry Lab</a>
+                <div class="dropdown">
+                    <a href="structural-analysis.html">Structural Analysis</a>
+                    <a href="molecular-dynamics.html">Molecular Dynamics</a>
+                    <a href="interaction.html">Interacition with 2,4D</a>
+                    <a href="hardware.html">Hardware</a>
+                    <a href="software.html">Software</a>
+                    <a href="measurement.html">Measurement</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="human-practices.html"><svg viewBox="0 0 24 24">
+                        <path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5c0-2.3-4.7-3.5-7-3.5zm8 0c-.3 0-.6 0-.9.1 1.2.8 2 1.9 2 3.4V19h5v-2.5c0-2.3-4.7-3.5-7-3.5z" />
+                    </svg>Engagement</a>
+                <div class="dropdown">
+                    <a href="human-practices.html">Human Pratices</a>
+                    <a href="education.html">Education</a>
+                    <a href="feedback.html">Receving Feedback</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="roaster.html"><svg viewBox="0 0 24 24">
+                        <path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z" />
+                    </svg>Team</a>
+                <div class="dropdown">
+                    <a href="roaster.html">Team Roster</a>
+                    <a href="timeline.html">Team Timeline</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="gallery.html"><svg viewBox="0 0 24 24">
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                    </svg>Gallery</a>
+                <div class="dropdown">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+<main class="timeline-section var-sidebar-layout">
+<aside class="timeline-sidebar">
+<h4 style="margin-bottom:15px; color:#333;">Chapters</h4>
+<ul id="timeline-menu">
+    <li><a class="chapter-link active" href="#context">Introduction</a></li>
+    <li><a class="chapter-link" href="#conflicts">Main open conflicts</a></li>
+    <li><a class="chapter-link" href="#science">How could science help?</a></li>
+    <li><a class="chapter-link" href="#mission">Mission &amp; Values</a></li>
+    <li><a class="chapter-link" href="#find-more">Find out more</a></li>
+</ul>
+</aside>
+<div class="sidebar-content-area">
+<div class="timeline-container var-left">
+
+    <!-- IMAGEM DE CABEÇALHO (HEADER - 1920X1080) -->
+    <img src="assets/header/description.jpeg" alt="Description" class="page-header-image">
+
+
+
+                    <!-- =================================================
+                         THE CONTEXT
+                    ================================================= -->
+
+                    <section
+                        class="description-section"
+                        id="context"
+                    >
+
+                        <div class="intro-grid">
+
+                            <div>
+
+                                <h1 class="intro-title">
+
+                                    Agro é
+                                    <span class="green">pop</span>,
+                                    agro é
+                                    <span class="green">tech</span>,
+                                    agro é
+                                    <span class="green">tudo</span>
+
+                                </h1>
+
+                                <p class="intro-subtitle">
+
+                                    “Agro is pop, agro is tech, agro is everything”
+                                    <br>
+                                    Nationwide advertising campaign by Globo TV
+
+                                </p>
+
+                            </div>
+
+
+                            <div class="intro-text">
+
+                                Although originally created as an advertising slogan,
+                                this statement reflects the importance of agriculture
+                                in Brazil. The sector accounts for 21% of the country's
+                                GDP, 20% of all jobs, and 43.2% of national exports.
+                                It is supported not only by large-scale commodity
+                                production but also by family farming, which represents
+                                77% of all agricultural establishments and is essential
+                                for employment and domestic food production.
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             CAROUSEL
+                        ================================================= -->
+
+                        <div class="carousel-wrapper">
+
+                            <div
+                                class="carousel-track"
+                                id="carouselTrack"
+                            >
+
+
+                                <!-- SLIDE 1 -->
+
+                                <div class="carousel-slide">
+
+                                    <div class="carousel-card">
+
+                                        <img
+                                            src="assets/images/description/1.png"
+                                            alt="The vineyard culture"
+                                            class="carousel-image"
+                                        >
+
+                                        <div class="carousel-text">
+
+                                            <h3>
+                                                Agriculture in southern Brazil
+                                            </h3>
+
+                                            <p>
+                                                Our home state, Rio Grande do Sul, has a strong agricultural economy, with the sector accounting for 40% of the state's GDP. Its leadership in soybean and rice production is largely driven by the unique Pampa biome, whose vast flat grasslands provide ideal conditions for large-scale agriculture 
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- SLIDE 2 -->
+
+                                <div class="carousel-slide">
+
+                                    <div class="carousel-card">
+
+                                        <img
+                                            src="assets/images/description/2.png"
+                                            alt="The vineyard culture"
+                                            class="carousel-image"
+                                        >
+
+                                        <div class="carousel-text">
+
+                                            <h3>
+                                                The vineyard culture
+                                            </h3>
+
+                                            <p>
+                                               Introduced by Italian immigrants, viticulture became part of Rio Grande do Sul's culture and is sustained by more than 15,000 family farms. Today, grapes are the state's 6th most important crop, generating R$2.29 billion annually, and accounting for 52% of Brazil's grape production (country's leading producer).
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- SLIDE 3 -->
+
+                                <div class="carousel-slide">
+
+                                    <div class="carousel-card">
+
+                                        <img
+                                            src="assets/images/description/3.png"
+                                            alt="The conflict between agriculture and vineyards"
+                                            class="carousel-image"
+                                        >
+
+                                        <div class="carousel-text">
+
+                                            <h3>
+                                            2,4D drift: an economic conflict                                          
+                                        </h3>
+
+                                            <p>
+                                            Despite the shared importance of grain production and viticulture to the state's economy, these sectors are coming into conflict. While 2,4-D has become an effective tool for weed control in soybean cultivation, its high susceptibility to drift can affect neighboring vineyards, causing significant economic losses. 
+                                        </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                class="carousel-arrow prev"
+                                id="carouselPrev"
+                                aria-label="Previous slide"
+                            >
+                                ‹
+                            </button>
+
+                            <button
+                                class="carousel-arrow next"
+                                id="carouselNext"
+                                aria-label="Next slide"
+                            >
+                                ›
+                            </button>
+
+
+                            <div
+                                class="carousel-dots"
+                                id="carouselDots"
+                            >
+
+                                <button
+                                    class="carousel-dot active"
+                                    data-slide="0"
+                                    aria-label="Slide 1"
+                                ></button>
+
+                                <button
+                                    class="carousel-dot"
+                                    data-slide="1"
+                                    aria-label="Slide 2"
+                                ></button>
+
+                                <button
+                                    class="carousel-dot"
+                                    data-slide="2"
+                                    aria-label="Slide 3"
+                                ></button>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         MAIN OPEN CONFLICTS
+                    ================================================= -->
+
+                    <section
+                        class="description-section"
+                        id="conflicts"
+                    >
+
+                        <h2 class="section-title">
+                        </h2>
+
+
+                        <div class="conflicts-box">
+
+
+                            <div class="conflicts-label">
+
+                                <h3>
+                                    Main<br>
+                                    open<br>
+                                    conflicts
+                                </h3>
+
+                            </div>
+
+
+                            <div class="conflicts-list">
+
+
+                                <!-- CONFLICT 1 -->
+
+                                <div class="conflict-item">
+
+                                    <button
+                                        class="conflict-button"
+                                        type="button"
+                                        aria-expanded="false"
+                                    >
+
+                                        <span class="conflict-symbol">
+                                            +
+                                        </span>
+
+                                        <span class="conflict-title">
+                                            2,4-D is an easy solution for some but without collective responsibility, it can become someone else's problem.
+                                        </span>
+
+                                    </button>
+
+                                    <div class="conflict-content">
+
+                                        To minimize drift, 2,4-D must be applied under strict environmental conditions, including appropriate wind speed, temperature, humidity, and application techniques, as established by Brazilian regulations. However, these conditions are not always met due to operational constraints, unfavorable weather, or inadequate application practices, increasing the risk of off-target drift.
+
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- CONFLICT 2 -->
+
+                                <div class="conflict-item">
+
+                                    <button
+                                        class="conflict-button"
+                                        type="button"
+                                        aria-expanded="false"
+                                    >
+
+                                        <span class="conflict-symbol">
+                                            +
+                                        </span>
+
+                                        <span class="conflict-title">
+                                            There isn't any effective method to avoid 2,4-D contamination in non-target crops.
+                                        </span>
+
+                                    </button>
+
+                                    <div class="conflict-content">
+
+                                        There is currently no reliable method to completely prevent 2,4-D effects on exposed non-target crops. Protective measures, such as windbreaks or physical barriers, provide only limited protection and cannot eliminate the risk.
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- CONFLICT 3 -->
+
+                                <div class="conflict-item">
+
+                                    <button
+                                        class="conflict-button"
+                                        type="button"
+                                        aria-expanded="false"
+                                    >
+
+                                        <span class="conflict-symbol">
+                                            +
+                                        </span>
+
+                                        <span class="conflict-title">
+                                            Victims bear not only the damage, but also the cost of proving responsibility and seeking justice.
+                                        </span>
+
+                                    </button>
+
+                                    <div class="conflict-content">
+
+                                        Farmers affected by drift face not only crop losses but also, if they choose to prove contamination and seek accountability, laboratory analyses costing over R$2,500 (≈US$450) per sample, in addition to legal expenses. 
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         HOW COULD SCIENCE HELP?
+                    ================================================= -->
+
+                    <section
+                        class="description-section"
+                        id="science"
+                    >
+
+                        <h2 class="section-title science-title">
+                            How could science help?
+                        </h2>
+
+
+                        <div class="quotes-grid">
+
+
+                            <!-- ALDO -->
+
+                            <div class="quote-person">
+
+                                <div class="quote-box">
+
+                                    <p class="quote-text">
+
+                                        “A practical and fast biosensor
+                                        would already be a major advance
+                                        in controlling 2,4-D drift.”
+
+                                    </p>
+
+                                </div>
+
+
+                                <img
+                                    src="assets/images/description/aldo.png"
+                                    alt="Professor Aldo Merotto Junior"
+                                    class="person-photo"
+                                >
+
+
+                                <div class="person-info">
+
+                                    <p class="person-name">
+                                        Professor Aldo Merotto Junior
+                                    </p>
+
+                                    <p class="person-role">
+                                        Full Professor at the Department of Field Crops,
+                                        Federal University of Rio Grande do Sul (UFRGS)
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- MATEUS -->
+
+                            <div class="quote-person">
+
+                                <div class="quote-box">
+
+                                    <p class="quote-text">
+
+                                        “A biosensor would be a valuable
+                                        tool for monitoring and decision-making
+                                        in real-world agricultural settings.”
+
+                                    </p>
+
+                                </div>
+
+
+                                <img
+                                    src="assets/images/description/mateus.png"
+                                    alt="Mateus Wanderer"
+                                    class="person-photo"
+                                >
+
+
+                                <div class="person-info">
+
+                                    <p class="person-name">
+                                        Mateus Wanderer
+                                    </p>
+
+                                    <p class="person-role">
+                                        Agronomist at the Jaguari Municipal Government
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         MISSION & VALUES
+                    ================================================= -->
+
+                    <section
+                        class="description-section"
+                        id="mission"
+                    >
+
+                        <h2 class="section-title green-title mission-title">
+                            Mission &amp; Values
+                        </h2>
+
+
+                        <div class="mission-list">
+
+
+                            <!-- VALUE 1 -->
+
+                            <div class="mission-item">
+
+                                <div class="mission-icon">
+
+                                    <img
+                                        src="assets/images/description/b1.png"
+                                        alt=""
+                                    >
+
+                                </div>
+
+                                <div class="mission-content">
+
+                                    <h4>
+                                        Farmer-centered design
+                                    </h4>
+
+                                    <p>
+                                        Every component of 2,4Detector was developed
+                                        with usability, affordability, and accessibility
+                                        in mind, ensuring that the technology can be
+                                        adopted by the people who need it most.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- VALUE 2 -->
+
+                            <div class="mission-item">
+
+                                <div class="mission-icon">
+
+                                    <img
+                                        src="assets/images/description/b2.png"
+                                        alt=""
+                                    >
+
+                                </div>
+
+                                <div class="mission-content">
+
+                                    <h4>
+                                        Fast, accurate, and accessible detection
+                                    </h4>
+
+                                    <p>
+                                        We optimized the biological system to deliver
+                                        reliable results while keeping the assay rapid,
+                                        low-cost, and suitable for field deployment.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- VALUE 3 -->
+
+                            <div class="mission-item">
+
+                                <div class="mission-icon">
+
+                                    <img
+                                        src="assets/images/description/b3.png"
+                                        alt=""
+                                    >
+
+                                </div>
+
+                                <div class="mission-content">
+
+                                    <h4>
+                                        Science with local impact
+                                    </h4>
+
+                                    <p>
+                                        Our goal extends beyond detecting 2,4-D.
+                                        We aim to empower communities by transforming
+                                        synthetic biology into a practical tool that
+                                        supports informed decision-making and collective
+                                        responsibility.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- VALUE 4 -->
+
+                            <div class="mission-item">
+
+                                <div class="mission-icon">
+
+                                    <img
+                                        src="assets/images/description/b4.png"
+                                        alt=""
+                                    >
+
+                                </div>
+
+                                <div class="mission-content">
+
+                                    <h4>
+                                        Interdisciplinary innovation
+                                    </h4>
+
+                                    <p>
+                                        2,4Detector was built by a multidisciplinary,
+                                        women-led team, bringing together expertise
+                                        from biotechnology, engineering, design,
+                                        software development, and human-centered
+                                        communication.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- VALUE 5 -->
+
+                            <div class="mission-item">
+
+                                <div class="mission-icon">
+
+                                    <img
+                                        src="assets/images/description/b5.png"
+                                        alt=""
+                                    >
+
+                                </div>
+
+                                <div class="mission-content">
+
+                                    <h4>
+                                        Knowledge as part of the solution
+                                    </h4>
+
+                                    <p>
+                                        Technology alone is not enough. By combining
+                                        biosensing with education, outreach, and
+                                        community engagement, we seek to promote a
+                                        culture of responsible herbicide use and
+                                        strengthen dialogue among all stakeholders.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         FIND OUT MORE
+                    ================================================= -->
+
+                    <section
+                        class="description-section"
+                        id="find-more"
+                    >
+
+                        <h2 class="section-title find-more-title">
+                            Find out more about how 2,4Detector ecosystem works
+                        </h2>
+
+
+                        <div class="find-more-grid">
+
+
+
+                            <a
+                                href="biological-design.html"
+                                class="find-more-card protein"
+                            >
+
+                                <div class="find-more-card-content">
+
+                                    <h3>
+                                        Repurposing natural biological systems
+                                        for biosensing applications
+                                    </h3>
+
+                                    <p
+                                        style="
+                                            color:white;
+                                            font-weight:900;
+                                            margin-top:15px;
+                                        ">
+                                        BIOLOGICAL DESIGN
+                                    </p>
+
+                                </div>
+
+
+                                <img
+                                    src="assets/images/description/cadR.png"
+                                    alt="CadR protein structure"
+                                    class="protein-image"
+                                >
+
+                            </a>
+
+
+                            <!-- CARD 2 -->
+
+                            <a
+                                href="hardware-and-software.html"
+                                class="find-more-card protein"
+                            >
+
+                                <div class="find-more-card-content">
+
+                                    <h3>
+                                        Combining practicality and accessibility in a real-world hardware
+                                    </h3>
+
+                                    <p
+                                        style="
+                                            color:white;
+                                            font-weight:900;
+                                            margin-top:15px;
+                                        ">
+                                        HARDWARE & SOFTWARE
+                                    </p>
+
+                                </div>
+
+
+                                <img
+                                    src="assets/images/description/hardware.png"
+                                    alt="CadR protein structure"
+                                    class="protein-image"
+                                >
+
+                            </a>
+
+
+                        </div>
+
+                    </section>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+
+<footer class="footer pt-5 pb-5 py-5 mt-5 bg-footer text-white text-center" style="background-color: #1a1a1a; color: #fff;">
+  <div class="container">
+    
+<div class="footer-social mb-4" style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;"></div>
+<div class="footer-social mb-4" style="display: flex; justify-content: center; gap: 20px;">
+      <a class="social-icon" href="#" target="_blank" style="color: #fff; width: 40px; height: 40px; background-color: rgb(255, 255, 255); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+        <svg viewbox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; transform: translateY(0px);"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+      </a>
+      <a class="social-icon" href="#" target="_blank" style="color: #fff; width: 40px; height: 40px; background-color: rgb(255, 255, 255); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+        <svg viewbox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; transform: translateY(0px);"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.9-.39-2.82-.12-.66.18-1.28.54-1.75 1.05-.65.71-.93 1.66-.89 2.61.02.82.34 1.6.88 2.23.59.68 1.46 1.09 2.36 1.16.8.05 1.6-.19 2.22-.71.64-.53 1.01-1.31 1.01-2.14.01-2.98.01-5.97.01-8.95z"></path></svg>
+      </a>
+    </div>
+
+    <!-- Seção de Contato e Endereço Centralizados -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-lg-8">
+        <h4 class="mb-3">Contact</h4>
+        <p class="mb-3">
+          Universidade Federal do Rio Grande do Sul (UFRGS)<br>
+          Porto Alegre - RS, Brazil
+        </p>
+        
+        <!-- E-mail e Instagram em texto centralizado -->
+        <p class="mb-2">
+          <a href="https://www.instagram.com/igem.ufrgs" target="_blank" style="color: #fff; text-decoration: none;">
+          </a>
+        </p>
+        <p class="mb-0">
+          <a href="mailto:igemufrgs@gmail.com" style="color: #fff; text-decoration: none;">
+            igemufrgs@gmail.com
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mb-4">
+      <div class="col-lg-4">
+        <img src="assets/images/logo.jpg" alt="UFRGS iGEM Logo" style="max-height: 70px; object-fit: contain;">
+      </div>
+    </div>
+
+    <hr style="border-color: rgba(255,255,255,0.2); width: 60%; margin: 0 auto 20px auto;">
+
+    <!-- Licenciamento e Repositório OBRIGATÓRIOS Centralizados -->
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <p class="mb-1">
+          <small>© 2026 - Content on this site is licensed under a 
+            <a class="subfoot" href="https://creativecommons.org/licenses/by/4.0/" rel="license" style="color: #4ef0a5;">Creative Commons Attribution 4.0 International license</a>.
+          </small>
+        </p>
+        <p class="mb-0">
+          <small>The repository used to create this website is available at 
+            <a href="https://gitlab.igem.org/2026/ufrgs-brazil" target="_blank" style="color: #4ef0a5;">gitlab.igem.org/2026/ufrgs-brazil</a>.
+          </small>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================= -->
+
+    <script defer src="js/script.js"></script>
+
+
+    <script>
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================= */
+
+        const mobileMenuBtn =
+            document.getElementById("mobileMenuBtn");
+
+        const navMenu =
+            document.getElementById("navMenu");
+
+        if (mobileMenuBtn && navMenu) {
+
+            mobileMenuBtn.addEventListener("click", function () {
+
+                navMenu.classList.toggle("active");
+
+            });
+
+        }
+
+
+        /* =========================================================
+           ACCORDION
+        ========================================================= */
+
+        const conflictButtons =
+            document.querySelectorAll(".conflict-button");
+
+
+        conflictButtons.forEach(function(button) {
+
+            button.addEventListener("click", function() {
+
+                const item =
+                    button.closest(".conflict-item");
+
+                const isOpen =
+                    item.classList.contains("open");
+
+
+                /*
+                 * Close all other items.
+                 */
+
+                document
+                    .querySelectorAll(".conflict-item")
+                    .forEach(function(otherItem) {
+
+                        otherItem.classList.remove("open");
+
+                        const otherButton =
+                            otherItem.querySelector(".conflict-button");
+
+                        const otherSymbol =
+                            otherItem.querySelector(".conflict-symbol");
+
+                        if (otherButton) {
+                            otherButton.setAttribute(
+                                "aria-expanded",
+                                "false"
+                            );
+                        }
+
+                        if (otherSymbol) {
+                            otherSymbol.textContent = "+";
+                        }
+
+                    });
+
+
+                /*
+                 * Open selected item.
+                 */
+
+                if (!isOpen) {
+
+                    item.classList.add("open");
+
+                    button.setAttribute(
+                        "aria-expanded",
+                        "true"
+                    );
+
+                    item
+                        .querySelector(".conflict-symbol")
+                        .textContent = "−";
+
+                }
+
+            });
+
+        });
+
+
+        /* =========================================================
+           CAROUSEL
+        ========================================================= */
+
+        const carouselTrack =
+            document.getElementById("carouselTrack");
+
+        const carouselPrev =
+            document.getElementById("carouselPrev");
+
+        const carouselNext =
+            document.getElementById("carouselNext");
+
+        const carouselDots =
+            document.querySelectorAll(".carousel-dot");
+
+
+        let currentSlide = 0;
+
+
+        function updateCarousel() {
+
+            carouselTrack.style.transform =
+                "translateX(-" + (currentSlide * 100) + "%)";
+
+
+            carouselDots.forEach(function(dot, index) {
+
+                dot.classList.toggle(
+                    "active",
+                    index === currentSlide
+                );
+
+            });
+
+        }
+
+
+        carouselNext.addEventListener(
+            "click",
+            function() {
+
+                currentSlide =
+                    (currentSlide + 1) % 3;
+
+                updateCarousel();
+
+            }
+        );
+
+
+        carouselPrev.addEventListener(
+            "click",
+            function() {
+
+                currentSlide =
+                    (currentSlide - 1 + 3) % 3;
+
+                updateCarousel();
+
+            }
+        );
+
+
+        carouselDots.forEach(function(dot) {
+
+            dot.addEventListener(
+                "click",
+                function() {
+
+                    currentSlide =
+                        Number(dot.dataset.slide);
+
+                    updateCarousel();
+
+                }
+            );
+
+        });
+
+
+        /* =========================================================
+           CHAPTER NAVIGATION
+        ========================================================= */
+
+        const chapterLinks =
+            document.querySelectorAll("#timeline-menu .chapter-link");
+
+        const chapterSections =
+            document.querySelectorAll(".description-section");
+
+
+        chapterLinks.forEach(function(link) {
+
+            link.addEventListener("click", function(event) {
+
+                event.preventDefault();
+
+                const targetId =
+                    link.getAttribute("href");
+
+                const target =
+                    document.querySelector(targetId);
+
+                if (!target) return;
+
+
+                /*
+                 * scrollIntoView combined with scroll-margin-top
+                 * makes the selected section start below the navbar.
+                 */
+
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+
+                chapterLinks.forEach(function(otherLink) {
+
+                    otherLink.classList.remove("active");
+
+                });
+
+                link.classList.add("active");
+
+            });
+
+        });
+
+
+        /* =========================================================
+           UPDATE ACTIVE CHAPTER WHILE SCROLLING
+        ========================================================= */
+
+        const chapterObserver =
+            new IntersectionObserver(
+
+                function(entries) {
+
+                    entries.forEach(function(entry) {
+
+                        if (entry.isIntersecting) {
+
+                            const id =
+                                entry.target.id;
+
+                            chapterLinks.forEach(
+                                function(link) {
+
+                                    link.classList.toggle(
+                                        "active",
+                                        link.getAttribute("href") ===
+                                        "#" + id
+                                    );
+
+                                }
+                            );
+
+                        }
+
+                    });
+
+                },
+
+                {
+                    root: null,
+
+                    /*
+                     * The section is considered active when it
+                     * reaches the upper portion of the viewport.
+                     */
+
+                    rootMargin:
+                        "-120px 0px -65% 0px",
+
+                    threshold: 0
+                }
+
+            );
+
+
+        chapterSections.forEach(function(section) {
+
+            chapterObserver.observe(section);
+
+        });
+
+
+    </script>
+
+</body>
+
+</html>
