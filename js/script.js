@@ -36,7 +36,7 @@ window.addEventListener('scroll', () => {
         imgBrazil.style.transform = `scale(${brazilScale})`;
         imgBrazil.style.opacity = String(1 - fadeProgress);
 
-        const rsAppear = Math.max(0, Math.min(1, (mp - 0.58) / 0.04)); 
+        const rsAppear = Math.max(0, Math.min(1, (mp - 0.58) / 0.04));
         
         // Variaveis de ajuste do mapa do RS
         const offsetX = 2; 
@@ -45,7 +45,7 @@ window.addEventListener('scroll', () => {
         rsLayer.style.transformOrigin = '62% 87%';
         rsLayer.style.transform = `scale(1) translate(${offsetX}px, ${offsetY}px)`;
         rsLayer.style.opacity = String(rsAppear);
-        rsLayer.style.pointerEvents = mp > 0.85 ? 'auto' : 'none';
+        rsLayer.style.pointerEvents = mp > 0.55 ? 'auto' : 'none';
 
         rsLayer.style.display = 'block';
 
