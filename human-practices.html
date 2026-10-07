@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Integrated Human Practices | iGEM UFRGS 2026</title>
+    <link href="css/style.css?v=2" rel="stylesheet"/>
+    <link href="css/pages.css?v=2" rel="stylesheet"/>
+    <style>
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        .timeline-item p {
+            text-align: justify;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .page-header-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        /* Testimonial Box Styling */
+        .testimonial-box {
+            background: #f8f9fa;
+            border-left: 5px solid var(--primary-green, #27ae60);
+            padding: 25px 30px;
+            margin: 30px 0;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .testimonial-box::before {
+            content: "“";
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 4rem;
+            color: rgba(39, 174, 96, 0.2);
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            position: relative;
+            z-index: 2;
+            font-size: 1.1rem;
+            color: #444;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .testimonial-author {
+            display: block;
+            margin-top: 15px;
+            font-weight: 800;
+            color: var(--dark-blue, #2E0898);
+            font-style: normal;
+            font-size: 1rem;
+        }
+
+        /* Image Placeholder Blocks */
+        .hp-image-container {
+            width: 100%;
+            margin: 35px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            background: #f1f3f5;
+            border: 2px dashed #ccc;
+            text-align: center;
+        }
+
+        .hp-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            max-height: 450px;
+        }
+
+        .hp-image-caption {
+            background: #fff;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+            border-top: 1px solid #eee;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            display: inline-block;
+            background-color: var(--dark-blue, #2E0898);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 800;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(46, 8, 152, 0.3);
+        }
+
+        .action-btn:hover {
+            background-color: #4510a8;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(46, 8, 152, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"></div>
+    <nav class="navbar">
+        <div class="nav-logos">
+            <a href="index.html" class="team-logo-img">
+                <img src="assets/images/logo.jpg" alt="iGEM UFRGS Logo">
+            </a>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir Menu">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </button>
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-item">
+                <a href="index.html"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>Home</a>
+            </div>
+            <div class="nav-item">
+                <a href="meet24D.html"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" /></svg>The Problem</a>
+                <div class="dropdown">
+                    <a href="meet24D.html">Meet 2-4D</a>
+                    <a href="challenge.html">The Challenge of 2,4D drift</a>
+                    <a href="povs.html">POVs</a>
+                    <a href="dashboard.html">Dashboard</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="description.html"><svg viewBox="0 0 24 24"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z" /></svg>Project</a>
+                <div class="dropdown">
+                    <a href="description.html">WHY - Description</a>
+                    <a href="biological-design.html">WHAT - Biological Design</a>
+                    <a href="hardware-and-software.html">WHAT - Hardware and Software</a>
+                    <a href="contribution.html">Contribution</a>
+                    <a href="engineering.html">Engineering</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="dna-parts.html"><svg viewBox="0 0 24 24"><path d="M19.8 18.4L14 10.7V4h1c.6 0 1-.4 1-1s-.4-1-1-1H9c-.6 0-1 .4-1 1s.4 1 1 1h1v6.7l-5.8 7.7c-.4.5-.5 1.1-.2 1.6.3.5.8.8 1.4.8h13.6c.6 0 1.1-.3 1.4-.8.3-.5.2-1.1-.2-1.6zM7.5 19l4.5-6 4.5 6h-9z" /></svg>Wet Lab</a>
+                <div class="dropdown">
+                    <a href="dna-parts.html">DNA Parts</a>
+                    <a href="materials-methods.html">Material and Methods</a>
+                    <a href="lab-notebook.html">Lab Notebook</a>
+                    <a href="results.html">Results</a>
+                    <a href="safety-and-security.html">Safety and Security</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="structural-analysis.html"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" /></svg>Dry Lab</a>
+                <div class="dropdown">
+                    <a href="structural-analysis.html">Structural Analysis</a>
+                    <a href="molecular-dynamics.html">Molecular Dynamics</a>
+                    <a href="interaction.html">Interacition with 2,4D</a>
+                    <a href="hardware.html">Hardware</a>
+                    <a href="software.html">Software</a>
+                    <a href="measurement.html">Measurement</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="human-practices.html"><svg viewBox="0 0 24 24"><path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5c0-2.3-4.7-3.5-7-3.5zm8 0c-.3 0-.6 0-.9.1 1.2.8 2 1.9 2 3.4V19h5v-2.5c0-2.3-4.7-3.5-7-3.5z" /></svg>Engagement</a>
+                <div class="dropdown">
+                    <a href="human-practices.html">Human Pratices</a>
+                    <a href="education.html">Education</a>
+                    <a href="feedback.html">Receving Feedback</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="roaster.html"><svg viewBox="0 0 24 24"><path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z" /></svg>Team</a>
+                <div class="dropdown">
+                    <a href="roaster.html">Team Roster</a>
+                    <a href="timeline.html">Team Timeline</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="gallery.html"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" /></svg>Gallery</a>
+                <div class="dropdown">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+<main class="timeline-section var-sidebar-layout">
+    <aside class="timeline-sidebar">
+        <h4 style="margin-bottom:15px; color:#333;">Chapters</h4>
+        <ul id="timeline-menu">
+            <li><a class="active" href="#intro">Integrated HP</a></li>
+            <li><a href="#purpose">Uncovering the Purpose</a></li>
+            <li><a href="#pivot">The Great Pivot</a></li>
+            <li><a href="#bioinformatics">Refining via Bioinformatics</a></li>
+            <li><a href="#void">The Analytical & Regulatory Void</a></li>
+            <li><a href="#advocacy">Grassroots Advocacy</a></li>
+            <li><a href="#engineering">Biology meets Engineering</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+    </aside>
+
+    <div class="sidebar-content-area">
+        <div class="timeline-container var-left">
+            <img src="assets/header/humanpractices.jpeg" alt="Integrated Human Practices Header" class="page-header-image" onerror="this.src='assets/images/placeholder.jpg'">
+
+            <div class="timeline-phase" id="intro">
+                <h3>Integrated Human Practices</h3>
+            </div>
+            <div class="timeline-item" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 25px 30px; border-radius: 8px; margin-bottom: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <p style="margin: 0;">
+                    A biosensor is only as powerful as its applicability in the real world. To ensure our project could genuinely address the 2,4-D drift crisis in Brazil, we established a continuous dialogue with academics, policymakers, agronomists, and affected farmers. Their insights actively dictated our wet lab design, implementation strategy, and hardware engineering. We are deeply grateful to everyone who shared their time, expertise, and stories with us—without them, this project simply would not exist. Here is how the real world shaped our work.
+                </p>
+            </div>
+
+            <!-- UNCOVERING THE PURPOSE -->
+            <div class="timeline-phase" id="purpose">
+                <h3>Uncovering the Purpose</h3>
+            </div>
+            <div class="timeline-item">
+                <p>
+                    Our journey began with a motivated team eager to use synthetic biology to solve a local issue, but we lacked a clear, urgent target. The turning point came during a discussion with former iGEMer <strong>Ângelo Angonezi</strong>, who drew our attention to a massive socio-environmental crisis in southern Brazil: 2,4-D herbicide drift.
+                </p>
+
+                <div class="hp-image-container">
+                    <img src="assets/images/placeholder.jpg" alt="Ângelo Angonezi presenting">
+                    <div class="hp-image-caption">[Placeholder: Ângelo Angonezi presenting on stage in 2019]</div>
+                </div>
+
+                <p>
+                    To translate this ambitious idea into a rigorous scientific endeavor, we needed strong foundational guidance. We presented the challenge to our Principal Investigator, <strong>Prof. Diego Bonatto</strong>, who immediately embraced the project, welcoming us into his laboratory and becoming a pillar of our journey. He provided continuous scientific mentorship, was always available to troubleshoot our initial designs, and established a strict framework for biosafety. His early guidance ensured that as we ventured into solving a real-world agricultural crisis, our wet lab operations remained safe and responsible from day one.
+                </p>
+
+                <div class="hp-image-container">
+                    <img src="assets/images/placeholder.jpg" alt="Prof. Diego Bonatto in the lab">
+                    <div class="hp-image-caption">[Placeholder: Photo with Prof. Diego Bonatto or team in the lab]</div>
+                </div>
+
+                <p>
+                    With a secure laboratory environment and a scientific foundation established, we needed to understand the true gravity of the 2,4-D issue outside our walls. We met with <strong>Alexandre Angonezi</strong>, executive director of Garibaldi, one of the largest wineries in the region, who outlined the devastating economic impact of the herbicide drift on vineyards. We then went directly to the source, meeting with local winemakers <strong>Mara and Luís</strong> from Valle da Niagara. They described the constant tension between soybean and grape growers, sharing their fears and the extreme preventive strategies they employ, such as physical covers and vegetation buffers.
+                </p>
+
+                <div class="hp-image-container">
+                    <img src="assets/images/placeholder.jpg" alt="Winemakers Mara and Luís showing physical covers">
+                    <div class="hp-image-caption">[Placeholder: Photos with Mara and Luís, and their physical covers / vegetation buffers]</div>
+                </div>
+
+                <div class="testimonial-box">
+                    <p class="testimonial-text">2,4-D is the great villain for grapevines.</p>
+                    <span class="testimonial-author">Luís</span>
+                </div>
+
+                <p>
+                    Hearing this firsthand gave our project a definitive purpose. We anchored our entire wet lab and engineering efforts toward mitigating the 2,4-D drift crisis in the Campanha region.
+                </p>
+            </div>
+
+            <!-- THE GREAT PIVOT -->
+            <div class="timeline-phase" id="pivot">
+                <h3>The Great Pivot: From Degradation to Detection</h3>
+            </div>
+            <div class="timeline-item">
+                <p>
+                    Our initial biological strategy focused on bioremediation. We planned to engineer a 2,4-D degradation system based on the catabolic pathways of <em>Cupriavidus pinatubonensis</em>. However, before diving into the lab, we needed to know if applying a degrading biological agent in the field was agronomically viable.
+                </p>
+                <p>
+                    We pitched our concept to agronomy and herbology specialists <strong>Prof. Aldo Merotto Junior</strong>, <strong>Prof. Catarine Markus</strong>, and <strong>Prof. Rafael Roehrs</strong>. They critically analyzed our approach, highlighting severe limitations regarding the feasibility, environmental stability, and implementation costs of an open-environment degradation system.
+                </p>
+
+                <div class="hp-image-container">
+                    <img src="assets/images/placeholder.jpg" alt="Meeting with Agronomy Professors">
+                    <div class="hp-image-caption">[Placeholder: Photos with Prof. Aldo Merotto Junior, Prof. Catarine Markus, and/or Prof. Rafael Roehrs]</div>
+                </div>
+
+                <div class="testimonial-box">
+                    <p class="testimonial-text">A practical and fast biosensor would already be a major advance in controlling 2,4-D drift.</p>
+                    <span class="testimonial-author">Prof. Aldo Merotto Junior</span>
+                </div>
+
+                <p>
+                    The experts helped us realize that the real bottleneck for farmers was not degrading the herbicide, but rather detecting it fast enough to secure legal proof and make agronomic decisions. Because 2,4-D damage is irreversible once it hits a plant, early detection is the only way to prevent the total devastation of the entire orchard. This was the most transformative moment of our project. Based on this feedback, we discarded our bioremediation pathway, returned to the drawing board, and shifted our focus toward building a biosensor, ultimately selecting the cadR/cadA regulatory elements as the core of our detection system.
+                </p>
+                <a href="biological-design.html" class="action-btn">Click here to see the biological system!</a>
+            </div>
+
+            <!-- BIOINFORMATICS -->
+            <div class="timeline-phase" id="bioinformatics">
+                <h3>Refining the Solution Through Bioinformatics</h3>
+            </div>
+            <div class="timeline-item">
+                <p>
+                    As we committed to the cadR/cadA biosensor, a critical new challenge emerged from our discussions with agronomists: reliability. In the field, a biosensor is only as good as its specificity. If our device triggered a false positive because of a different compound, it would cause unnecessary panic among farmers and render the tool useless.
+                </p>
+                <p>
+                    To guarantee that our biosensor would strictly detect 2,4-D, we needed to understand the exact protein-ligand interaction at a molecular level. However, we hit a major roadblock: the 3D structure of the CadR protein had never been crystallized, and its binding mechanisms were not elucidated. We could not proceed in the wet lab blindly without knowing if the protein would actually bind to our target.
+                </p>
+                <p>
+                    To overcome this, we sought the expertise of <strong>Prof. Maurício Rigo</strong>, a specialist in bioinformatics and molecular modeling. He guided us in bridging this knowledge gap by shifting our strategy from physical trials to computational prediction. Under his mentorship, our team developed an <em>in silico</em> pipeline to model the protein's 3D structure and simulate its dynamics.
+                </p>
+
+                <div class="hp-image-container">
+                    <img src="assets/images/placeholder.jpg" alt="Prof. Maurício Rigo">
+                    <div class="hp-image-caption">[Placeholder: Photo with Prof. Maurício Rigo in the lab]</div>
+                </div>
+
+                <p>
+                    Instead of relying on trial and error in the lab, these computational models allowed us to map the probable binding pocket and successfully verify its specific interaction with 2,4-D. Prof. Rigo’s insights provided the crucial proof of affinity we needed, ensuring that our biological core was trustworthy enough for real-world application before we even built the physical device.
+                </p>
+            </div>
+
+            <!-- REGULATORY VOID -->
+            <div class="timeline-phase" id="void">
+                <h3>Exposing the Analytical and Regulatory Void</h3>
+            </div>
+            <div class="timeline-item">
+                <p>
+                    With our cadR/cadA biosensor design underway, we needed to evaluate how our tool would integrate into existing regulatory and diagnostic workflows. We started by consulting <strong>Helio Marchioro</strong>, president of FECOVINHO, who detailed the historical regulatory failures surrounding 2,4-D use and the agricultural sector's prolonged struggle for effective oversight.
+                </p>
+
+                <div class="hp-image-container">
+                    <img src="assets/images/placeholder.jpg" alt="Helio Marchioro">
+                    <div class="hp-image-caption">[Placeholder: Photo with Helio Marchioro]</div>
+                </div>
+
+                <p>
+                    Shortly after, we spoke with <strong>Mateus Wanderer</strong>, an agronomist working for the municipality of Jaguari. Mateus brought a critical practical limitation to our attention: conventional 2,4-D analyses, such as HPLC or LC-MS/MS, are extremely costly in terms of time, infrastructure, and financial resources for small municipalities and family producers.
+                </p>
+
+                <div class="hp-image-container">
+                    <img src="assets/images/placeholder.jpg" alt="Mateus Wanderer">
+                    <div class="hp-image-caption">[Placeholder: Photo with Mateus Wanderer]</div>
+                </div>
+
+                <p>
+                    Our search for frontline insight led us to <strong>Fernando Thiessen Tuna</strong>, an agricultural inspector at the State Secretariat of Agriculture (SEAPI). Fernando disclosed that while the state previously financed laboratory testing using resources from a 2018 judicial settlement, that funding completely ran out in 2023. Today, farmers must bear the entire analytical cost alone (between R$ 400 and R$ 2,000 per sample). Beyond prohibitive fees, social tensions keep the problem hidden: many producers suffer in silence, refusing to register formal complaints to avoid retaliatory conflicts with neighboring grain producers or fear of market rejection.
+                </p>
+                <p>
+                    These frontline accounts pointed toward massive underreporting, prompting us to examine the state's official records. While SEAPI division head <strong>Rafael Lima</strong> confirmed 440 positive drift cases between 2018 and 2023, academic research proved this figure is merely the tip of the iceberg. A survey of 395 fruit growers across 141 municipalities led by <strong>Prof. Gustavo Pinto da Silva</strong> revealed that farmers are trapped in a state of helplessness: between expensive testing and negligible chances of financial compensation, only 34.9% of affected producers ever file formal complaints. The true scale of agricultural damage drastically exceeds the state's 440 recorded cases, leaving growers with little choice but to retract investments and abandon sensitive crops like vineyards and olive groves.
+                </p>
+                <p>
+                    To assess the technical barriers driving these costs, we consulted <strong>Prof. Renato Zanella</strong> from the Laboratory of Pesticide Residue Analysis (LARP/UFSM). He explained that because visual symptoms take up to a week to manifest—often during high summer temperatures—the herbicide rapidly degrades in leaf tissue, demanding preservation with dry ice and specialized clean-up procedures. Crucially, because state-subsidized testing ended in 2023, Rio Grande do Sul currently conducts zero ongoing official monitoring for 2,4-D drift, creating a dangerous diagnostic blind spot where damage occurs unchecked and unrecorded.
+                </p>
+            </div>
+
+            <!-- GRASSROOTS ADVOCACY -->
+            <div class="timeline-phase" id="advocacy">
+                <h3>From Grassroots Advocacy to Field Implementation</h3>
+            </div>
+            <div class="timeline-item">
+                <p>
+                    The realization that public oversight had collapsed led us to engage directly with the agricultural community. Together with industry leaders, our team participated in a regional workshop addressing the hormonal herbicide crisis. Listening to moving testimonies from farmers who had watched multi-generational vineyards wither overnight—while public officials acknowledged an utter lack of diagnostic infrastructure—made it obvious that conventional testing has failed smallholders.
+                </p>
+                <p>
+                    Driven by these testimonies, our team moved from passive observers to active advocates. We signed a joint community petition demanding urgent state intervention and monitoring resources. This engagement led to an invitation to represent our academic initiative at an official public hearing with state legislators and agricultural stakeholders.
+                </p>
+
+                <div class="hp-image-container">
+                    <img src="assets/images/placeholder.jpg" alt="Public Hearing">
+                    <div class="hp-image-caption">[Placeholder: Photo of the public hearing (if available)]</div>
+                </div>
+
+                <p>
+                    This journey reshaped our implementation strategy. We positioned our biosensor not as a replacement for official chromatography lab reports, but as an accessible, rapid, and low-cost field screening tool, restoring the farmer’s agency to detect and document drift.
+                </p>
+            </div>
+
+            <!-- ENGINEERING -->
+            <div class="timeline-phase" id="engineering">
+                <h3>Bridging the Gap Between Biology and Engineering</h3>
+            </div>
+            <div class="timeline-item">
+                <p>
+                    By the time our biological foundation was solid, we faced a new hurdle. A biosensor is not made of biology alone; to be useful in the field, it needs a physical, functional body. Recognizing that our team lacked the electronic engineering skills required to take a hardware concept off paper, we sought a collaborative solution.
+                </p>
+                <p>
+                    We established a partnership with <strong>ENFITEC</strong>, the Junior Enterprise of our university's Physics Engineering undergraduate program. We needed them to translate our biological reaction into a tangible device, but they delivered much more. Bringing a critical outside perspective, they actively changed our hardware design to meet real-world demands.
+                </p>
+                <p>
+                    First, they optimized the sample collection, designing a standardized, reproducible container that fits securely into the hardware. Second, they reimagined the portability and ergonomics for field use. Most importantly, they accounted for our biological integration needs. To ensure our cadR/cadA system would function correctly outside the lab, ENFITEC integrated built-in heating elements and specific light filters directly into the hardware, creating the optimal controlled environment for the biological reaction to take place directly in the farmer's hands.
+                </p>
+
+                <div class="hp-image-container">
+                    <img src="assets/images/placeholder.jpg" alt="ENFITEC Online Meeting">
+                    <div class="hp-image-caption">[Placeholder: Photo of the online meeting with ENFITEC]</div>
+                </div>
+
+                <a href="hardware-and-software.html" class="action-btn">Click here to see the ENFITEC Hardware Design</a>
+            </div>
+
+            <!-- CONCLUSION -->
+            <div class="timeline-phase" id="conclusion">
+                <h3>Conclusion</h3>
+            </div>
+            <div class="timeline-item">
+                <p>
+                    The device that we designed is the product of many minds and hearts working collectively to address a serious local crisis. By establishing dialogue with farmers, legal inspectors, academic specialists, and hardware engineers—and listening to the victims who lost their livelihoods—we iteratively adapted our biological system. Ultimately, our cadR/cadA biosensor was conceived by and for our community, based on real-world needs and constraints.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<footer class="footer pt-5 pb-5 py-5 mt-5 bg-footer text-white text-center" style="background-color: #1a1a1a; color: #fff;">
+    <div class="container">
+        <div class="footer-social mb-4" style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+            <!-- Your Social Icons -->
+        </div>
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-8">
+                <h4 class="mb-3">Contact</h4>
+                <p class="mb-3">Universidade Federal do Rio Grande do Sul (UFRGS)<br>Porto Alegre - RS, Brazil</p>
+                <p class="mb-0"><a href="mailto:igemufrgs@gmail.com" style="color: #fff; text-decoration: none;">igemufrgs@gmail.com</a></p>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-4">
+                <img src="assets/images/logo.jpg" alt="UFRGS iGEM Logo" style="max-height: 70px; object-fit: contain;">
+            </div>
+        </div>
+        <hr style="border-color: rgba(255,255,255,0.2); width: 60%; margin: 0 auto 20px auto;">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <p class="mb-1"><small>© 2026 - Content on this site is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" style="color: #4ef0a5;">Creative Commons Attribution 4.0 International license</a>.</small></p>
+                <p class="mb-0"><small>The repository used to create this website is available at <a href="https://gitlab.igem.org/2026/ufrgs-brazil" style="color: #4ef0a5;">gitlab.igem.org/2026/ufrgs-brazil</a>.</small></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script defer src="js/script.js"></script>
+<script>
+    const sections = document.querySelectorAll('.timeline-phase');
+    const navLinks = document.querySelectorAll('.timeline-sidebar a');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -60% 0px',
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                const id = entry.target.getAttribute('id');
+                const activeLink = document.querySelector(`.timeline-sidebar a[href="#${id}"]`);
+                if(activeLink) activeLink.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        if(section.id) observer.observe(section);
+    });
+</script>
+</body>
+</html>

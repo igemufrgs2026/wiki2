@@ -20,15 +20,27 @@ window.addEventListener('scroll', () => {
     const mapSection = document.getElementById('mapSection');
     if (mapSection) {
         const mRect = mapSection.getBoundingClientRect();
-        let mp = Math.max(0, Math.min(1, -mRect.top / (mRect.height - window.innerHeight)));
+        const isMobileMap = window.matchMedia('(max-width: 760px)').matches;
+        const mapVisual = mapSection.querySelector('.map-visual-container');
+        const mapVisualRect = mapVisual ? mapVisual.getBoundingClientRect() : null;
+        const sectionScrollRange = Math.max(1, mRect.height - window.innerHeight);
+        const sectionProgress = Math.max(0, Math.min(1, -mRect.top / sectionScrollRange));
+        const visualScrollRange = mapVisualRect ? window.innerHeight + mapVisualRect.height : 1;
+        const visualProgress = mapVisualRect
+            ? Math.max(0, Math.min(1, (window.innerHeight - mapVisualRect.top) / visualScrollRange))
+            : sectionProgress;
+        const mp = isMobileMap ? visualProgress : sectionProgress;
 
         const imgBrazil = document.getElementById('img-brazil');
         const rsLayer = document.getElementById('rs-container');
         const mapTextInitial = document.getElementById('mapTextInitial');
         const mapTextFinal = document.getElementById('mapTextFinal');
 
-        const zoomProgress = Math.max(0, Math.min(1, mp / 0.6));
-        const fadeProgress = Math.max(0, Math.min(1, (mp - 0.6) / 0.25));
+        const zoomEnd = isMobileMap ? 0.62 : 0.6;
+        const fadeStart = isMobileMap ? 0.52 : 0.6;
+        const fadeEnd = isMobileMap ? 0.68 : 0.85;
+        const zoomProgress = Math.max(0, Math.min(1, mp / zoomEnd));
+        const fadeProgress = Math.max(0, Math.min(1, (mp - fadeStart) / (fadeEnd - fadeStart)));
 
         // Brasil com o zoom centrado no RS
         const brazilScale = 1 + zoomProgress * 3.8;
@@ -36,7 +48,9 @@ window.addEventListener('scroll', () => {
         imgBrazil.style.transform = `scale(${brazilScale})`;
         imgBrazil.style.opacity = String(1 - fadeProgress);
 
-        const rsAppear = Math.max(0, Math.min(1, (mp - 0.58) / 0.04));
+        const rsRevealStart = isMobileMap ? 0.46 : 0.58;
+        const rsRevealRange = isMobileMap ? 0.12 : 0.04;
+        const rsAppear = Math.max(0, Math.min(1, (mp - rsRevealStart) / rsRevealRange));
         
         // Variaveis de ajuste do mapa do RS
         const offsetX = 2; 
@@ -45,21 +59,16 @@ window.addEventListener('scroll', () => {
         rsLayer.style.transformOrigin = '62% 87%';
         rsLayer.style.transform = `scale(1) translate(${offsetX}px, ${offsetY}px)`;
         rsLayer.style.opacity = String(rsAppear);
-        rsLayer.style.pointerEvents = mp > 0.55 ? 'auto' : 'none';
+        rsLayer.style.pointerEvents = rsAppear > 0.8 ? 'auto' : 'none';
 
         rsLayer.style.display = 'block';
 
-        mapTextInitial.style.opacity = String(1 - zoomProgress * 1.5);
-        
-        if (mp > 0.65) {
+        if (isMobileMap) {
+            mapTextInitial.style.opacity = '1';
             mapTextFinal.classList.add('visible');
         } else {
-            mapTextFinal.classList.remove('visible');
-        }
-        if (mp > 0.4) { // Quando o usuário chegar a 40% do scroll do mapa
-            mapTextFinal.classList.add('visible');
-        } else {
-    mapTextFinal.classList.remove('visible');
+            mapTextInitial.style.opacity = String(1 - zoomProgress * 1.5);
+            mapTextFinal.classList.toggle('visible', mp > 0.4);
 }
     }
 });
@@ -72,17 +81,24 @@ const activeName = document.getElementById('pinActiveName');
 
 if (pins.length > 0) {
     pins.forEach(pin => {
-        pin.addEventListener('click', (e) => {
-            // Evita que o clique feche imediatamente pelo listener do window
+        const cityName = pin.getAttribute('data-name') || 'Affected location';
+        pin.setAttribute('role', 'button');
+        pin.setAttribute('tabindex', '0');
+        pin.setAttribute('aria-label', `Show information for ${cityName}`);
+
+        const showPin = (e) => {
             e.stopPropagation();
-
             const imgSrc = pin.getAttribute('data-img');
-            const cityName = pin.getAttribute('data-name');
-
             activeImg.src = imgSrc;
             activeName.textContent = cityName;
-
             photoViewer.classList.add('visible');
+        };
+        pin.addEventListener('click', showPin);
+        pin.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                pin.click();
+            }
         });
     });
 
@@ -105,6 +121,8 @@ const timelineData = [
 const track = document.getElementById('timelineTrack'), knob = document.getElementById('timelineKnob'), infoBar = document.getElementById('infoBar');
 
 if (track && knob && infoBar) {
+    let timelineDragging = false;
+
     function initTimeline() {
         timelineData.forEach((d, i) => {
             const pct = (i / (timelineData.length - 1) * 100) + '%';
@@ -134,6 +152,8 @@ if (track && knob && infoBar) {
     function snapTo(i) {
         const p = (i / (timelineData.length - 1) * 100) + '%';
         knob.style.top = p; infoBar.style.top = p; updateT(i);
+        knob.setAttribute('aria-valuenow', String(i));
+        knob.setAttribute('aria-valuetext', `${timelineData[i].year}: ${timelineData[i].title}`);
     }
     function updateT(i) {
         const d = timelineData[i];
@@ -156,9 +176,52 @@ if (track && knob && infoBar) {
         document.querySelectorAll('.year-marker').forEach((m, j) => m.classList.toggle('active', i === j));
         document.querySelectorAll('.year-label').forEach((l, j) => l.classList.toggle('active', i === j));
     }
-    knob.onmousedown = () => { window.onmousemove = (e) => moveT(e.clientY); };
-    window.onmouseup = () => { window.onmousemove = null; };
+    knob.setAttribute('role', 'slider');
+    knob.setAttribute('aria-label', 'Project timeline');
+    knob.setAttribute('aria-valuemin', '0');
+    knob.setAttribute('aria-valuemax', String(timelineData.length - 1));
+    knob.tabIndex = 0;
+    track.addEventListener('pointerdown', (event) => {
+        event.preventDefault();
+        timelineDragging = true;
+        track.setPointerCapture(event.pointerId);
+        moveT(event.clientY);
+    });
+    track.addEventListener('pointermove', (event) => {
+        if (timelineDragging) moveT(event.clientY);
+    });
+    track.addEventListener('pointerup', () => { timelineDragging = false; });
+    track.addEventListener('pointercancel', () => { timelineDragging = false; });
+    knob.addEventListener('keydown', (event) => {
+        const currentIndex = Number(knob.getAttribute('aria-valuenow')) || 0;
+        let nextIndex = currentIndex;
+        if (event.key === 'ArrowDown' || event.key === 'ArrowRight') nextIndex++;
+        else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') nextIndex--;
+        else if (event.key === 'Home') nextIndex = 0;
+        else if (event.key === 'End') nextIndex = timelineData.length - 1;
+        else return;
+        event.preventDefault();
+        snapTo(Math.max(0, Math.min(timelineData.length - 1, nextIndex)));
+    });
     initTimeline();
+}
+
+// 3D model animation scrubber
+const modelViewer = document.getElementById('meu-dispositivo');
+const animationSlider = document.getElementById('slider-abertura');
+if (modelViewer && animationSlider) {
+    animationSlider.disabled = true;
+    animationSlider.setAttribute('aria-label', 'Open device animation');
+    const seekAnimation = () => {
+        const duration = Number(modelViewer.duration) || 0;
+        animationSlider.disabled = duration <= 0;
+        if (duration > 0) {
+            modelViewer.pause();
+            modelViewer.currentTime = (Number(animationSlider.value) / Number(animationSlider.max)) * duration;
+        }
+    };
+    modelViewer.addEventListener('load', seekAnimation);
+    animationSlider.addEventListener('input', seekAnimation);
 }
 
 // SPRAYER
@@ -327,8 +390,20 @@ function openTab(i) {
 const mobileBtn = document.getElementById('mobileMenuBtn');
 const navMenu = document.getElementById('navMenu');
 if (mobileBtn && navMenu) {
+    const setMenuOpen = (isOpen) => {
+        navMenu.classList.toggle('active', isOpen);
+        mobileBtn.setAttribute('aria-expanded', String(isOpen));
+        mobileBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    };
+    setMenuOpen(false);
     mobileBtn.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
+        setMenuOpen(!navMenu.classList.contains('active'));
+    });
+    navMenu.addEventListener('click', (event) => {
+        if (event.target.closest('a')) setMenuOpen(false);
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setMenuOpen(false);
     });
 }
 // VAGALUMES

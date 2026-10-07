@@ -120,6 +120,28 @@
             padding-bottom: 10px;
             font-weight: 800;
         }
+
+        .fight-btn {
+            display: inline-block;
+            background-color: var(--primary-green, #27ae60);
+            color: white;
+            padding: 16px 36px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        .fight-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.5);
+            background-color: #1e8449;
+            color: white;
+        }
+
     </style>
 </head>
 <body style="background-color: #ffffff;">
@@ -197,7 +219,7 @@
                         <path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5c0-2.3-4.7-3.5-7-3.5zm8 0c-.3 0-.6 0-.9.1 1.2.8 2 1.9 2 3.4V19h5v-2.5c0-2.3-4.7-3.5-7-3.5z" />
                     </svg>Engagement</a>
                 <div class="dropdown">
-                    <a href="human-practices.html">Human Pratices</a>
+                    <a href="human-practices.html">Human Practices</a>
                     <a href="education.html">Education</a>
                     <a href="feedback.html">Receving Feedback</a>
                 </div>
@@ -236,6 +258,11 @@
 <!-- ÁREA PRINCIPAL DOS MEMBROS -->
 <div class="sidebar-content-area">
     <h2 style="color: var(--dark-blue, #2E0898); font-size: 2.2rem; margin-bottom: 30px; font-weight: 700;">Team Attributions</h2>
+
+    <!-- NOVO BOTÃO AQUI -->
+    <div style="text-align: center; margin: 10px 0 50px 0;">
+        <a href="members.html" class="fight-btn">FIGHT AGAINST 2,4-D</a>
+    </div>
 
     <!-- Seção de Professores -->
     <div id="professor" class="team-section">
