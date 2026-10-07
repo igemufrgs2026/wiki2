@@ -722,10 +722,10 @@ h4 {
 
 .pin-photo-viewer {
     position: absolute;
-    top: 15%;
-    right: -25%;
+    top: 30%;
+    right: 5%;
     width: 260px;
-    height: auto;          /* Permite que a caixinha cresça conforme o conteúdo */
+    height: auto;
     background: white;
     padding: 12px;
     border-radius: 8px;
@@ -736,10 +736,9 @@ h4 {
     transform: translateY(10px);
     z-index: 30;
 
-    /* Força o alinhamento vertical correto dos itens dentro dela */
     display: flex;
     flex-direction: column;
-    box-sizing: border-box; /* Garante que o padding não mude o tamanho total */
+    box-sizing: border-box;
 }
 
 .pin-photo-viewer.visible {
@@ -749,12 +748,12 @@ h4 {
 }
 
 .pin-photo-viewer img {
-    width: 100%;           /* Ocupa toda a largura interna disponível da caixinha */
-    height: 150px;          /* Define uma altura fixa para a foto */
-    object-fit: cover;     /* Corta a imagem proporcionalmente sem distorcer */
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
     border-radius: 4px;
-    margin-top: 8px;       /* Cria um distanciamento saudável do nome do município */
-    display: block;        /* Remove espaçamentos fantasmas de elementos inline */
+    margin-top: 8px;
+    display: block;
 }
 
 .map-col-right {
@@ -846,19 +845,17 @@ h4 {
 .sprayer-section {
     min-height: 100vh;
     background-color: #fff;
-    padding: 100px 5vw; /* Garante respiro nas laterais e topos */
+    padding: 100px 5vw;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: visible; /* Garante que nada interno seja cortado abruptamente */
+    overflow: visible;
 }
 
 #firefliesSprayer {
-    /* controle de altura */
     height: 60%;
     z-index: 1;
-    /*Subida dos vagalumes*/
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
     -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
 }
@@ -874,7 +871,7 @@ h4 {
     max-width: 1300px;
     gap: 60px;
     align-items: center;
-    width: 100%; /* Força a ocupar o espaço correto */
+    width: 100%;
 }
 
 .sprayer-visual {
@@ -960,11 +957,11 @@ h4 {
 
 .archive-grid-layout {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr; /* Carrossel maior à esquerda, texto à direita */
+    grid-template-columns: 1.2fr 0.8fr;
     gap: 40px;
     max-width: 1300px;
     margin: 0 auto;
-    align-items: center; /* Alinha o centro vertical do texto com o carrossel */
+    align-items: center;
 }
 
 .folder-tabs {
@@ -1114,12 +1111,12 @@ h4 {
     position: relative;
     width: 320px;
     height: 460px;
-    margin: 110px auto 0; /* Margem superior aumentada para afastar do título */
+    margin: 110px auto 0;
 }
 
 .grape-stem-art {
     position: absolute;
-    top: -45px; /* Mais afastado e posicionado acima do cacho */
+    top: -45px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 5;
@@ -1128,7 +1125,7 @@ h4 {
 
 .discover-cluster {
     position: absolute;
-    top: 70px; /* Desloca as bolinhas para baixo, dando espaço ao galho */
+    top: 70px;
     left: 0;
     width: 320px;
     height: 380px;
@@ -1320,7 +1317,7 @@ h4 {
 }
 
 .molecule-section {
-    padding: 100px 5vw; /* Garante um espaçamento lateral responsivo */
+    padding: 100px 5vw;
     background-color: #fff;
     display: flex;
     align-items: center;
@@ -1329,7 +1326,7 @@ h4 {
     position: relative;
     z-index: 2;
     overflow: visible; 
-    margin-top: 0; /* Remove a margem negativa que causava a sobreposição */
+    margin-top: 0;
 }
 
 /* SEÇÃO DE HARDWARE */
@@ -1405,7 +1402,7 @@ h4 {
     border: 1px solid rgba(255,255,255,0.1);
     display: none;
     z-index: 20;
-    text-align: left; /* Garante alinhamento esquerdo mesmo se houver text-align: center na div pai */
+    text-align: left;
 }
 
 .anotacao h4 {
@@ -1466,8 +1463,8 @@ h4 {
 
 .carousel-wrapper {
     overflow: hidden;
-    width: 100%; /* Passa a ser 100% da coluna dele em vez de um tamanho fixo rígido */
-    max-width: 680px; /* Limite de segurança para manter as proporções visuais dos cards */
+    width: 100%;
+    max-width: 680px;
     padding: 30px 0;
     position: relative;
     border-radius: 12px;
@@ -1481,7 +1478,7 @@ h4 {
 
 /* CARDS DE NOTÍCIA */
 .news-card {
-    min-width: 100%; /* Cada card ocupa exatamente 100% da largura do wrapper (800px) */
+    min-width: 100%;
     box-sizing: border-box;
     background: #fff;
     padding: 35px;
@@ -1537,7 +1534,7 @@ h4 {
     background: var(--dark-blue);
 }
 
-/* AJUSTES DO TEXTO (DIREITA) */
+/* AJUSTES DO TEXTO */
 .archive-context {
     background: transparent;
     padding: 0;
@@ -1555,7 +1552,7 @@ h4 {
     margin: 0;
 }
 
-/* RESPONSIVIDADE (Para telas menores, volta a ficar um embaixo do outro) */
+/* RESPONSIVIDADE  */
 @media (max-width: 960px) {
     .archive-grid-layout {
         grid-template-columns: 1fr;
@@ -1608,7 +1605,7 @@ h4 {
     display: block;
 }
 
-/* ESTILIZAÇÃO DOS PINS DA BIOLOGIA (Verdes para combinar com o tema) */
+/* ESTILIZAÇÃO DOS PINS DA BIOLOGIA */
 .bio-pin {
     position: absolute;
     width: 22px;
@@ -1632,7 +1629,7 @@ h4 {
 /* CAIXINHA DE TEXTO DO DIAGRAMA BIOLÓGICO */
 .bio-info-viewer {
     position: absolute;
-    bottom: -20px; /* Aparece logo abaixo do diagrama centralizado */
+    bottom: -20px;
     width: 100%;
     max-width: 500px;
     background: white;
