@@ -79,21 +79,75 @@
             font-weight: 800;
         }
 
-        /* Graphic Placeholder Styling */
-        .graphic-placeholder {
+        /* Carousel Styling */
+        .carousel-container {
+            position: relative;
             width: 100%;
-            background: #f1f3f5;
-            border: 2px dashed #ccc;
+            margin: 25px 0 40px 0;
             border-radius: 12px;
-            padding: 40px;
-            text-align: center;
-            margin: 40px 0;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            background: #fff;
+            border: 2px solid #eaeaea;
         }
 
-        .graphic-placeholder img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
+        .carousel-slide {
+            display: none;
+            width: 100%;
+            animation: fade 0.5s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            display: block;
+        }
+
+        /* Os iframes precisam ter uma altura alta para acomodar os mapas interativos */
+        .carousel-slide iframe {
+            width: 100%;
+            height: 850px;
+            border: none;
+            display: block;
+            background-color: #ffffff;
+        }
+
+        .carousel-caption {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            color: var(--dark-blue, #2E0898);
+            font-weight: 800;
+            text-align: center;
+            border-top: 1px solid #eaeaea;
+            letter-spacing: 0.5px;
+        }
+
+        .carousel-prev, .carousel-next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: auto;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            background-color: rgba(39, 174, 96, 0.7);
+            border: none;
+            user-select: none;
+            transition: background-color 0.3s;
+            z-index: 10;
+        }
+
+        .carousel-prev { left: 0; border-radius: 0 4px 4px 0; }
+        .carousel-next { right: 0; border-radius: 4px 0 0 4px; }
+
+        .carousel-prev:hover, .carousel-next:hover {
+            background-color: rgba(39, 174, 96, 1);
+        }
+
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
         }
     </style>
 </head>
@@ -183,6 +237,7 @@
         <h4 style="margin-bottom:15px; color:#333;">Chapters</h4>
         <ul id="timeline-menu">
             <li><a class="active" href="#overview">Overview</a></li>
+            <li><a href="#schema">Graphic Schema</a></li>
             <li><a href="#plasmids">Plasmids Used</a></li>
             <li><a href="#construct1">CadR-eGFP Construct</a></li>
             <li><a href="#construct2">apt-CadR Construct</a></li>
@@ -206,10 +261,36 @@
                 <p>Rather than relying on a conventional protein reporter, the system uses an RNA-based one composed of RiboJ and the 3WJdB aptamer. RiboJ processes and insulates the reporter transcript, while 3WJdB binds the fluorescent dye DFHBI-1T to generate a detectable signal. Combined with a cell-free expression platform, this design allows the construct to translate 2,4-D detection directly into RNA production and fluorescence — a fast and practical sensing strategy.</p>
             </div>
 
-            <!-- GRAPHIC PLACEHOLDER -->
-            <div class="graphic-placeholder">
-                <!-- COLE O NOME DA IMAGEM DO WHATSAPP NO 'src' ABAIXO -->
-                <img src="assets/images/sua-imagem-aqui.png" alt="Esquema Gráfico das Partes (Graphical Schema)" onerror="this.src='https://via.placeholder.com/800x400?text=Graphical+Schema+(Insert+Image)'">
+            <!-- GRAPHIC SCHEMA -->
+            <div class="timeline-phase" id="schema">
+                <h3>Graphic Schema</h3>
+            </div>
+            <div class="timeline-item">
+                <p>Explore the interactive plasmid maps below. Hover over the sequences to view the annotations for each biological part used in our assemblies.</p>
+
+                <!-- CAROUSEL START -->
+                <div class="carousel-container" id="plasmid-carousel">
+                    <!-- Slide 1 -->
+                    <div class="carousel-slide active">
+                        <iframe src="/assets/dna_parts/plasmid-map.html" title="pET23a(+)_iGEMUFRGS-CadR-eGFP"></iframe>
+                        <div class="carousel-caption">pET23a(+)_iGEMUFRGS-CadR-eGFP</div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carousel-slide">
+                        <iframe src="/assets/dna_parts/pet28a-aptamer-map.html" title="pET28a(+)_iGEMUFRGS-aptamer"></iframe>
+                        <div class="carousel-caption">pET28a(+)_iGEMUFRGS-aptamer</div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="carousel-slide">
+                        <iframe src="/assets/dna_parts/pet23a-apt-cadr-map.html" title="pET23a+_iGEMUFRGS-apt-CadR"></iframe>
+                        <div class="carousel-caption">pET23a+_iGEMUFRGS-apt-CadR</div>
+                    </div>
+
+                    <!-- Navigation Arrows -->
+                    <button class="carousel-prev">&#10094;</button>
+                    <button class="carousel-next">&#10095;</button>
+                </div>
+                <!-- CAROUSEL END -->
             </div>
 
             <!-- PLASMIDS USED -->
@@ -409,6 +490,7 @@
 
 <script defer src="js/script.js"></script>
 <script>
+    // Logic for Sidebar Active State Based on Scroll Position
     const sections = document.querySelectorAll('.timeline-phase');
     const navLinks = document.querySelectorAll('.timeline-sidebar a');
 
@@ -431,6 +513,32 @@
 
     sections.forEach(section => {
         if(section.id) observer.observe(section);
+    });
+
+    // Carousel Logic for Plasmid Maps
+    document.querySelectorAll('.carousel-container').forEach(container => {
+        let currentIndex = 0;
+        const slides = container.querySelectorAll('.carousel-slide');
+        const totalSlides = slides.length;
+        const prevBtn = container.querySelector('.carousel-prev');
+        const nextBtn = container.querySelector('.carousel-next');
+
+        if(totalSlides <= 1) {
+            if(prevBtn) prevBtn.style.display = 'none';
+            if(nextBtn) nextBtn.style.display = 'none';
+            return;
+        }
+
+        function showSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            if (index >= totalSlides) currentIndex = 0;
+            else if (index < 0) currentIndex = totalSlides - 1;
+            else currentIndex = index;
+            slides[currentIndex].classList.add('active');
+        }
+
+        prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+        nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
     });
 </script>
 </body>
