@@ -86,13 +86,22 @@ if (pins.length > 0) {
         pin.setAttribute('tabindex', '0');
         pin.setAttribute('aria-label', `Show information for ${cityName}`);
 
-        const showPin = (e) => {
-            e.stopPropagation();
-            const imgSrc = pin.getAttribute('data-img');
-            activeImg.src = imgSrc;
-            activeName.textContent = cityName;
-            photoViewer.classList.add('visible');
-        };
+            const showPin = (e) => {
+                e.stopPropagation();
+
+                // Coloca o cartão na mesma camada dos pontos.
+                pin.parentElement.appendChild(photoViewer);
+
+                activeImg.src = pin.getAttribute('data-img');
+                activeImg.alt = `Photo of ${cityName}`;
+                activeName.textContent = cityName;
+
+                // Acompanha a posição do ponto, inclusive ao redimensionar.
+                photoViewer.style.left = `calc(${pin.style.left} + 22px)`;
+                photoViewer.style.top = pin.style.top;
+
+                photoViewer.classList.add('visible');
+            };
         pin.addEventListener('click', showPin);
         pin.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -262,9 +271,9 @@ if (canvas && sprayer) {
 // NEWS
 
 const newsData = [
-    { title: "Rio Grande do Sul records 40.28% reduction in hormonal herbicide drift cases", summary: "A report from the State Secretariat of Agriculture indicates a reduction in reported herbicide drift incidents in Rio Grande do Sul. Nevertheless, several agricultural areas remain affected...", link: "https://www.revistarural.com.br/2023/05/24/rs-registra-reducao-de-4028-nas-derivas-de-herbicidas-hormonais/", img: "assets/images/news1.jpg" },
-    { title: "Court bans the use of the herbicide 2,4-D in regions of Rio Grande do Sul", summary: "A regional court ordered the temporary suspension of 2,4-D use in certain areas of Rio Grande do Sul following multiple reports of damage to fruit crops.", link: "https://g1.globo.com/rs/rio-grande-do-sul/noticia/2025/09/04/justica-proibe-uso-de-agrotoxico-24-d-em-regioes-do-rs-herbicida-afeta-culturas-sensiveis-como-uva-e-maca.ghtml", img: "assets/images/news2.jpg" },
-    { title: "The 2,4-D impasse: soybean and grape producers' conflict", summary: "This report describes the conflict between different agricultural sectors regarding the use of 2,4-D. Soybean producers emphasize productivity, whereas grape growers report economic losses.", link: "https://gauchazh.clicrbs.com.br/campo-e-lavoura/noticia/2025/09/justica-libera-uso-de-agrotoxico-24-d-apos-proibicao-no-rs-entenda-cmfyo18vc01de014isnu148wr.html", img: "assets/images/news3.jpg" },
+    { title: "Rio Grande do Sul records 40.28% reduction in hormonal herbicide drift cases", summary: "A report from the State Secretariat of Agriculture indicates a reduction in reported herbicide drift incidents in Rio Grande do Sul. Nevertheless, several agricultural areas remain affected...", link: "https://www-revistarural-com-br.translate.goog/2023/05/24/rs-registra-reducao-de-4028-nas-derivas-de-herbicidas-hormonais/?_x_tr_sl=pt&_x_tr_tl=en&_x_tr_hl=pt-BR&_x_tr_pto=wapp", img: "assets/images/news1.jpg" },
+    { title: "Court bans the use of the herbicide 2,4-D in regions of Rio Grande do Sul", summary: "A regional court ordered the temporary suspension of 2,4-D use in certain areas of Rio Grande do Sul following multiple reports of damage to fruit crops.", link: "https://g1-globo-com.translate.goog/rs/rio-grande-do-sul/noticia/2025/09/04/justica-proibe-uso-de-agrotoxico-24-d-em-regioes-do-rs-herbicida-afeta-culturas-sensiveis-como-uva-e-maca.ghtml?_x_tr_sl=pt&_x_tr_tl=en&_x_tr_hl=pt-BR&_x_tr_pto=wapp", img: "assets/images/news2.jpg" },
+    { title: "The 2,4-D impasse: soybean and grape producers' conflict", summary: "This report describes the conflict between different agricultural sectors regarding the use of 2,4-D. Soybean producers emphasize productivity, whereas grape growers report economic losses.", link: "https://www-revistarural-com-br.translate.goog/2023/05/24/rs-registra-reducao-de-4028-nas-derivas-de-herbicidas-hormonais/?_x_tr_sl=pt&_x_tr_tl=en&_x_tr_hl=pt-BR&_x_tr_pto=wapp", img: "assets/images/news3.jpg" },
 ];
 
 const carouselTrackNews = document.getElementById('carouselTrack');
@@ -652,3 +661,555 @@ window.alternarAnotacao = function(idAnotacao) {
         }
     }
 };
+
+async function initBioGifPlayer() {
+    const canvas = document.getElementById('img-bio-circuit');
+    const slider = document.getElementById('bioProgress');
+    const button = document.getElementById('bioPlayPause');
+    const label = document.getElementById('bioTime');
+
+    if (!canvas || !slider || !button || !label) return;
+    if (canvas.dataset.playerReady) return;
+
+    canvas.dataset.playerReady = 'true';
+
+    try {
+        const { parseGIF, decompressFrames } = await import(
+            'https://cdn.jsdelivr.net/npm/gifuct-js@2.1.2/+esm'
+        );
+
+        const response = await fetch(
+            'assets/images/biological_design.gif'
+        );
+
+        if (!response.ok) {
+            throw new Error(`GIF: HTTP ${response.status}`);
+        }
+
+        const gif = parseGIF(await response.arrayBuffer());
+        const frames = decompressFrames(gif, true);
+
+        if (!frames.length) {
+            throw new Error('O GIF não contém quadros.');
+        }
+
+        canvas.width = gif.lsd.width;
+        canvas.height = gif.lsd.height;
+
+        const ctx = canvas.getContext('2d');
+
+        // Canvas auxiliar para compor quadros com transparência.
+        const patchCanvas = document.createElement('canvas');
+        const patchCtx = patchCanvas.getContext('2d');
+
+        // Tempos de início de cada quadro, em milissegundos.
+        const starts = [];
+        let duration = 0;
+
+        for (const frame of frames) {
+            starts.push(duration);
+            duration += Math.max(10, frame.delay || 100);
+        }
+
+        // Fundo para GIFs sem transparência.
+        const background = gif.gct?.[gif.lsd.backgroundColorIndex];
+        const opaqueBackground =
+            frames[0].transparentIndex === undefined && background;
+
+        function clearArea(x, y, width, height) {
+            ctx.clearRect(x, y, width, height);
+
+            if (opaqueBackground) {
+                ctx.fillStyle = `rgb(${background.join(',')})`;
+                ctx.fillRect(x, y, width, height);
+            }
+        }
+
+        let renderedFrame = -1;
+        let restoreImage = null;
+
+        function resetCanvas() {
+            clearArea(0, 0, canvas.width, canvas.height);
+            renderedFrame = -1;
+            restoreImage = null;
+        }
+
+        function renderFrame(target) {
+            // Ao retroceder, recompõe a imagem desde o início.
+            if (target < renderedFrame) {
+                resetCanvas();
+            }
+
+            while (renderedFrame < target) {
+                const previous = frames[renderedFrame];
+
+                // Aplica o descarte do quadro anterior.
+                if (previous?.disposalType === 2) {
+                    const d = previous.dims;
+                    clearArea(d.left, d.top, d.width, d.height);
+                } else if (
+                    previous?.disposalType === 3 &&
+                    restoreImage
+                ) {
+                    ctx.putImageData(restoreImage, 0, 0);
+                }
+
+                const frame = frames[renderedFrame + 1];
+                const d = frame.dims;
+
+                restoreImage = frame.disposalType === 3
+                    ? ctx.getImageData(
+                        0, 0, canvas.width, canvas.height
+                    )
+                    : null;
+
+                patchCanvas.width = d.width;
+                patchCanvas.height = d.height;
+
+                patchCtx.putImageData(
+                    new ImageData(frame.patch, d.width, d.height),
+                    0,
+                    0
+                );
+
+                ctx.drawImage(patchCanvas, d.left, d.top);
+                renderedFrame++;
+            }
+        }
+
+        function frameAt(time) {
+            let index = 0;
+
+            while (
+                index + 1 < frames.length &&
+                starts[index + 1] <= time
+            ) {
+                index++;
+            }
+
+            return index;
+        }
+
+        let position = 0;
+        let playing = false;
+        let requestId = null;
+        let lastTick = 0;
+
+        slider.max = String(duration - 1);
+        slider.disabled = false;
+        button.disabled = false;
+
+        function updateDisplay() {
+            renderFrame(frameAt(position));
+
+            slider.value = String(Math.floor(position));
+
+            label.textContent =
+                `${(position / 1000).toFixed(1)} / ` +
+                `${(duration / 1000).toFixed(1)} s`;
+
+            slider.setAttribute(
+                'aria-valuetext',
+                `${(position / 1000).toFixed(1)} seconds`
+            );
+        }
+
+        function tick(now) {
+            if (!playing) return;
+
+            position = (position + now - lastTick) % duration;
+            lastTick = now;
+
+            updateDisplay();
+            requestId = requestAnimationFrame(tick);
+        }
+
+        function pause() {
+            playing = false;
+            cancelAnimationFrame(requestId);
+button.textContent = '▶';
+button.setAttribute('aria-label', 'Play animation');
+button.title = 'Play';
+        }
+
+        function play() {
+            if (playing) return;
+
+            playing = true;
+button.textContent = '⏸';
+button.setAttribute('aria-label', 'Pause animation');
+button.title = 'Pause';
+            lastTick = performance.now();
+            requestId = requestAnimationFrame(tick);
+        }
+
+        button.addEventListener('click', () => {
+            if (playing) {
+                pause();
+            } else {
+                play();
+            }
+        });
+
+        // Pausa assim que o usuário começa a arrastar.
+        slider.addEventListener('pointerdown', pause);
+
+        // Também funciona com as setas do teclado.
+        slider.addEventListener('input', () => {
+            pause();
+            position = Number(slider.value);
+            updateDisplay();
+        });
+
+        // Evita saltos de tempo ao voltar para a aba.
+        document.addEventListener('visibilitychange', () => {
+            lastTick = performance.now();
+        });
+
+        resetCanvas();
+        updateDisplay();
+        play();
+
+    } catch (error) {
+        console.error('Erro ao carregar o GIF:', error);
+
+        button.textContent = 'Unavailable';
+        button.disabled = true;
+        slider.disabled = true;
+        label.textContent = 'Could not load animation.';
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBioGifPlayer);
+} else {
+    initBioGifPlayer();
+}
+
+function initLuminaPdfViewer() {
+    const viewer = document.getElementById('luminaPdfViewer');
+
+    if (!viewer || viewer.dataset.initialized) return;
+    viewer.dataset.initialized = 'true';
+
+    const frame = viewer.querySelector('#luminaPdfFrame');
+    const link = viewer.querySelector('#luminaPdfLink');
+    const label = viewer.querySelector('#luminaPdfLabel');
+    const buttons = viewer.querySelectorAll('[data-module]');
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Evita recarregar o módulo que já está aberto.
+            if (button.getAttribute('aria-pressed') === 'true') {
+                return;
+            }
+
+            const moduleNumber = button.dataset.module;
+            const path = `./assets/pdf/module_${moduleNumber}.pdf`;
+
+            buttons.forEach(item => {
+                item.setAttribute(
+                    'aria-pressed',
+                    String(item === button)
+                );
+            });
+
+            frame.title = `Lumina — Module ${moduleNumber}`;
+            frame.src = path;
+            link.href = path;
+            label.textContent = `Module ${moduleNumber}`;
+        });
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLuminaPdfViewer);
+} else {
+    initLuminaPdfViewer();
+}
+
+async function initScienceCards() {
+    const deck = document.getElementById('scienceDeck');
+
+    if (!deck || deck.dataset.initialized) return;
+    deck.dataset.initialized = 'true';
+
+    const board = document.getElementById('scienceCardsBoard');
+    const status = document.getElementById('scienceCardsStatus');
+    const reset = document.getElementById('resetScienceCards');
+    const dialog = document.getElementById('scienceCardDialog');
+    const largeImage = document.getElementById('scienceCardLarge');
+    const close = document.getElementById('closeScienceCard');
+
+    const cards = [];
+    let topLayer = 1;
+
+    close.addEventListener('click', () => dialog.close());
+
+    // Fecha também ao clicar fora da janela.
+    dialog.addEventListener('click', event => {
+        const rect = dialog.getBoundingClientRect();
+
+        const outside =
+            event.clientX < rect.left ||
+            event.clientX > rect.right ||
+            event.clientY < rect.top ||
+            event.clientY > rect.bottom;
+
+        if (event.target === dialog && outside) {
+            dialog.close();
+        }
+    });
+
+    function arrangeCards() {
+        if (!cards.length || !board.clientWidth) return;
+
+        const available = board.clientWidth;
+        const padding = 24;
+        const gap = 26;
+
+        const columns = Math.max(
+            1,
+            Math.floor((available - padding * 2) / 190)
+        );
+
+        const width = Math.min(
+            190,
+            (available - padding * 2 - gap * (columns - 1))
+                / columns
+        );
+
+        let tallest = 0;
+
+        cards.forEach(card => {
+            card.element.style.width = `${width}px`;
+
+            const height = (width - 10) * card.ratio + 10;
+            tallest = Math.max(tallest, height);
+        });
+
+        const rowHeight = tallest + 44;
+        const rows = Math.ceil(cards.length / columns);
+        const groupWidth = columns * width + (columns - 1) * gap;
+        const startX = (available - groupWidth) / 2;
+
+        board.style.height =
+            `${padding * 2 + rows * rowHeight}px`;
+
+        cards.forEach((card, index) => {
+            const column = index % columns;
+            const row = Math.floor(index / columns);
+
+            card.element.style.left =
+                `${startX + column * (width + gap)}px`;
+
+            card.element.style.top =
+                `${padding + row * rowHeight + (index % 3) * 6}px`;
+
+            // Inclinações diferentes dão o efeito de cartas espalhadas.
+            card.element.style.setProperty(
+                '--rotation',
+                `${[-6, 4, -3, 6, -4][index % 5]}deg`
+            );
+
+            card.element.style.zIndex = String(index + 1);
+        });
+
+        topLayer = cards.length + 1;
+    }
+
+    function enableCardInteraction(button, image) {
+        let drag = null;
+        let suppressClick = false;
+
+        button.addEventListener('pointerdown', event => {
+            if (!event.isPrimary || event.button !== 0) return;
+
+            suppressClick = false;
+
+            drag = {
+                pointerId: event.pointerId,
+                x: event.clientX,
+                y: event.clientY,
+                left: parseFloat(button.style.left) || 0,
+                top: parseFloat(button.style.top) || 0
+            };
+
+            button.style.zIndex = String(++topLayer);
+            button.setPointerCapture(event.pointerId);
+        });
+
+        button.addEventListener('pointermove', event => {
+            if (!drag || event.pointerId !== drag.pointerId) return;
+
+            const dx = event.clientX - drag.x;
+            const dy = event.clientY - drag.y;
+
+            if (Math.hypot(dx, dy) > 6) {
+                suppressClick = true;
+            }
+
+            if (!suppressClick) return;
+
+            button.classList.add('is-dragging');
+
+            const maxX = Math.max(
+                0,
+                board.clientWidth - button.offsetWidth
+            );
+
+            const maxY = Math.max(
+                0,
+                board.clientHeight - button.offsetHeight
+            );
+
+            button.style.left =
+                `${Math.max(0, Math.min(maxX, drag.left + dx))}px`;
+
+            button.style.top =
+                `${Math.max(0, Math.min(maxY, drag.top + dy))}px`;
+        });
+
+        function endDrag(event) {
+            if (!drag || event.pointerId !== drag.pointerId) return;
+
+            drag = null;
+            button.classList.remove('is-dragging');
+
+            if (button.hasPointerCapture(event.pointerId)) {
+                button.releasePointerCapture(event.pointerId);
+            }
+        }
+
+        button.addEventListener('pointerup', endDrag);
+        button.addEventListener('pointercancel', endDrag);
+        button.addEventListener('lostpointercapture', endDrag);
+
+        button.addEventListener('click', event => {
+            // Não amplia a carta depois de arrastá-la.
+            if (suppressClick && event.detail !== 0) {
+                suppressClick = false;
+                return;
+            }
+
+            largeImage.src = image.src;
+            largeImage.alt = image.alt;
+            dialog.showModal();
+        });
+    }
+
+    reset.addEventListener('click', arrangeCards);
+
+    // Reorganiza ao mudar de largura ou abrir uma seção oculta.
+    let previousWidth = board.clientWidth;
+
+    const resizeObserver = new ResizeObserver(() => {
+        const width = board.clientWidth;
+
+        if (width !== previousWidth) {
+            previousWidth = width;
+            arrangeCards();
+        }
+    });
+
+    resizeObserver.observe(board);
+
+    try {
+        // Biblioteca para ler e desenhar as páginas do PDF.
+        const pdfjs = await import(
+            'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs'
+        );
+
+        pdfjs.GlobalWorkerOptions.workerSrc =
+            'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs';
+
+        // Altere aqui se o PDF tiver outro nome.
+        const pdf = await pdfjs.getDocument(
+            './assets/pdf/cartas.pdf'
+        ).promise;
+
+        for (
+            let pageNumber = 1;
+            pageNumber <= pdf.numPages;
+            pageNumber++
+        ) {
+            status.textContent =
+                `Loading card ${pageNumber} of ${pdf.numPages}…`;
+
+            const page = await pdf.getPage(pageNumber);
+            const original = page.getViewport({ scale: 1 });
+
+            // Mantém a proporção original de cada página.
+            const viewport = page.getViewport({
+                scale: 1200 / Math.max(
+                    original.width,
+                    original.height
+                )
+            });
+
+            const canvas = document.createElement('canvas');
+
+            canvas.width = Math.ceil(viewport.width);
+            canvas.height = Math.ceil(viewport.height);
+
+            await page.render({
+                canvasContext: canvas.getContext('2d'),
+                viewport
+            }).promise;
+
+            const image = new Image();
+
+            image.alt =
+                `Science communication card ${pageNumber}`;
+
+            image.draggable = false;
+            image.src = canvas.toDataURL('image/jpeg', 0.9);
+
+            await image.decode();
+
+            const button = document.createElement('button');
+
+            button.type = 'button';
+            button.className = 'science-card';
+
+            button.setAttribute(
+                'aria-label',
+                `Enlarge card ${pageNumber}`
+            );
+
+            button.appendChild(image);
+            board.appendChild(button);
+
+            cards.push({
+                element: button,
+                ratio: viewport.height / viewport.width
+            });
+
+            enableCardInteraction(button, image);
+            arrangeCards();
+
+            canvas.width = 0;
+            canvas.height = 0;
+            page.cleanup();
+        }
+
+        reset.disabled = false;
+
+        status.textContent =
+            `${cards.length} cards — choose one to explore.`;
+
+    } catch (error) {
+        console.error('Could not load the science cards:', error);
+
+        reset.disabled = cards.length === 0;
+
+        status.textContent =
+            'Could not load all cards. Open the complete PDF below.';
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScienceCards);
+} else {
+    initScienceCards();
+}
