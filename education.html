@@ -214,6 +214,42 @@
             text-decoration: underline;
             color: #1e8449;
         }
+        .lumina-cards {
+    width: 50%;
+    margin: 25px auto;
+    gap: 12px;
+}
+
+
+.lumina-cards .lumina-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.lumina-cards .lumina-card p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.lumina-cards {
+    width: 100%;
+    max-width: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin: 25px 0;
+}
+
+.lumina-card {
+    aspect-ratio: auto;
+    min-height: 120px;
+    padding: 20px;
+}
+
+@media (max-width: 600px) {
+    .lumina-cards {
+        grid-template-columns: 1fr;
+    }
+}
     </style>
 </head>
 <body>
@@ -265,7 +301,7 @@
                 <div class="dropdown">
                     <a href="structural-analysis.html">Structural Analysis</a>
                     <a href="molecular-dynamics.html">Molecular Dynamics</a>
-                    <a href="interaction.html">Interacition with 2,4D</a>
+                    <a href="interaction.html">Interaction with 2,4D</a>
                     <a href="hardware.html">Hardware</a>
                     <a href="software.html">Software</a>
                     <a href="measurement.html">Measurement</a>
@@ -300,6 +336,7 @@
             <li><a class="active" href="#lumina">Lumina Course</a></li>
             <li><a href="#symposium">1st SGEB Symposium</a></li>
             <li><a href="#scicomm">Science Communication</a></li>
+            <li><a href="#legacy">The Legacy Continues</a></li>
         </ul>
     </aside>
 
@@ -343,6 +380,8 @@
                 </div>
             </div>
 
+
+
             <!-- LUMINA COURSE -->
             <div class="timeline-phase" id="lumina">
                 <h3>Synthetic Biology for Beginners (Lumina)</h3>
@@ -380,11 +419,91 @@
                         <p>
                             This course goes beyond education, it plants the seeds for a more accessible, inclusive, and thriving Synthetic Biology ecosystem across Brazil and Portuguese speakers!
                         </p>
-
-                        <div class="hp-image-container">
-                            <img src="assets/images/placeholder.jpg" alt="Lumina Videos and Materials">
-                            <div class="hp-image-caption">[Link for the videos and reading materials, and view/student counter]</div>
+                                                <div class="stats-box">
+                            <h5>Participation Metrics:</h5>
+                            <ul>
+                                <li><strong>XX</strong> registered participants</li>
+                                <li><strong>XX</strong> participants who completed the program</li>
+                            </ul>
                         </div>
+
+                        <div class="lumina-cards">
+    <div class="lumina-card">
+<h3>
+    <a href="https://youtube.com/playlist?list=PLJflmS3LB-ZICCBHwhoPm8T0DNoOG5-bQ&si=Y3qG0uVKzwUbyg5W"
+       target="_blank"
+       rel="noopener noreferrer">
+        Explore the videos produced for the course
+    </a>
+</h3>
+    </div>
+
+    <div class="lumina-card">
+<h3>
+    <a href="https://lumina.ufrgs.br/course/view.php?id=606 "
+       target="_blank"
+       rel="noopener noreferrer">
+        Check out the course on the Lumina platform
+    </a>
+</h3>
+    </div>
+</div>
+
+
+<div class="lumina-pdf-viewer" id="luminaPdfViewer">
+    <div class="lumina-pdf-buttons"
+         role="group"
+         aria-label="Choose a Lumina module">
+
+        <button type="button" data-module="1"
+                aria-pressed="true" aria-controls="luminaPdfFrame">
+            Module 1
+        </button>
+
+        <button type="button" data-module="2"
+                aria-pressed="false" aria-controls="luminaPdfFrame">
+            Module 2
+        </button>
+
+        <button type="button" data-module="3"
+                aria-pressed="false" aria-controls="luminaPdfFrame">
+            Module 3
+        </button>
+
+        <button type="button" data-module="4"
+                aria-pressed="false" aria-controls="luminaPdfFrame">
+            Module 4
+        </button>
+
+        <button type="button" data-module="5"
+                aria-pressed="false" aria-controls="luminaPdfFrame">
+            Module 5
+        </button>
+    </div>
+
+    <div class="lumina-pdf-toolbar">
+        <span id="luminaPdfLabel" aria-live="polite">
+            Module 1
+        </span>
+
+        <a id="luminaPdfLink"
+           href="./assets/pdf/module_1.pdf"
+           target="_blank"
+           rel="noopener">
+            Open PDF ↗
+        </a>
+    </div>
+
+    <iframe
+        id="luminaPdfFrame"
+        src="./assets/pdf/module_1.pdf"
+        title="Lumina — Module 1">
+    </iframe>
+
+    <p class="lumina-pdf-help">
+        If the document does not appear, select “Open PDF”.
+    </p>
+</div>
                     </div>
                 </div>
             </div>
@@ -402,8 +521,7 @@
                 <div class="accordion-content">
                     <div class="accordion-content-inner">
                         <div class="hp-image-container">
-                            <img src="assets/images/placeholder.jpg" alt="SGEB Logo and Group Photo">
-                            <div class="hp-image-caption">[LOGO] / [FOTO GRUPO]</div>
+                            <img src="assets/images/logo_simposio.png" alt="SGEB Logo">
                         </div>
 
                         <p>
@@ -426,6 +544,23 @@
                             <p>
                                 The SGEB gathered participants from different backgrounds. Registration was offered in different participation formats in order to increase accessibility and engagement. A total of 42 participants attended the event in person, while 33 joined through the hybrid modality and 24 participated remotely, resulting in 75 participants involved in the in-person and hybrid activities and 99 total registered participants overall.
                             </p>
+                        </div>
+
+                                                <div class="carousel-container">
+                            <div class="carousel-slide active">
+                                <img src="assets/images/simposio1.jpg" alt="Simposium 1">
+                                <div class="carousel-caption">Participantes and speakers at the simposium, day 1</div>
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="assets/images/simposio2.jpg" alt="Simposium 2">
+                                <div class="carousel-caption">Participantes and speakers at the simposium, day 2</div>
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="assets/images/simposio3.jpg" alt="Simposium 3">
+                                <div class="carousel-caption">Participantes and speakers at the simposium, day 3</div>
+                            </div>
+                            <button class="carousel-prev">&#10094;</button>
+                            <button class="carousel-next">&#10095;</button>
                         </div>
 
                         <p>
@@ -469,6 +604,10 @@
                             <li><strong>"One Ring to Protect Them All, and with Iron Biofortify Them..." - Speaker: Dr. Felipe Klein Ricachenevsky:</strong> Professor at UFRGS. Demonstrated how plants edited for two vacuolar iron transporters are used to increase iron concentration in rice seeds.</li>
                         </ul>
                     </div>
+                                            <div class="hp-image-container">
+                            <img src="assets/images/simposio_team.jpg" alt="SGEB Logo and Group Photo">
+                            <div class="hp-image-caption">iGem Team at the simposium</div>
+                        </div>
                 </div>
             </div>
 
@@ -513,29 +652,89 @@
                             <li><strong>2026:</strong> Building on last year's experience, we scaled our presence this year: organizing a standalone iGEM 2,4-Detector interactive booth to interconnect with students and alike. Our showcase consisted of a presentation of Synthetic Biology, our project and the iGEM competition and a circuit design puzzle game that helped then abridge the notion of what our project solution is.</li>
                         </ul>
 
-                        <h5>Our puzzle</h5>
-                        <p>
-                            To help elaborate on abstract genetic concepts to the public, we designed an interactive challenge game where participants could help solve illustrative problems. Visitors were presented with a specific real-world scenario (e.g., textile dyes cleaning, microbial inflammation treatment development) and cards representing standard biological parts (promoters, enzymes, terminators) and other elements. As a group, they would then assemble their first functional genetic circuit and solve the challenge. Once the logic was mastered, we would go through our team's actual engineered genetic circuit that detects the herbicide 2-4D.
-                        </p>
+<div class="science-event-layout">
+    <div class="science-event-text">
+        <h5>Our puzzle</h5>
+        <p>
+            To help elaborate on abstract genetic concepts to the public,
+            we designed an interactive challenge game where participants
+            could help solve illustrative problems. Visitors were presented
+            with a specific real-world scenario (e.g., textile dyes cleaning,
+            microbial inflammation treatment development) and cards
+            representing standard biological parts (promoters, enzymes,
+            terminators) and other elements. As a group, they would then
+            assemble their first functional genetic circuit and solve the
+            challenge. Once the logic was mastered, we would go through our
+            team's actual engineered genetic circuit that detects the
+            herbicide 2-4D.
+        </p>
 
-                        <h5>Results & Feedback</h5>
-                        <p>
-                            Our sought out objective was achieved: participants and onlookers voiced an apprehensiveness regarding the complexity of the subject being presented, but by the end of this year's game activity, stated that the topic ended up being easier to comprehend. In particular, the younger audience showed more marvel towards the capabilities of synthetic biology. We undertook the role of facilitators regarding showcasing what science has to offer in an effortless manner, and were received with a general interest and satisfaction concerning what was learned.
-                        </p>
+        <h5>Results &amp; Feedback</h5>
+        <p>
+            Our sought out objective was achieved: participants and onlookers
+            voiced an apprehensiveness regarding the complexity of the
+            subject being presented, but by the end of this year's game
+            activity, stated that the topic ended up being easier to
+            comprehend. In particular, the younger audience showed more
+            marvel towards the capabilities of synthetic biology. We
+            undertook the role of facilitators regarding showcasing what
+            science has to offer in an effortless manner, and were received
+            with a general interest and satisfaction concerning what was
+            learned.
+        </p>
+    </div>
 
-                        <!-- Carousel: Portas Abertas -->
-                        <div class="carousel-container">
-                            <div class="carousel-slide active">
-                                <img src="assets/images/placeholder.jpg" alt="Portas Abertas 2025">
-                                <div class="carousel-caption">[Caption: Booth participation during Portas Abertas 2025]</div>
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="assets/images/placeholder.jpg" alt="Portas Abertas 2026">
-                                <div class="carousel-caption">[Caption: Interactive game cards used at Portas Abertas 2026]</div>
-                            </div>
-                            <button class="carousel-prev">&#10094;</button>
-                            <button class="carousel-next">&#10095;</button>
-                        </div>
+    <figure class="science-event-photo">
+        <img
+            src="./assets/images/portas_abertas_2025.jpg"
+            alt="iGEM UFRGS participation at Portas Abertas 2025"
+            loading="lazy">
+
+        <figcaption>
+            Our team at Portas Abertas 2025.
+        </figcaption>
+    </figure>
+</div>
+
+<!-- Baralho interativo -->
+<section
+    class="science-deck"
+    id="scienceDeck"
+    aria-label="Explore our science cards">
+
+    <div class="science-deck-toolbar">
+        <div>
+            <h4>Example of the cards from a problem situation proposed in our puzzle</h4>
+            <p>Drag to move. Click a card to enlarge.</p>
+        </div>
+
+        <button type="button" id="resetScienceCards" disabled>
+            Reset cards
+        </button>
+    </div>
+
+    <p id="scienceCardsStatus" role="status">
+        Loading cards…
+    </p>
+
+    <div id="scienceCardsBoard"></div>
+
+    <a
+        href="./assets/pdf/cartas.pdf"
+        target="_blank"
+        rel="noopener">
+    </a>
+</section>
+
+
+<!-- Janela da carta ampliada -->
+<dialog id="scienceCardDialog" aria-label="Enlarged card">
+    <button type="button" id="closeScienceCard" autofocus>
+        Close ✕
+    </button>
+
+    <img id="scienceCardLarge" alt="">
+</dialog>
 
                         <h4 class="full-text-title">Academic Integration & Inspiration</h4>
                         <p>
@@ -554,7 +753,7 @@
 
                         <div class="hp-image-container">
                             <img src="assets/images/aulainagural2025.jpeg" alt="Inaugural Class">
-                            <div class="hp-image-caption">[Legenda: Team members addressing new university entrants during the annual Inaugural Class series]</div>
+                            <div class="hp-image-caption">Team members addressing new university entrants during the annual Inaugural Class series</div>
                         </div>
 
                         <h4 class="full-text-title">Beyond the University</h4>
@@ -570,7 +769,7 @@
 
                         <div class="hp-image-container">
                             <img src="assets/images/entrada_jaguari.jpg" alt="Jaguari Meeting">
-                            <div class="hp-image-caption">[Caption: Team members at Jaguari before the meeting]</div>
+                            <div class="hp-image-caption">Team members at Jaguari before the meeting</div>
                         </div>
 
                         <h5>Broadcast Media Outreach</h5>
@@ -579,23 +778,6 @@
                         </p>
                         <p><strong>Date:</strong> 03/10/2026.</p>
 
-                        <!-- Carousel: Broadcast Media Outreach -->
-                        <div class="carousel-container">
-                            <div class="carousel-slide active">
-                                <img src="assets/images/placeholder.jpg" alt="Media Outreach 1">
-                                <div class="carousel-caption">[Caption 1: Former team member interview (fefo)]</div>
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="assets/images/entrevistarecord_3.jpeg" alt="Media Outreach 2">
-                                <div class="carousel-caption">[Caption 2: Team member interview inside the laboratory (Camilla)]</div>
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="assets/images/entrevistarecord_1.jpeg" alt="Media Outreach 3">
-                                <div class="carousel-caption">[Caption 3: Team advisor interview (Diego Bonatto)]</div>
-                            </div>
-                            <button class="carousel-prev">&#10094;</button>
-                            <button class="carousel-next">&#10095;</button>
-                        </div>
 
                         <h5>Institutional Media Coverage</h5>
                         <p>
@@ -609,30 +791,22 @@
                         </p>
                         <p><strong>Date:</strong> 04/03/2025 | <strong>Location:</strong> State Legislative Assembly of Rio Grande do Sul, Porto Alegre, RS, Brazil.</p>
 
-                        <!-- Carousel: Public Hearing -->
-                        <div class="carousel-container">
-                            <div class="carousel-slide active">
-                                <img src="assets/images/placeholder.jpg" alt="Public Hearing 1">
-                                <div class="carousel-caption">[Caption 1: Ongoing testimony of a farmers representative]</div>
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="assets/images/placeholder.jpg" alt="Public Hearing 2">
-                                <div class="carousel-caption">[Caption 2: Team member conversation with the present press]</div>
-                            </div>
-                            <button class="carousel-prev">&#10094;</button>
-                            <button class="carousel-next">&#10095;</button>
-                        </div>
-
                         <h5>Continuous Digital Engagement</h5>
                         <p>
-                            Maintaining an active, educational, and accessible narrative on social media via our Instagram platform @igemufrgs since February 2024, our core objective is to foster scientific engagement: spark curiosity and debate of synthetic biology, and build a transparent, two-way dialogue between our research team and the local community of every corner.
+                            Maintaining an active, educational, and accessible narrative on social media via our Instagram platform @igem.ufrgs since February 2024, our core objective is to foster scientific engagement: spark curiosity and debate of synthetic biology, and build a transparent, two-way dialogue between our research team and the local community of every corner.
                         </p>
                         <p>
                             To achieve so, we post every information concerning 2-4D drift, the iGEM competition and our identity in a layman approach. Our own findings for the developed biosensor are shared simultaneously to a Scientific Glossary series. On the occasion, we expose synthetic biology symposiums and courses, whether they are ours, of another iGEM team, or external.
                         </p>
 
                         <div class="stats-box">
-                            <h5>Social Media: Instagram (@igemufrgs)</h5>
+                            <h5>Social Media: Instagram <a
+    href="https://www.instagram.com/igem.ufrgs/"
+    target="_blank"
+    rel="noopener noreferrer"
+    style="color: var(--primary-green, #278554); font-weight: 700; text-decoration: underline;">
+    @igem.ufrgs
+</a></h5>
                             <p>Inherited from 2019's team, our Instagram account serves as our primary continuous channel for public communication, reaching high schoolers, university peers, academic researchers, local farmers, enterprises, and international iGEM teams.</p>
                             <ul>
                                 <li>1462 followers</li>
@@ -641,9 +815,17 @@
                             </ul>
                             <p><strong>Date:</strong> 02/02/2026 - Present.</p>
                         </div>
-
+                        </div>
                     </div>
                 </div>
+        <!-- LEGACY CONTINUES -->
+            <div class="timeline-phase" id="legacy">
+                <h3>The Legacy Continues</h3>
+            </div>
+            <div class="timeline-item">
+                <p>
+                Although the iGEM competition is coming to an end, our educational impact continues to grow. The materials we developed have now become official support resources for the Brazilian Synthetic Biology Olympiad (OBBS), an initiative created by the iGEM USP Brazil Team. Additionally, we are partnering with EduCiência, a major outreach project by the Biotechnology Center at UFRGS. EduCiência fosters numerous interactions between academia and school students, and hosts an annual refresher course for educators. In the upcoming edition, our team will sponsor the event and host an interactive session on synthetic biology, focusing on how teachers can bring these concepts into their classrooms.
+                </p>
             </div>
 
         </div>
