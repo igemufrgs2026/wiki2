@@ -69,7 +69,7 @@
                 <div class="dropdown">
                     <a href="structural-analysis.html">Structural Analysis</a>
                     <a href="molecular-dynamics.html">Molecular Dynamics</a>
-                    <a href="interaction.html">Interacition with 2,4D</a>
+                    <a href="interaction.html">Interaction with 2,4D</a>
                     <a href="hardware.html">Hardware</a>
                     <a href="software.html">Software</a>
                     <a href="measurement.html">Measurement</a>
@@ -117,8 +117,10 @@
             <div class="content-after-zoom" id="finalContent">
                 <div class="fireflies-container" id="firefliesContainer"></div>
                 <h3>by iGEM UFRGS Brasil</h3>
-                <div class="hero-logo-box">Logo projeto</div>
-                <h3>A FAST AND PRATICAL BIOSENSOR FOR 2,4D</h3>
+                <div class="hero-logo-box">
+                    <img src="assets/images/logo_24detector.png" alt="Logo do projeto 24Detector">
+                </div>
+                <h3>A FAST AND PRACTICAL BIOSENSOR FOR 2,4D</h3>
             </div>
         </div>
     </div>
@@ -229,14 +231,31 @@
     <section class="biological-section">
         <div class="biological-header">
             <h2>OUR <span class="highlight-green">BIOLOGICAL DESIGN</span></h2>
-            <p>Click on the interactive targets to discover the molecular components of our biosensor.</p>
         </div>
         <div class="biological-container">
             <div class="bio-visual-container">
-                <img src="assets/images/biological_circuit.png" alt="Biological Circuit Diagram" id="img-bio-circuit">
-                <div class="bio-pin" style="top: 35%; left: 20%;" data-title="Promoter Region" data-desc="The regulatory DNA sequence that initiates transcription of our target biosensor mechanism when 2,4-D is detected."></div>
-                <div class="bio-pin" style="top: 48%; left: 52%;" data-title="CadR Protein" data-desc="A selective regulatory protein that binds specifically to 2,4-D molecules, triggering the system's reporter signal."></div>
-                <div class="bio-pin" style="top: 65%; left: 80%;" data-title="Reporter Gene" data-desc="The enzymatic or fluorescent output component that generates a fast, visual readout to confirm contamination."></div>
+<canvas
+    id="img-bio-circuit"
+    role="img"
+    aria-label="Animation of the biosensor's biological design">
+</canvas>
+<div class="bio-timeline">
+    <button id="bioPlayPause" type="button" disabled>
+        Loading…
+    </button>
+
+    <input
+        id="bioProgress"
+        type="range"
+        min="0"
+        max="1"
+        step="1"
+        value="0"
+        aria-label="Animation timeline"
+        disabled>
+
+    <span id="bioTime" role="status">Loading animation…</span>
+</div>
             </div>
             <div class="bio-info-viewer" id="bioInfoViewer">
                 <h4 id="bioActiveTitle" style="color: var(--dark-blue); margin: 0 0 5px 0; font-weight: bold; font-size: 1.2rem;"></h4>
@@ -257,8 +276,7 @@
                 id="meu-dispositivo" 
                 src="assets/models/placeholder.glb" 
                 animation-name="AbrirDispositivo"
-                camera-controls 
-                disable-zoom
+                camera-controls
                 touch-action="pan-y"
                 camera-orbit="0deg 75deg 5m" 
                 field-of-view="20deg"
@@ -268,10 +286,6 @@
                 <button id="ponto-final" class="hotspot" slot="hotspot-1" data-position="-60m 83m 50m" data-normal="0m 1m 0m" onclick="alternarAnotacao('anotacao-1')">
                 </button>
 
-                <div id="anotacao-1" class="anotacao">
-                    <h4>Arduino</h4>
-                    <p>Arduino is an open-source platform used for building electronics projects.</p>
-                </div>
 
             </model-viewer>
 
@@ -282,7 +296,7 @@
     </section>
 
 <section class="discover-section">
-        <h2>DISCOVER MORE ABOUT <span class="green-highlight">iGEM UFRGS</span></h2>
+        <h2>DISCOVER MORE ABOUT <span class="green-highlight">2,4 Detector</span></h2>
         <div class="grape-cluster-container">
             <div class="grape-stem-art">
                 <svg viewBox="0 0 200 100" width="160" height="90" style="transform: scaleY(-1);">
