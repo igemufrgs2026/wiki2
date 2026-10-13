@@ -97,6 +97,15 @@
 @media (max-width:600px) { .meet-interactive { padding:16px; } .meet-plant-layout { grid-template-columns:1fr; } .meet-plant { max-height:190px; } }
 @media (prefers-reduced-motion:reduce) { .meet-scene .meet-particle { animation:none !important; } .meet-plant [data-part] { transition:none; } }
 
+
+#plant-explorer { scroll-margin-top:110px; }
+#plant-excerpt [hidden] { display:none; }
+#plant-excerpt p { text-align:left; }
+#molecule-viewer { position:relative; width:100%; height:380px; overflow:hidden; border-radius:12px; background:#edf2ef; }
+#molecule-viewer canvas { display:block; }
+#molecule-controls button:disabled { opacity:.45; cursor:default; }
+#molecule-status { font-size:.95rem; }
+@media(max-width:600px) { #molecule-viewer { height:290px; } }
 </style>
 </head>
 <body>
@@ -200,8 +209,9 @@
         <h4 style="margin-bottom:15px; color:#333;">Chapters</h4>
         <ul id="timeline-menu">
  <li><a class="active" href="#challenge">The challenge of 2,4-D drift</a></li>
+ <li><a href="#molecule-24d">3D molecule</a></li>
  <li><a href="#formulations">Formulations</a></li>
- <li><a href="#mechanism">Mechanism of action</a></li>
+ <li><a href="#plant-explorer">Mechanism of action</a></li>
  <li><a href="#uses">Agricultural uses</a></li>
  <li><a href="#drift">Off-target movement</a></li>
  <li><a href="#environment">Environmental fate</a></li>
@@ -215,16 +225,27 @@
             </div>
             <div class="timeline-item" id="challenge-text">
 <p id="overview" class="meet-anchor">2,4-Dichlorophenoxyacetic acid (2,4-D) is an extensively utilized herbicide against broadleaf weeds, discovered in the 1940s, being the first modern selective systemic herbicide developed for commercial agricultural use <a href="#ref1" class="ref-link">[1]</a>. Chemically, 2,4-D acts as a synthetic auxin, mimicking the natural plant hormone indole-3-acetic acid (IAA) <a href="#ref2" class="ref-link">[2]</a>.</p>
+<section class="meet-interactive meet-anchor" id="molecule-24d" aria-labelledby="molecule-title">
+ <h4 id="molecule-title">Explore the 2,4-D molecule</h4>
+ <p>C<sub>8</sub>H<sub>6</sub>Cl<sub>2</sub>O<sub>3</sub> · Acid form</p>
+ <div id="molecule-viewer" role="img" aria-label="Interactive three-dimensional model of 2,4-D. Use the buttons below or drag to rotate."></div>
+ <p id="molecule-status" role="status"> </p>
+ <p class="meet-note">Drag to rotate; scroll or pinch to zoom. Carbon: gray · Hydrogen: white · Oxygen: red · Chlorine: green.</p>
+ <p class="meet-note">Computed 3D structure Source: <a href="https://pubchem.ncbi.nlm.nih.gov/compound/1486#section=3D-Conformer" target="_blank" rel="noopener noreferrer">PubChem CID 1486 ↗</a>.</p>
+ <button type="button" id="molecule-retry" hidden>Try again</button>
+</section>
+
 <p id="formulations" class="meet-anchor">2,4-D can include multiple chemical forms, including salts, esters, and acid. It has low solubility in water, so commercial products are formulated as amine salts or esters to improve handling, solubility, and penetration <a href="#ref3" class="ref-link">[3]</a>. Amine formulations dissolve easily in water, exhibit negligible vapor pressure, and are generally preferred near sensitive crops, while ester formulations are oil-soluble, penetrate waxy leaf cuticles faster, and resist rain wash-off better, but traditionally carry a higher risk of volatilization.</p>
-<p id="mechanism" class="meet-anchor">At the molecular level, 2,4-D binds directly to receptor proteins inside sensitive plant cells, triggering the exacerbated transcription of auxin responsive genes <a href="#ref2" class="ref-link">[2]</a>. This upregulation of auxin induced signaling causes excessive cell elongation and uncontrolled cell division, as well as elevated synthesis of ethylene and abscisic acid. The overproduction of these hormones causes stomatal closure, production of reactive oxygen species, epinasty (twisted stems and curled leaves), vascular tissue collapse, and metabolic exhaustion, leading to plant death <a href="#ref4" class="ref-link">[4]</a>. However, monocotyledonous plants have a natural resistance to 2,4-D due to their limited vascular transport and structural differences in target receptors <a href="#ref5" class="ref-link">[5]</a>.</p>
+
 
 <section class="meet-interactive" id="plant-explorer" aria-labelledby="plant-explorer-title">
  <h4 id="plant-explorer-title">Inside a sensitive plant</h4>
- <p>Select a stage to revisit the mechanism described above.</p>
+ <p>Select a stage to explore the mechanism.</p>
  <div class="meet-controls" role="group" aria-label="Stages of the mechanism">
-  <button type="button" data-plant-step="0" aria-pressed="true" aria-controls="plant-excerpt">1. Receptors</button>
-  <button type="button" data-plant-step="1" aria-pressed="false" aria-controls="plant-excerpt">2. Signaling</button>
-  <button type="button" data-plant-step="2" aria-pressed="false" aria-controls="plant-excerpt">3. Effects</button>
+  <button type="button" data-plant-step="0" aria-pressed="true" aria-controls="plant-panel-0">1. Receptors</button>
+  <button type="button" data-plant-step="1" aria-pressed="false" aria-controls="plant-panel-1">2. Signaling</button>
+  <button type="button" data-plant-step="2" aria-pressed="false" aria-controls="plant-panel-2">3. Effects</button>
+  <button type="button" data-plant-step="3" aria-pressed="false" aria-controls="plant-panel-3">4. Selectivity</button>
  </div>
  <div class="meet-plant-layout">
   <svg class="meet-plant" viewBox="0 0 220 270" role="img" aria-label="Conceptual plant illustration with receptor, signaling and tissue effects highlighted in turn">
@@ -235,9 +256,9 @@
    <g data-part="1"><path d="M113 98v95" stroke="#d6a32b" stroke-width="6" stroke-dasharray="9 5"/><circle cx="113" cy="160" r="17" fill="#f7e7b4"/><text x="142" y="181" font-size="14">Signaling</text></g>
    <g data-part="2"><path d="M43 98q20 42 52 25" fill="none" stroke="#b96b48" stroke-width="6"/><circle cx="51" cy="102" r="6" fill="#b96b48"/><text x="20" y="159" font-size="14">Effects</text></g>
   </svg>
-  <blockquote class="meet-quote"><p id="plant-excerpt" aria-live="polite"></p></blockquote>
+  <blockquote class="meet-quote"><div id="plant-excerpt" aria-live="polite"><p id="plant-panel-0" data-plant-panel="0">At the molecular level, 2,4-D binds directly to receptor proteins inside sensitive plant cells, triggering the exacerbated transcription of auxin responsive genes <a href="#ref2" class="ref-link">[2]</a>.</p><p id="plant-panel-1" data-plant-panel="1">This upregulation of auxin induced signaling causes excessive cell elongation and uncontrolled cell division, as well as elevated synthesis of ethylene and abscisic acid.</p><p id="plant-panel-2" data-plant-panel="2">The overproduction of these hormones causes stomatal closure, production of reactive oxygen species, epinasty (twisted stems and curled leaves), vascular tissue collapse, and metabolic exhaustion, leading to plant death <a href="#ref4" class="ref-link">[4]</a>.</p><p id="plant-panel-3" data-plant-panel="3">However, monocotyledonous plants have a natural resistance to 2,4-D due to their limited vascular transport and structural differences in target receptors <a href="#ref5" class="ref-link">[5]</a>.</p></div></blockquote>
  </div>
- <p class="meet-note">Conceptual illustration; not an anatomical model. Excerpts from the paragraph above.</p>
+ <p class="meet-note">Conceptual illustration; not an anatomical model.</p>
 </section>
 
 <p id="uses" class="meet-anchor">Therefore, 2,4-D is primarily utilized as a selective herbicide to control broadleaf (dicotyledonous) weeds while leaving grass crops (monocotyledonous plants) unharmed <a href="#ref2" class="ref-link">[2]</a>. Major agricultural uses include weed control in cereal crops such as soybeans, corn, wheat, barley, sorghum, and sugarcane <a href="#ref2" class="ref-link">[2]</a>. Alarmingly, its adoption has grown significantly with the development of genetically engineered crops resistant to 2,4-D, such as corn, soybeans, and cotton, encouraging its application even during the growing seasons of such cultivars <a href="#ref6" class="ref-link">[6]</a>.</p>
@@ -280,7 +301,7 @@
                 <div class="meet-references" style="background-color: #f1f3f5; padding: 25px; border-radius: 8px; border: 1px solid #e9ecef;">
             <p id="ref1" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">[1] U.S. ENVIRONMENTAL PROTECTION AGENCY (EPA). <strong>2,4-D [Overviews and Factsheets]</strong>. 2014. Disponível em: <a href="https://www.epa.gov/ingredients-used-pesticide-products/24-d" target="_blank" rel="noopener noreferrer">https://www.epa.gov/ingredients-used-pesticide-products/24-d</a>.</p>
             <p id="ref2" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">[2] GROSSMANN, K. Auxin herbicides: Current status of mechanism and mode of action. <strong>Pest Management Science</strong>, v. 66, n. 2, p. 113–120, 2010.</p>
-            <p id="ref3" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">[3] NELSON, J. E.; SCHNEIDER, L. L. <strong>Properties and Characteristics of Amine and Ester Formulations of 2,4-D</strong>. [s.d.].</p>
+            <p id="ref3" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">[3] NELSON, J. E.; SCHNEIDER, L. L. <strong>Properties and Characteristics of Amine and Ester Formulations of 2,4-D</strong>.</p>
             <p id="ref4" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">[4] SONG, Y. Insight into the mode of action of 2,4‐dichlorophenoxyacetic acid (2,4‐D) as an herbicide. <strong>Journal of Integrative Plant Biology</strong>, v. 56, n. 2, p. 106–113, 2014.</p>
             <p id="ref5" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">[5] KELLEY, K. B.; RIECHERS, D. E. Recent developments in auxin biology and new opportunities for auxinic herbicide research. <strong>Pesticide Biochemistry and Physiology</strong>, v. 89, n. 1, p. 1–11, 2007.</p>
             <p id="ref6" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">[6] MORTENSEN, D. A. et al. Navigating a Critical Juncture for Sustainable Weed Management. <strong>BioScience</strong>, v. 62, n. 1, p. 75–84, 2012.</p>
@@ -369,16 +390,13 @@
 
 <script>
 (() => {
-    // Use exact sentences from the original paragraph, without rewriting them.
-    const mechanism = document.getElementById('mechanism').textContent;
-    const sentences = mechanism.match(/[^.!?]+[.!?]+/g) || [mechanism];
-    const excerpt = document.getElementById('plant-excerpt');
     const stepButtons = [...document.querySelectorAll('[data-plant-step]')];
+    const panels = [...document.querySelectorAll('[data-plant-panel]')];
     function setStep(index) {
-        excerpt.textContent = (sentences[index] || '').trim();
+        panels.forEach((panel, i) => panel.hidden = i !== index);
         stepButtons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
         document.querySelectorAll('[data-part]').forEach(part => {
-            part.classList.toggle('is-active', Number(part.dataset.part) === index);
+            part.classList.toggle('is-active', index === 3 || Number(part.dataset.part) === index);
         });
     }
     stepButtons.forEach(button => button.addEventListener('click', () => setStep(Number(button.dataset.plantStep))));
@@ -400,13 +418,14 @@
         document.getElementById('drift-svg-title').textContent = descriptions[mode];
     }));
     const pause = document.getElementById('drift-pause');
-    pause.addEventListener('click', () => {
+    pause?.addEventListener('click', () => {
         const paused = scene.classList.toggle('is-paused');
         pause.setAttribute('aria-pressed', String(paused));
         pause.textContent = paused ? 'Resume motion' : 'Pause motion';
     });
     const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
     function syncMotionPreference() {
+        if (!pause) return;
         pause.disabled = motionPreference.matches;
         pause.textContent = motionPreference.matches ? 'Reduced motion enabled' :
             (scene.classList.contains('is-paused') ? 'Resume motion' : 'Pause motion');
@@ -464,5 +483,105 @@
     updateNavigation();
 })();
 </script>
+
+<script>
+// Independent initialization: a network error must not stop the other interactions.
+(async function init24DMolecule() {
+    const container = document.getElementById('molecule-viewer');
+    const status = document.getElementById('molecule-status');
+    const retry = document.getElementById('molecule-retry');
+    const controls = [...document.querySelectorAll('[data-mol-action]')];
+    let viewer;
+    let loading = false;
+    let initialView;
+    let resizeObserver;
+
+    function loadLibrary() {
+        if (window.$3Dmol) return Promise.resolve();
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://3Dmol.org/build/3Dmol-min.js';
+            script.async = true;
+            const timer = setTimeout(() => {
+                script.remove();
+                reject(new Error('3D library timeout'));
+            }, 20000);
+            script.onload = () => {
+                clearTimeout(timer);
+                if (window.$3Dmol) resolve();
+                else reject(new Error('3D library unavailable'));
+            };
+            script.onerror = () => {
+                clearTimeout(timer);
+                script.remove();
+                reject(new Error('Could not load the 3D library'));
+            };
+            document.head.appendChild(script);
+        });
+    }
+    async function load() {
+        if (loading) return;
+        loading = true;
+        retry.hidden = true;
+        try {
+            await loadLibrary();
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 20000);
+            let sdf;
+            try {
+                const response = await fetch(
+                    'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/1486/SDF?record_type=3d',
+                    { signal: controller.signal }
+                );
+                if (!response.ok) throw new Error('PubChem HTTP ' + response.status);
+                sdf = await response.text();
+                if (!sdf.includes('M  END')) throw new Error('Invalid molecular data');
+            } finally { clearTimeout(timer); }
+            if (!viewer) {
+                container.replaceChildren();
+                viewer = $3Dmol.createViewer(container, { backgroundColor: '#edf2ef', antialias: true });
+            }
+            viewer.clear();
+            viewer.addModel(sdf, 'sdf');
+            const colors = {C:'#555b65', H:'#ffffff', O:'#e55252', Cl:'#39a45b'};
+            for (const [elem, color] of Object.entries(colors)) {
+                viewer.setStyle({elem}, {
+                    stick: {radius:0.14, color},
+                    sphere: {scale:0.28, color}
+                });
+            }
+            viewer.zoomTo();
+            viewer.render();
+            initialView = viewer.getView().slice();
+            controls.forEach(button => button.disabled = false);
+            if (!resizeObserver) {
+                resizeObserver = new ResizeObserver(() => {
+                    if (container.clientWidth && viewer) { viewer.resize(); viewer.render(); }
+                });
+                resizeObserver.observe(container);
+            }
+        } catch (error) {
+            console.error('2,4-D viewer:', error);
+            status.textContent = 'The 3D model could not load. Try again or open the PubChem link below.';
+            retry.hidden = false;
+        } finally { loading = false; }
+    }
+    controls.forEach(button => button.addEventListener('click', () => {
+        if (!viewer) return;
+        switch (button.dataset.molAction) {
+            case 'left': viewer.rotate(-20, 'y'); break;
+            case 'right': viewer.rotate(20, 'y'); break;
+            case 'up': viewer.rotate(20, 'x'); break;
+            case 'in': viewer.zoom(1.15); break;
+            case 'out': viewer.zoom(1 / 1.15); break;
+            case 'reset': viewer.setView(initialView.slice()); break;
+        }
+        viewer.render();
+    }));
+    retry.addEventListener('click', load);
+    await load();
+})();
+</script>
+
 </body>
 </html>
