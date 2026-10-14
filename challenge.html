@@ -100,10 +100,6 @@
         flex: 1;
         min-width: 0;
       }
-      .timeline-sidebar {
-        box-shadow: none;
-        border-radius: 0;
-      }
       .gallery-controls[hidden] {
         display: none;
       }
@@ -112,15 +108,15 @@
         box-shadow: none !important;
         border-radius: 0 !important;
       }
-        .page-header-image {
-            width: 100%;
-            max-height: 350px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
+      .page-header-image {
+        width: 100%;
+        max-height: 350px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-top: 40px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      }
       .challenge-interactive {
         margin: 38px 0;
         padding: 26px 0;
@@ -350,6 +346,23 @@
           height: 240px;
         }
       }
+
+      /* Cronômetro: três colunas, alinhadas mesmo quando os números mudam. */
+      .map-clock text { text-anchor: middle; }
+      .map-clock .clock-digits,
+      .map-clock .clock-separator {
+        font-size: 42px;
+        font-weight: 500;
+        fill: var(--dark-blue, #7c5bcd);
+        font-variant-numeric: tabular-nums;
+      }
+      .map-clock .clock-unit { font-size: 15px; fill: #444; }
+      .map-clock .clock-caption { font-size: 14px; fill: #6c757d; }
+      #stage-duration {
+        font-size: 0.95rem;
+        color: var(--dark-blue, #7c5bcd);
+        margin: 12px 0 0;
+      }
     </style>
   </head>
   <body>
@@ -512,7 +525,15 @@
       </aside>
       <div class="sidebar-content-area">
         <div class="timeline-container var-left">
-          <img src="assets/header/dnaparts.jpeg" alt="DNA Parts Header" class="page-header-image" onerror="this.src='assets/images/placeholder.jpg'">
+          <img
+            src="assets/header/dnaparts.jpeg"
+            alt="DNA Parts Header"
+            class="page-header-image"
+            onerror="
+              this.onerror = null;
+              this.src = 'assets/images/placeholder.jpg';
+            "
+          />
           <div class="timeline-phase" id="agricultural-powerhouse">
             <h3>An agricultural powerhouse:</h3>
           </div>
@@ -533,7 +554,7 @@
                 href="#ref2"
                 aria-label="Reference 2"
                 >2</a
-              >], and for that reason, growth and harvest efficiency of soybeans is paramount.
+              >], and for that reason, farmer and harvest efficiency of soybeans is paramount.
             </p>
             <p>
               In order to have a successful plantation of soybean, weed control is of the utmost
@@ -669,16 +690,14 @@
           </div>
           <section class="challenge-interactive" aria-labelledby="symptom-title">
             <h4 id="symptom-title">Reading the signs in grapevines</h4>
-            <p>
-              Explore two published examples of grapevine injury attributed to 2,4-D.
-            </p>
+            <p>Explore two published examples of grapevine injury attributed to 2,4-D.</p>
             <div class="symptom-carousel">
               <figure class="symptom-figure" data-photo="0">
                 <img
-                    src="assets/images/challenge_1.jpg"
-                    alt="Distorted leaves along a grapevine shoot"
-                    loading="lazy"
-                  />
+                  src="assets/images/challenge_1.jpg"
+                  alt="Distorted leaves along a grapevine shoot"
+                  loading="lazy"
+                />
                 <figcaption>
                   <strong>Leaf distortion</strong><br />Photo: John Strang · University of Kentucky.
                   <a
@@ -691,10 +710,10 @@
               </figure>
               <figure class="symptom-figure" data-photo="1">
                 <img
-                    src="assets/images/challenge_2.jpg"
-                    alt="Malformed grapevine leaves held in a hand"
-                    loading="lazy"
-                  />
+                  src="assets/images/challenge_2.jpg"
+                  alt="Malformed grapevine leaves held in a hand"
+                  loading="lazy"
+                />
                 <figcaption>
                   <strong>Irregular leaf development</strong><br />Photo: Mike White · University of
                   Minnesota Extension.
@@ -813,8 +832,8 @@
                 <title id="map-title">Illustrated reporting journey in Rio Grande do Sul</title>
                 <desc id="map-description">
                   A report travels from Jaguari to Porto Alegre. An inspector returns to the
-                  vineyard, collects a sample and the sample travels to Santa Maria for analysis.
-                  Routes are illustrative.
+                  vineyard and collects a sample. The laboratory destination is revealed during
+                  transport. Routes are illustrative.
                 </desc>
                 <defs>
                   <!-- PNGs do mapa: salve os arquivos em assets/images/challenge/.
@@ -822,6 +841,7 @@
      preserveAspectRatio mantém a proporção sem esticar as imagens.
      O carro e o caminhão devem apontar para a direita no arquivo original;
      o JavaScript espelha apenas o carro durante a viagem de ida a Jaguari. -->
+                  <!-- carta.png: carta; área de exibição 48 × 36 -->
                   <image
                     id="envelope"
                     href="assets/images/challenge/carta.png"
@@ -831,7 +851,7 @@
                     height="36"
                     preserveAspectRatio="xMidYMid meet"
                   />
-                  <!-- placeholder2.png: carro; área de exibição 64 × 44 -->
+                  <!-- carro.png: carro; área de exibição 64 × 44 -->
                   <image
                     id="car"
                     href="assets/images/challenge/carro.png"
@@ -841,7 +861,7 @@
                     height="44"
                     preserveAspectRatio="xMidYMid meet"
                   />
-                  <!-- placeholder5.png: videira; área de exibição 64 × 80 -->
+                  <!-- videira.png: videira; área de exibição 64 × 80 -->
                   <image
                     id="vine"
                     href="assets/images/challenge/videira.png"
@@ -851,7 +871,7 @@
                     height="120"
                     preserveAspectRatio="xMidYMid meet"
                   />
-                  <!-- placeholder6.png: caminhão; área de exibição 72 × 52 -->
+                  <!-- caminhao.png: caminhão; área de exibição 72 × 52 -->
                   <image
                     id="truck"
                     href="assets/images/challenge/caminhao.png"
@@ -1157,20 +1177,22 @@ Z
                 />
                 <text class="city-label" x="487.26" y="226.77">Porto Alegre</text>
                 <text class="city-sub" x="487.26" y="245.77">SEAPI headquarters</text>
-                <circle
-                  cx="319.79"
-                  cy="218.66"
-                  r="7"
-                  fill="var(--dark-blue,#7c5bcd)"
-                  stroke="white"
-                  stroke-width="3"
-                />
-                <text class="city-label" x="334.79" y="254.66">Santa Maria</text>
-                <text class="city-sub" x="334.79" y="273.66">LARP / UFSM</text>
+                <g id="laboratory-location" visibility="hidden" aria-hidden="true">
+                  <circle
+                    cx="319.79"
+                    cy="218.66"
+                    r="7"
+                    fill="var(--dark-blue,#7c5bcd)"
+                    stroke="white"
+                    stroke-width="3"
+                  />
+                  <text class="city-label" x="334.79" y="254.66">Santa Maria</text>
+                  <text class="city-sub" x="334.79" y="273.66">LARP / UFSM</text>
+                </g>
                 <g id="map-traveller"><use href="#envelope" /></g>
                 <g id="map-inspection" transform="translate(268.44,161.06)" visibility="hidden">
                   <use href="#vine" transform="translate(-52 0) scale(.85)" />
-                  <!-- placeholder3.png: inspetor na visita -->
+                  <!-- inspector1.png: inspetor na visita -->
                   <image
                     id="visit-scientist"
                     href="assets/images/challenge/inspector1.png"
@@ -1181,7 +1203,7 @@ Z
                     preserveAspectRatio="xMidYMax meet"
                     visibility="hidden"
                   />
-                  <!-- placeholder4.png: inspetor coletando a amostra -->
+                  <!-- inspector2.png: inspetor coletando a amostra -->
                   <image
                     id="collection-scientist"
                     href="assets/images/challenge/inspector2.png"
@@ -1194,7 +1216,7 @@ Z
                   />
                 </g>
                 <g id="map-analysis" transform="translate(319.79,168.66)" visibility="hidden">
-                  <!-- placeholder7.png: cientista realizando a análise -->
+                  <!-- inspector3.png: cientista realizando a análise -->
                   <image
                     href="assets/images/challenge/inspector3.png"
                     x="-40"
@@ -1204,6 +1226,21 @@ Z
                     preserveAspectRatio="xMidYMax meet"
                   />
                 </g>
+
+                <!-- Horas decorridas (não é horário local). Contagem começa em zero. -->
+<!-- Cronômetro integrado ao mapa: dias / horas / minutos. -->
+<g id="journey-clock" class="map-clock" transform="translate(145 430)" role="group" aria-labelledby="clock-accessible-title">
+<title id="clock-accessible-title">Example time: 0 days, 0 hours, 0 minutes</title>
+<text class="clock-caption" x="0" y="-44">Example time</text>
+<text id="clock-days" class="clock-digits" x="-90" y="0">00</text>
+<text class="clock-separator" x="-45" y="-3">:</text>
+<text id="clock-hours" class="clock-digits" x="0" y="0">00</text>
+<text class="clock-separator" x="45" y="-3">:</text>
+<text id="clock-minutes" class="clock-digits" x="90" y="0">00</text>
+<text class="clock-unit" x="-90" y="25">days</text>
+<text class="clock-unit" x="0" y="25">hours</text>
+<text class="clock-unit" x="90" y="25">minutes</text>
+</g>
               </svg>
             </div>
 
@@ -1246,15 +1283,18 @@ Z
             <div class="stage-copy" aria-live="polite">
               <h5 id="route-stage-title">1. A report leaves Jaguari</h5>
               <p id="route-stage-text">
-                A farmer reports suspected drift damage. This scenario shows illustrative
+                A grower reports suspected drift damage. This scenario shows illustrative
                 contamination near Jaguari, and the report travels to the state authority.
               </p>
             </div>
+            <p id="stage-duration"></p>
             <p class="source-note">
               Illustrative journey, not an official itinerary: SEAPI's headquarters in Porto Alegre
-              and LARP/UFSM in Santa Maria are real locations. The origin, dispatch from the
-              capital, vehicles and transport route are illustrative; actual procedures depend on
-              the case. The laboratory illustration does not show a real analytical result.
+              is a real location<span id="laboratory-note" hidden
+                >, as is LARP/UFSM in Santa Maria</span
+              >. The origin, dispatch from the capital, vehicles and transport route are
+              illustrative; actual procedures depend on the case. The laboratory illustration does
+              not show a real analytical result.
             </p>
             <p class="source-note">
               Sources:
@@ -1270,10 +1310,14 @@ Z
                 target="_blank"
                 rel="noopener"
                 >SEAPI / plant protection</a
-              >
-              ·
-              <a href="https://www.ufsm.br/laboratorios/larp/contato" target="_blank" rel="noopener"
-                >LARP / UFSM</a
+              ><span id="laboratory-source" hidden>
+                ·
+                <a
+                  href="https://www.ufsm.br/laboratorios/larp/contato"
+                  target="_blank"
+                  rel="noopener"
+                  >LARP / UFSM</a
+                ></span
               >
             </p>
             <noscript
@@ -1288,7 +1332,6 @@ Z
             <h3>Detecting the invisible</h3>
           </div>
           <div class="timeline-item challenge-copy">
-            <p>(Incluir as infos que o HP conseguiu)</p>
             <p>
               The monitoring of 2,4-D drift in Rio Grande do Sul relies on official state channels
               by SEAPI. When producers of sensitive crops report suspected herbicide contamination,
@@ -1804,7 +1847,7 @@ Z
         document.getElementById("gallery-prev").onclick = () => showPhoto(photoIndex - 1);
         document.getElementById("gallery-next").onclick = () => showPhoto(photoIndex + 1);
         showPhoto(0);
-        // Percurso: seis etapas, com cinco segundos por etapa.
+        // Percurso: seis etapas; tempos estimados e duração visual em stageTiming.
         const journeyStages = [
           [
             "A report leaves Jaguari",
@@ -1828,7 +1871,7 @@ Z
           ],
           [
             "Laboratory analysis",
-            "The sample reaches the laboratory for analysis. Apenas para confirmação de contaminação para que o produtor procure os meios legais.",
+            "The sample reaches the laboratory for analysis to confirm whether contamination occurred, helping the farmer decide whether to pursue legal action.",
           ],
         ];
         const progressSlider = document.getElementById("route-progress"),
@@ -1845,9 +1888,83 @@ Z
           animationFrameId = 0,
           lastRenderedStage = -1;
         const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+        // Minutos estimados por etapa. "Comparative record" é um dado de outra matriz,
+        // não um prazo publicado para análise de 2,4-D em videiras.
+        const stageTiming = [
+          { minutes: 30, secondsOnScreen: 4, label: "Report preparation: 30 min" },
+          {
+            minutes: 360,
+            secondsOnScreen: 7,
+            label: "Inspector travel: 6 h",
+          },
+          { minutes: 120, secondsOnScreen: 5, label: "Field visit: 2 h" },
+          { minutes: 60, secondsOnScreen: 4, label: "Sample collection: 1 h" },
+          {
+            minutes: 120,
+            secondsOnScreen: 5,
+            label: "Sample transport: 2 h",
+          },
+          {
+            minutes: 20 * 24 * 60,
+            secondsOnScreen: 18,
+            label:
+              "Laboratory interval: 20 days",
+          },
+        ];
+        const cumulativeMinutes = [0];
+        for (const stage of stageTiming) {
+          cumulativeMinutes.push(cumulativeMinutes.at(-1) + stage.minutes);
+        }
+        const laboratoryLocation = document.getElementById("laboratory-location");
+        const clockDays = document.getElementById("clock-days");
+        const clockHours = document.getElementById("clock-hours");
+        const clockMinutes = document.getElementById("clock-minutes");
+        const clockTitle = document.getElementById("clock-accessible-title");
+        const stageDuration = document.getElementById("stage-duration");
+
+        function updateJourneyClock(stageIndex, stageProgress) {
+          const totalMinutes = Math.floor(
+            cumulativeMinutes[stageIndex] + stageTiming[stageIndex].minutes * stageProgress
+          );
+          const days = Math.floor(totalMinutes / 1440);
+          const hours = Math.floor(totalMinutes / 60) % 24;
+          const minutes = totalMinutes % 60;
+
+          clockDays.textContent = String(days).padStart(2, "0");
+          clockHours.textContent = String(hours).padStart(2, "0");
+          clockMinutes.textContent = String(minutes).padStart(2, "0");
+          clockTitle.textContent = `Example time: ${days} days, ${hours} hours, ${minutes} minutes.`;
+          stageDuration.textContent = stageTiming[stageIndex].label;
+        }
+
+        // Cada etapa tem sua própria duração de exibição. Ao atravessar um limite,
+        // o tempo restante do frame é aplicado à próxima etapa, sem saltos.
+        function advanceJourney(deltaMilliseconds) {
+          let remaining = deltaMilliseconds;
+          while (remaining > 0 && journeyProgress < 600) {
+            const index = Math.min(5, Math.floor(journeyProgress / 100));
+            const endOfStage = (index + 1) * 100;
+            const millisecondsPerUnit = stageTiming[index].secondsOnScreen * 10;
+            const needed = (endOfStage - journeyProgress) * millisecondsPerUnit;
+            if (remaining >= needed) {
+              journeyProgress = endOfStage;
+              remaining -= needed;
+            } else {
+              journeyProgress += remaining / millisecondsPerUnit;
+              remaining = 0;
+            }
+          }
+        }
         function renderJourney() {
           const stageIndex = Math.min(5, Math.floor(journeyProgress / 100)),
             stageProgress = journeyProgress >= 600 ? 1 : (journeyProgress - stageIndex * 100) / 100;
+          updateJourneyClock(stageIndex, stageProgress);
+          const showLaboratory = stageIndex >= 4;
+          laboratoryLocation.setAttribute("visibility", showLaboratory ? "visible" : "hidden");
+          laboratoryLocation.setAttribute("aria-hidden", String(!showLaboratory));
+          document.getElementById("laboratory-note").hidden = !showLaboratory;
+          document.getElementById("laboratory-source").hidden = !showLaboratory;
           progressSlider.value = String(Math.round(journeyProgress));
           progressSlider.setAttribute(
             "aria-valuetext",
@@ -1901,7 +2018,7 @@ Z
         }
         function animateJourney(now) {
           if (!isPlaying) return;
-          journeyProgress = Math.min(600, journeyProgress + (now - previousTimestamp) / 50);
+          advanceJourney(now - previousTimestamp);
           previousTimestamp = now;
           renderJourney();
           if (journeyProgress >= 600) {
@@ -1932,7 +2049,7 @@ Z
           (button, i) =>
             (button.onclick = () => {
               pauseJourney();
-              journeyProgress = i * 100 + 50;
+              journeyProgress = i * 100;
               renderJourney();
             }),
         );
