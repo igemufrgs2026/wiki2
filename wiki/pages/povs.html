@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>POVs | iGEM UFRGS 2026</title>
+<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"/>
+<link href="{{ url_for('static', filename='pages.css') }}" rel="stylesheet"/>
+<style>
+html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+.povs-page .sidebar-content-area { min-width: 0; }
+.povs-page .timeline-item p { text-align: justify; font-size: 1.1rem; line-height: 1.6; color: #444; margin-bottom: 15px; }
+.page-header-image { display: block; width: 100%; max-height: 350px; object-fit: cover; border-radius: 8px; margin-top: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,.08); }
+.povs-title { color: var(--dark-blue); font-size: clamp(2rem, 5vw, 4rem); }
+.povs-page .timeline-item .perspective-source { text-align: left; font-size: .95rem; padding: 14px 18px; background: #f8f9fa; border-left: 4px solid var(--primary-green); border-radius: 0 8px 8px 0; }
+@media (max-width: 600px) {
+    .povs-page .timeline-phase { margin-left: 0; }
+    .povs-page .timeline-item { padding-left: 0; }
+    .povs-page .timeline-item p { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+.perspective-source strong, .perspective-source em { display: block; }
+.perspective-source strong { color: var(--dark-blue); margin-bottom: 6px; font-style: normal; }
+.pov-context { margin: 20px 0 30px; color: #444; line-height: 1.7; }
+.pov-duel { margin: 30px 0 45px; padding: 28px; border: 1px solid #e9ecef; border-radius: 12px; background: #f8f9fa; }
+.pov-duel h2 { color: var(--dark-blue); font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: 0; text-transform: none; font-weight: 700; }
+.pov-duel > p { margin: 12px 0; }
+.duel-art { display: block; width: 100%; height: auto; max-height: 330px; margin: 15px auto; }
+.duel-left, .duel-right { transition: opacity .2s; }
+.pov-duel[data-side="grape"] .duel-right, .pov-duel[data-side="soy"] .duel-left { opacity: .35; }
+.duel-controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+.duel-controls button { flex: 1 1 160px; padding: 12px 16px; border: 1px solid var(--primary-green); border-radius: 8px; color: #237747; background: white; font: inherit; font-weight: 700; cursor: pointer; }
+.duel-controls button[aria-pressed="true"] { background: var(--primary-green); color: white; }
+.duel-controls button:focus-visible { outline: 3px solid var(--dark-blue); outline-offset: 3px; }
+.duel-detail { background: white; padding: 20px; border-left: 4px solid var(--primary-green); border-radius: 0 8px 8px 0; }
+.duel-detail h3 { color: var(--dark-blue); margin-bottom: 8px; font-size: 1.3rem; font-weight: 700; text-transform: none; letter-spacing: 0; }
+.duel-detail a { display: inline-block; margin-top: 12px; color: #237747; font-weight: 700; }
+.duel-caption { font-size: .85rem; color: #666; }
+@media (max-width: 600px) { .pov-duel { padding: 18px; } }
+@media (prefers-reduced-motion: reduce) { .duel-left, .duel-right { transition: none; } }
+</style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"> </div>
+    <nav class="navbar">
+        <div class="nav-logos">
+            <a href="{{ url_for('home') }}" class="team-logo-img">
+                <img src="https://static.igem.wiki/teams/6130/wiki/logo.avif" alt="iGEM UFRGS Logo">
+            </a>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir Menu">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </button>
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-item">
+                <a href="{{ url_for('home') }}"><svg viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                    </svg>Home</a>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='meet24d') }}"><svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                    </svg>The Problem</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='meet24d') }}">Meet 2-4D</a>
+                    <a href="{{ url_for('pages', page='challenge') }}">The Challenge of 2,4D drift</a>
+                    <a href="{{ url_for('pages', page='povs') }}">POVs</a>
+                    <a href="{{ url_for('pages', page='dashboard') }}">Dashboard</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='description') }}"><svg viewBox="0 0 24 24">
+                        <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z" />
+                    </svg>Project</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='description') }}">WHY - Description</a>
+                    <a href="{{ url_for('pages', page='biological-design') }}">WHAT - Biological Design</a>
+                    <a href="{{ url_for('pages', page='hardware-and-software') }}">WHAT - Hardware and Software</a>
+                    <a href="{{ url_for('pages', page='contribution') }}">Contribution</a>
+                    <a href="{{ url_for('pages', page='engineering') }}">Engineering</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='dna-parts') }}"><svg viewBox="0 0 24 24">
+                        <path d="M19.8 18.4L14 10.7V4h1c.6 0 1-.4 1-1s-.4-1-1-1H9c-.6 0-1 .4-1 1s.4 1 1 1h1v6.7l-5.8 7.7c-.4.5-.5 1.1-.2 1.6.3.5.8.8 1.4.8h13.6c.6 0 1.1-.3 1.4-.8.3-.5.2-1.1-.2-1.6zM7.5 19l4.5-6 4.5 6h-9z" />
+                    </svg>Wet Lab</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='dna-parts') }}">DNA Parts</a>
+                    <a href="{{ url_for('pages', page='materials-methods') }}">Material and Methods</a>
+                    <a href="{{ url_for('pages', page='lab-notebook') }}">Lab Notebook</a>
+                    <a href="{{ url_for('pages', page='results') }}">Results</a>
+                    <a href="{{ url_for('pages', page='safety-and-security') }}">Safety and Security</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='structural-analysis') }}"><svg viewBox="0 0 24 24">
+                        <path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" />
+                    </svg>Dry Lab</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='structural-analysis') }}">Structural Analysis</a>
+                    <a href="{{ url_for('pages', page='molecular-dynamics') }}">Molecular Dynamics</a>
+                    <a href="{{ url_for('pages', page='interaction') }}">Interaction with 2,4D</a>
+                    <a href="{{ url_for('pages', page='hardware') }}">Hardware</a>
+                    <a href="{{ url_for('pages', page='software') }}">Software</a>
+                    <a href="{{ url_for('pages', page='measurement') }}">Measurement</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='human-practices') }}"><svg viewBox="0 0 24 24">
+                        <path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5c0-2.3-4.7-3.5-7-3.5zm8 0c-.3 0-.6 0-.9.1 1.2.8 2 1.9 2 3.4V19h5v-2.5c0-2.3-4.7-3.5-7-3.5z" />
+                    </svg>Engagement</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='human-practices') }}">Human Practices</a>
+                    <a href="{{ url_for('pages', page='education') }}">Education</a>
+                    <a href="{{ url_for('pages', page='feedback') }}">Receving Feedback</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='roaster') }}"><svg viewBox="0 0 24 24">
+                        <path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z" />
+                    </svg>Team</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='roaster') }}">Team Roster</a>
+                    <a href="{{ url_for('pages', page='timeline') }}">Team Timeline</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='gallery') }}"><svg viewBox="0 0 24 24">
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                    </svg>Gallery</a>
+                <div class="dropdown">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+<main class="timeline-section var-sidebar-layout povs-page">
+<aside class="timeline-sidebar" aria-label="Perspectives">
+    <h4 style="margin-bottom:15px; color:#333;">Perspectives</h4>
+    <ul id="timeline-menu"><li><a class="active" href="#sensitive-crops">Grape and Sensitive Crop Growers</a></li>
+<li><a href="#soybean-producers">Soybean Producers</a></li>
+<li><a href="#researchers">Academic Researchers and Experts</a></li>
+<li><a href="#inspectors">Agricultural Inspectors and Field Technicians</a></li>
+<li><a href="#communities">Urban Communities and the General Public</a></li></ul>
+</aside>
+<div class="sidebar-content-area">
+<div class="timeline-container var-left">
+    <img src="https://static.igem.wiki/teams/6130/wiki/placeholder.avif" alt="POVs header placeholder" class="page-header-image">
+    <h1 class="povs-title">Points of View</h1>
+    <p class="pov-context">The perspectives below are our team's synthesis of what we learned through consultations and source review, not verbatim quotations. Each section identifies the interviews, interactions, survey responses, or media sources that informed it.</p>
+    <section class="pov-duel" data-side="grape" aria-labelledby="duel-title">
+        <h2 id="duel-title">Two livelihoods. One conflict.</h2>
+        <p>Explore the tension between protecting sensitive crops and maintaining affordable weed control. Choose a perspective below.</p>
+        <svg class="duel-art" viewBox="0 0 760 330" role="img" aria-labelledby="duel-art-title duel-art-desc">
+            <title id="duel-art-title">Two growers arm wrestling across a table</title>
+            <desc id="duel-art-desc">A sensitive crop grower in green and a soybean grower in purple face each other, elbows on a table and hands clasped at the center. Their arms are evenly balanced, representing competing agricultural needs.</desc>
+            <ellipse cx="380" cy="303" rx="305" ry="17" fill="#e5e9e7"/>
+            <g class="duel-left">
+                <path d="M140 278V175Q140 145 175 145H216Q245 145 255 181L268 278" fill="#27ae60"/>
+                <path d="M177 150Q195 170 214 150" fill="none" stroke="#d4f0df" stroke-width="6" stroke-linecap="round"/>
+                <rect x="182" y="119" width="27" height="37" rx="10" fill="#c48e65"/>
+                <ellipse cx="199" cy="104" rx="36" ry="40" fill="#d9a77e"/>
+                <path d="M147 80H245M165 78L173 46H216L230 78" stroke="#796546" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" fill="#e2c18b"/>
+                <path d="M222 101h3M218 124q-9 5-17 0" stroke="#584839" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M233 177L294 238" stroke="#d9a77e" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M233 177L257 201" stroke="#238b50" stroke-width="38" stroke-linecap="round"/>
+                <g fill="#7c5bcd"><circle cx="183" cy="211" r="7"/><circle cx="197" cy="211" r="7"/><circle cx="190" cy="224" r="7"/><circle cx="190" cy="237" r="6"/></g>
+                <path d="M190 201q0-13 14-12" stroke="#fff" stroke-width="3" fill="none"/>
+            </g>
+            <g class="duel-right">
+                <path d="M620 278V175Q620 145 585 145H544Q515 145 505 181L492 278" fill="#7c5bcd"/>
+                <path d="M546 150Q565 170 583 150" fill="none" stroke="#e6def7" stroke-width="6" stroke-linecap="round"/>
+                <rect x="551" y="119" width="27" height="37" rx="10" fill="#ad7652"/>
+                <ellipse cx="561" cy="104" rx="36" ry="40" fill="#be8964"/>
+                <path d="M515 80H613M530 78L544 46H587L595 78" stroke="#796546" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" fill="#e2c18b"/>
+                <path d="M535 101h3M542 124q9 5 17 0" stroke="#584839" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M527 177L466 238" stroke="#be8964" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M527 177L503 201" stroke="#6345aa" stroke-width="38" stroke-linecap="round"/>
+                <path d="M568 241v-38" stroke="#d4f0df" stroke-width="3"/>
+                <g fill="#d4f0df"><ellipse cx="559" cy="214" rx="10" ry="5" transform="rotate(30 559 214)"/><ellipse cx="577" cy="226" rx="10" ry="5" transform="rotate(-30 577 226)"/></g>
+            </g>
+            <!-- Simple crossed forearms and clasped hands, with each side fading together. -->
+            <g class="duel-right">
+                <path d="M466 238Q446 218 424 190L368 119" fill="none" stroke="#be8964" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M356 121Q350 112 355 102L365 92Q370 88 376 92L392 105Q399 112 393 120L379 134Z" fill="#be8964" stroke="#916748" stroke-width="2" stroke-linejoin="round"/>
+            </g>
+            <g class="duel-left">
+                <path d="M294 238Q320 217 343 183L392 119" fill="none" stroke="#d9a77e" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M379 135L368 123Q362 117 367 111L385 94Q391 89 397 95L403 105Q408 113 401 123L395 133Z" fill="#d9a77e" stroke="#916748" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M374 108L389 116M380 102L395 110" fill="none" stroke="#b7815c" stroke-width="2" stroke-linecap="round"/>
+            </g>
+            <path d="M365 77l-10-17M380 72V51M395 77l10-17" stroke="#7c5bcd" stroke-width="4" stroke-linecap="round"/>
+            <rect x="261" y="246" width="238" height="16" rx="8" fill="#54665d"/>
+            <path d="M292 262v40M468 262v40" stroke="#54665d" stroke-width="12"/>
+        </svg>
+        <div class="duel-controls" role="group" aria-label="Choose a producer perspective">
+            <button type="button" data-perspective="grape" aria-pressed="true" aria-controls="duel-detail">Sensitive crop growers</button>
+            <button type="button" data-perspective="soy" aria-pressed="false" aria-controls="duel-detail">Soybean producers</button>
+        </div>
+        <div class="duel-detail" id="duel-detail" aria-live="polite" aria-atomic="true">
+            <h3>Protecting crops and livelihoods</h3>
+            <p>For sensitive crop growers, drift threatens years of investment and family livelihoods. Early detection offers a way to identify contamination before visible symptoms appear.</p>
+            <a href="#sensitive-crops">Read the growers’ perspective and our consultations →</a>
+        </div>
+    </section>
+
+<div class="timeline-phase" id="sensitive-crops">
+    <h3>Grape and Sensitive Crop Growers</h3>
+</div>
+<div class="timeline-item">
+    <p>For farmers cultivating grapevines, olives, and other sensitive crops, herbicide drift is an existential threat. Many have witnessed entire, multi-generational vineyards wither overnight, leaving them trapped in a cycle of grief and helplessness. Some farmers exhaust their resources trying to nurture poisoned vines, only to realize the damage is irreversible and be forced to cut them down completely. A courageous few attempt to replant, willingly absorbing the immense financial risk of losing everything again, while others abandon sensitive crops altogether. When introduced to our biosensor, their response was immediate enthusiasm. Many noted that during the critical application window (November to December), they would perform daily testing to detect drift early — before visual symptoms appear — viewing real-time monitoring as an indispensable tool to regain control over their livelihoods.</p>
+    <p class="perspective-source"><strong>Consultations informing this perspective</strong><em>Interviews with 3 producers, and interactions with 50+ families at a workshop and a public hearing.</em></p>
+</div>
+<div class="timeline-phase" id="soybean-producers">
+    <h3>Soybean Producers</h3>
+</div>
+<div class="timeline-item">
+    <p>Grain growers operate in a high-stakes agricultural economy where they rely heavily on 2,4-D as a vital, cost-effective tool to control weeds. From their perspective, managing vast acreages without this herbicide is currently economically unviable. Many apply 2,4-D without intending to harm neighboring farms, often unaware of the extreme volatility of the compound or effect it may have on the nearby crops. Furthermore, strict compliance with label restrictions — such as specific wind speeds, humidity, and temperature thresholds — is difficult in Rio Grande do Sul, where optimal weather windows during application season are exceptionally rare. As a major economic driver in the region, soybean producers hold significant influence in local agricultural policy, advocating against outright bans on 2,4-D and favoring continued availability.</p>
+    <p class="perspective-source"><strong>Consultations informing this perspective</strong><em>Consultations with state specialists and review of media content. This perspective was synthesized from these sources, rather than direct interviews with soybean producers.</em></p>
+</div>
+<div class="timeline-phase" id="researchers">
+    <h3>Academic Researchers and Experts</h3>
+</div>
+<div class="timeline-item">
+    <p>While herbicide drift receives limited attention in broader academic circles, specialized researchers recognize it as a multifaceted socio-environmental challenge. Scholars emphasize that weather conditions in southern Brazil rarely align with ideal application parameters, making drift an almost inevitable byproduct of current practices. Researchers aim to quantify how 2,4-D impacts not only cultivated crops but also surrounding native flora and ecosystems, but express frustration over limited research funding and widespread public misinformation. They advocate for balancing the soybean sector&#x27;s operational reliance on chemical tools with the survival of sensitive perennial agriculture. For them, continuous, low-cost field monitoring is the essential first step toward generating transparent data and developing sustainable co-existence strategies.</p>
+    <p class="perspective-source"><strong>Consultations informing this perspective</strong><em>Interviews with 5 professors.</em></p>
+</div>
+<div class="timeline-phase" id="inspectors">
+    <h3>Agricultural Inspectors and Field Technicians</h3>
+</div>
+<div class="timeline-item">
+    <p>Positioned on the frontlines, technical inspectors serve as the primary bridge between devastated growers and alleged applicators. They observe the human toll of the crisis daily, yet operate within severe institutional constraints. Technicians are acutely aware that current legal mechanisms never compensate affected farmers, as establishing a strict, legally binding causal link back to a specific neighbor&#x27;s sprayer is virtually impossible. Even when fines are issued, the revenue goes to state coffers rather than restoring the farmer’s losses. While maintaining strict professional neutrality and respecting institutional boundaries, many inspectors become deeply moved by the growers&#x27; plight. They recognize the systemic gaps in monitoring and view rapid, inexpensive diagnostic tools as a crucial asset to make field oversight meaningful.</p>
+    <p class="perspective-source"><strong>Consultations informing this perspective</strong><em>Interviews with 10 technicians and relevant specialists.</em></p>
+</div>
+<div class="timeline-phase" id="communities">
+    <h3>Urban Communities and the General Public</h3>
+</div>
+<div class="timeline-item">
+    <p>The urban population remains largely disconnected from rural realities, possessing little awareness of the ongoing herbicide drift crisis. While many urban consumers express support for organic produce and harbor general concerns about pesticides, they often lack insight into the technical and economic dependencies of modern large-scale agriculture. When informed about the issue, citizens express genuine empathy for affected family farmers and hope for constructive solutions, yet feel empowered with little actionable ways to contribute. Their perspective highlights a broader societal divide, underscoring the urgent need for transparent science communication that connects agricultural innovation with public awareness.</p>
+    <p class="perspective-source"><strong>Consultations informing this perspective</strong><em>246 responses to a public survey.</em></p>
+</div>
+</div>
+</div>
+</main>
+
+{% include 'footer.html' %}
+
+<script>window.STATIC_PATH = "{{ url_for('static', filename='script.js') }}".replace(/[^/]*$/, '');</script>
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+<script defer src="{{ url_for('static', filename='povs.js') }}"></script>
+<script>
+        const sections = document.querySelectorAll('.timeline-phase');
+        const navLinks = document.querySelectorAll('.timeline-sidebar a');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -60% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    const id = entry.target.getAttribute('id');
+                    const activeLink = document.querySelector(`.timeline-sidebar a[href="#${id}"]`);
+                    if(activeLink) activeLink.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            if(section.id) observer.observe(section);
+        });
+    </script>
+</body>
+</html>

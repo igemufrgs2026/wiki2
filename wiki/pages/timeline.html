@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Team Timeline | iGEM UFRGS 2026</title>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='pages.css') }}" rel="stylesheet"/>
+    <style>
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        .timeline-item p {
+            text-align: justify;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .page-header-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        /* Testimonial Box Styling */
+        .testimonial-box {
+            background: #f8f9fa;
+            border-left: 5px solid var(--primary-green, #27ae60);
+            padding: 25px 30px;
+            margin: 30px 0;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .testimonial-box::before {
+            content: "“";
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 4rem;
+            color: rgba(39, 174, 96, 0.2);
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            position: relative;
+            z-index: 2;
+            font-size: 1.05rem;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            display: block;
+            margin-top: 15px;
+            font-weight: 800;
+            color: var(--dark-blue, #2E0898);
+            font-style: normal;
+            font-size: 1rem;
+        }
+
+        .testimonial-role {
+            font-weight: 600;
+            color: var(--primary-green, #27ae60);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .menti-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+        .menti-banner .menti-credit { color: white; text-align: center; margin: 20px 0 0; font-size: .9rem; }
+        .menti-btn:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+
+        /* Mentimeter Banner */
+        .menti-banner {
+            background: linear-gradient(135deg, var(--dark-blue, #7c5bcd), var(--primary-green, #27ae60));
+            color: white;
+            padding: 50px 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .menti-banner h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .menti-banner p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .menti-btn {
+            display: inline-block;
+            background: white;
+            color: var(--dark-blue, #7c5bcd);
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menti-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            color: var(--primary-green, #27ae60);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"></div>
+    <nav class="navbar">
+        <div class="nav-logos">
+            <a href="{{ url_for('home') }}" class="team-logo-img">
+                <img src="https://static.igem.wiki/teams/6130/wiki/logo.avif" alt="iGEM UFRGS Logo">
+            </a>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir Menu">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </button>
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-item">
+                <a href="{{ url_for('home') }}"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>Home</a>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='meet24d') }}"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" /></svg>The Problem</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='meet24d') }}">Meet 2-4D</a>
+                    <a href="{{ url_for('pages', page='challenge') }}">The Challenge of 2,4D drift</a>
+                    <a href="{{ url_for('pages', page='povs') }}">POVs</a>
+                    <a href="{{ url_for('pages', page='dashboard') }}">Dashboard</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='description') }}"><svg viewBox="0 0 24 24"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z" /></svg>Project</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='description') }}">WHY - Description</a>
+                    <a href="{{ url_for('pages', page='biological-design') }}">WHAT - Biological Design</a>
+                    <a href="{{ url_for('pages', page='hardware-and-software') }}">WHAT - Hardware and Software</a>
+                    <a href="{{ url_for('pages', page='contribution') }}">Contribution</a>
+                    <a href="{{ url_for('pages', page='engineering') }}">Engineering</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='dna-parts') }}"><svg viewBox="0 0 24 24"><path d="M19.8 18.4L14 10.7V4h1c.6 0 1-.4 1-1s-.4-1-1-1H9c-.6 0-1 .4-1 1s.4 1 1 1h1v6.7l-5.8 7.7c-.4.5-.5 1.1-.2 1.6.3.5.8.8 1.4.8h13.6c.6 0 1.1-.3 1.4-.8.3-.5.2-1.1-.2-1.6zM7.5 19l4.5-6 4.5 6h-9z" /></svg>Wet Lab</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='dna-parts') }}">DNA Parts</a>
+                    <a href="{{ url_for('pages', page='materials-methods') }}">Material and Methods</a>
+                    <a href="{{ url_for('pages', page='lab-notebook') }}">Lab Notebook</a>
+                    <a href="{{ url_for('pages', page='results') }}">Results</a>
+                    <a href="{{ url_for('pages', page='safety-and-security') }}">Safety and Security</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='structural-analysis') }}"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" /></svg>Dry Lab</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='structural-analysis') }}">Structural Analysis</a>
+                    <a href="{{ url_for('pages', page='molecular-dynamics') }}">Molecular Dynamics</a>
+                    <a href="{{ url_for('pages', page='interaction') }}">Interaction with 2,4D</a>
+                    <a href="{{ url_for('pages', page='hardware') }}">Hardware</a>
+                    <a href="{{ url_for('pages', page='software') }}">Software</a>
+                    <a href="{{ url_for('pages', page='measurement') }}">Measurement</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='human-practices') }}"><svg viewBox="0 0 24 24"><path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5c0-2.3-4.7-3.5-7-3.5zm8 0c-.3 0-.6 0-.9.1 1.2.8 2 1.9 2 3.4V19h5v-2.5c0-2.3-4.7-3.5-7-3.5z" /></svg>Engagement</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='human-practices') }}">Human Practices</a>
+                    <a href="{{ url_for('pages', page='education') }}">Education</a>
+                    <a href="{{ url_for('pages', page='feedback') }}">Receving Feedback</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='roaster') }}"><svg viewBox="0 0 24 24"><path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z" /></svg>Team</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='roaster') }}">Team Roster</a>
+                    <a href="{{ url_for('pages', page='timeline') }}">Team Timeline</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='gallery') }}"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" /></svg>Gallery</a>
+                <div class="dropdown">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+<main class="timeline-section var-sidebar-layout">
+    <aside class="timeline-sidebar">
+        <h4 style="margin-bottom:15px; color:#333;">Timeline</h4>
+        <ul id="timeline-menu">
+            <li><a class="active" href="#spark">2023: The Spark</a></li>
+            <li><a href="#pivot">2024: A New Direction</a></li>
+            <li><a href="#resilience">2024-2025: Resilience</a></li>
+            <li><a href="#finance">2025: Making it Happen</a></li>
+            <li><a href="#interactive">Interactive</a></li>
+        </ul>
+    </aside>
+
+    <div class="sidebar-content-area">
+        <div class="timeline-container var-left">
+            <img src="https://static.igem.wiki/teams/6130/wiki/timeline.avif" alt="Team Timeline Header" class="page-header-image" onerror="this.src='https://static.igem.wiki/teams/6130/wiki/placeholder.avif'">
+
+<div class="timeline-phase" id="spark"><h3>Late 2023: The Spark</h3></div>
+            <div class="timeline-item">
+<p>Our team’s journey began in late 2023, inspired by conversations with former iGEM UFRGS participants (2019 Team) who showed us that building a synthetic biology team in southern Brazil was possible. What started as a small group driven by curiosity soon became a shared commitment to bringing iGEM back to UFRGS.</p>
+<blockquote class="testimonial-box">
+<p class="testimonial-text">Taking part in the iGEM experience always seemed like an unreachable dream to me from the very beginning when I first heard the 2019 team talking about their experience. In that presentation I could see my friend’s eyes lighting up at the possibility of us participating too, but my realistic side could only think about how much it would cost to take part in an international competition of this scale. Since then, my friends and I have been working together and building our team from scratch, with the help of some professors, but mostly by putting our own hands to work. [...]</p>
+<footer class="testimonial-author">Isabelli · Founding team member</footer>
+</blockquote>
+            </div>
+
+            <div class="timeline-phase" id="pivot"><h3>2024: A New Direction</h3></div>
+            <div class="timeline-item">
+<p>Along the way, we faced challenges that repeatedly forced us to rethink our plans. The cancellation of the iGEM Design League in 2024 could have ended the project before it truly began, but instead it strengthened our determination. We chose to continue, setting a new goal: reaching the iGEM Grand Jamboree.</p>
+<blockquote class="testimonial-box">
+<p class="testimonial-text">[...] When I received the invitation to mentor the group, I was naturally a little apprehensive and perhaps anxious. I asked myself whether I would be capable of guiding them, because that was essentially my role throughout this entire period: a group made up of highly focused, intelligent people with a level of proactivity far above the norm. [...] Perhaps just as important as the scientific and logistical challenges was learning how to build and maintain a group made up of people with different ways of thinking, personalities, and philosophies of life. Making those differences coexist and contribute to a common purpose is not a simple task. Even so, the group managed to keep the bigger goal in perspective: taking part in the competition, developing the project, and turning an idea into something concrete, culminating in the delivery of a minimum viable product. [...] This experience showed me, very clearly, something that we sometimes forget: when there is a truly shared goal and people willing to work toward achieving it, obstacles stop being barriers and become problems that need to and can be solved. It was a privilege to be part of this journey.</p>
+<footer class="testimonial-author">Diego · Team mentor</footer>
+</blockquote>
+            </div>
+
+            <div class="timeline-phase" id="resilience"><h3>2024–2025: Rebuilding &amp; Resilience</h3></div>
+            <div class="timeline-item">
+<p>Soon after, the devastating floods that struck Rio Grande do Sul interrupted university activities for months and directly affected several team members. Despite the uncertainty, we gradually regrouped, resumed meetings, and rebuilt our momentum. Throughout 2024 and 2025, the team continued to grow. We welcomed new members and participated in several key events that shaped both the project and our development as a team. Attending the 1st Brazilian Congress on Synthetic Biology placed us within the broader Brazilian synthetic biology community, while our involvement in public hearings, governmental working groups, and multi-stakeholder discussions on 2,4-D contamination strengthened the project&#x27;s social relevance. These experiences reinforced our understanding that meaningful scientific solutions must be built in dialogue with the communities they aim to serve.</p>
+<blockquote class="testimonial-box">
+<p class="testimonial-text">Joining iGEM has been a unique and deeply meaningful milestone for my career in synthetic biology. To me, iGEM has always embodied the spark and genuine love I have for science, so taking part in this journey felt like a way to keep that passion alive. From the moment I joined the iGEM UFRGS team, I was able to help identify real-world challenges within our community and shape the project&#x27;s foundation. This was an invaluable experience, allowing me to dive into concepts and knowledge I hadn’t encountered during my undergraduate studies. [...] On top of that, the competition’s emphasis on connecting scientists with society directly reflects what I’ve always considered vital for high-quality scientific work, a bridge that we as researchers too often neglect. My motivation for pursuing science has always been to deliver robust research, but just as importantly, to make science accessible and use it as a real tool to improve the world around us. At its core, that is precisely what iGEM stands for to me.</p>
+<footer class="testimonial-author">Sofia · Team member</footer>
+</blockquote>
+            </div>
+
+            <div class="timeline-phase" id="finance"><h3>2025: Making it Happen</h3></div>
+            <div class="timeline-item">
+<p>Financial limitations repeatedly forced us to adapt our plans. After postponing our participation from 2025 to 2026, we redirected our energy toward building a sustainable future for the team. We organized the 1st Gaúcho Symposium on Biomolecular Engineering, developed the online course Synthetic Biology for Beginners, secured support from biotechnology companies and academic institutions, and created new fundraising initiatives—from educational activities to selling brownies on campus—to keep the project moving forward.</p>
+<blockquote class="testimonial-box">
+<p class="testimonial-text">2025 was a life-changing step in our team&#x27;s journey. Before that, raising enough money to cover all the competition fees seemed impossible, especially considering the financial reality of our university. However, by the end of the year, after selling countless brownies, receiving many donations and raising funds through the symposium registration, we finally saw light at the end of the tunnel. The feeling of finally having everything wrapped up for the competition was indescribable!</p>
+<footer class="testimonial-author">Camilla · Finance team</footer>
+</blockquote>
+            </div>
+
+            <div class="timeline-phase" id="interactive"><h3>iGEM, Here We Go.</h3></div>
+            <div class="timeline-item">
+<p>More than a project, our story is one of resilience, adaptation, and collective growth. Every obstacle became a chance to learn, and every setback reinforced our commitment to science, education, and teamwork. By the end of 2025, after two years of persistence, we had gathered the resources, experience, and confidence needed to finally say: iGEM, here we go.</p>
+<div class="menti-banner">
+    <h3>How would iGEM Team members define iGEM UFRGS?</h3>
+    <div class="menti-actions">
+        <a href="https://www.mentimeter.com/app/presentation/alpytbyngs2nd1jyhth8fyuswehu2b3q/view?question=bcs8kprv7xq7" target="_blank" rel="noopener noreferrer" class="menti-btn">View the responses</a>
+        <a href="https://www.menti.com/al25wroogx27" target="_blank" rel="noopener noreferrer" class="menti-btn">Share your word</a>
+    </div>
+    <p class="menti-credit">Created with Mentimeter</p>
+</div>
+            </div>
+
+
+        </div>
+    </div>
+</main>
+
+{% include 'footer.html' %}
+
+<script>window.STATIC_PATH = "{{ url_for('static', filename='script.js') }}".replace(/[^/]*$/, '');</script>
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+    const sections = document.querySelectorAll('.timeline-phase');
+    const navLinks = document.querySelectorAll('.timeline-sidebar a');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -60% 0px',
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                const id = entry.target.getAttribute('id');
+                const activeLink = document.querySelector(`.timeline-sidebar a[href="#${id}"]`);
+                if(activeLink) activeLink.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        if(section.id) observer.observe(section);
+    });
+</script>
+</body>
+</html>

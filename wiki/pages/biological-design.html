@@ -1,0 +1,1093 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Biological Design | iGEM UFRGS 2026</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}" />
+    <style>
+      /* Cores e botões seguem Education; layout editorial segue a referência enviada. */
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 110px;
+      }
+      .bio-page {
+        gap: 44px;
+      }
+      .bio-page .sidebar-content-area {
+        flex: 1;
+        min-width: 0;
+      }
+      .bio-sidebar h4 {
+        margin-bottom: 15px;
+        color: #333;
+      }
+      .bio-article {
+        width: 100%;
+        max-width: 1000px;
+        color: #444;
+      }
+      .bio-article h1 {
+        color: var(--dark-blue, #7c5bcd);
+        font-size: clamp(2rem, 4vw, 3rem);
+        margin: 0 0 34px;
+      }
+      .bio-article section {
+        scroll-margin-top: 110px;
+      }
+      .bio-article p {
+        font-size: 1.1rem;
+        line-height: 1.75;
+        margin: 0 0 20px;
+        text-align: justify;
+      }
+      .bio-section-title {
+        font-size: 1.8rem;
+        color: var(--dark-blue, #7c5bcd);
+        margin: 46px 0 24px;
+        font-weight: 800;
+      }
+      .bio-subtitle {
+        font-size: 1.25rem;
+        color: var(--dark-blue, #7c5bcd);
+        font-weight: 800;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--primary-green, #27ae60);
+        margin: 32px 0 22px;
+      }
+      .bio-highlight {
+        display: grid;
+        grid-template-columns: 90px minmax(0, 1fr);
+        gap: 25px;
+        align-items: start;
+        margin: 24px 0 36px;
+      }
+      .bio-chevrons {
+        color: var(--primary-green, #27ae60);
+        font-size: 2.6rem;
+        font-weight: 900;
+        line-height: 1.3;
+        letter-spacing: -9px;
+      }
+      .bio-key-points {
+        counter-reset: findings;
+        list-style: none;
+        padding: 0;
+        margin: 28px 0;
+      }
+      .bio-key-points li {
+        counter-increment: findings;
+        position: relative;
+        padding-left: 48px;
+        margin-bottom: 18px;
+        font-size: 1.05rem;
+        line-height: 1.65;
+      }
+      .bio-key-points li::before {
+        content: counter(findings);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        display: grid;
+        place-items: center;
+        background: var(--primary-green, #27ae60);
+        color: white;
+        border-radius: 50%;
+        font-weight: 700;
+      }
+      .bio-figure {
+        margin: 30px 0;
+        min-width: 0;
+      }
+      .bio-figure img {
+        width: 100%;
+        height: auto;
+        max-height: 480px;
+        object-fit: contain;
+        display: block;
+        border-radius: 12px;
+      }
+      .bio-figure img[hidden],
+      .bio-image-placeholder[hidden],
+      .bio-part-text[hidden] {
+        display: none;
+      }
+      .bio-image-placeholder {
+        min-height: 250px;
+        display: grid;
+        place-items: center;
+        padding: 30px;
+        text-align: center;
+        color: #647078;
+        background: #e4e9ed;
+        border: 2px dashed #c6cfd4;
+        border-radius: 12px;
+      }
+      .bio-media-row {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        align-items: start;
+        gap: 30px;
+        margin: 30px 0;
+      }
+      .bio-media-row .bio-figure {
+        margin: 0;
+      }
+      .bio-media-row .bio-image-placeholder {
+        min-height: 340px;
+      }
+      .bio-cassette {
+        margin: 24px 0 40px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+      .bio-cassette-group {
+        min-width: 0;
+      }
+      .bio-cassette-group h4 {
+        font-size: 0.95rem;
+        color: #555;
+        font-weight: 600;
+        margin: 0 0 12px;
+      }
+      .bio-cassette-track {
+        display: flex;
+        align-items: stretch;
+        gap: 4px;
+        border-bottom: 2px solid var(--primary-green, #27ae60);
+        padding-bottom: 10px;
+      }
+      .bio-cassette-part {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 5px;
+        min-height: 72px;
+        color: white;
+        background: var(--dark-blue, #7c5bcd);
+        border-radius: 6px;
+        text-decoration: none;
+        text-align: center;
+        font-size: clamp(0.65rem, 1vw, 0.9rem);
+        font-weight: 700;
+        overflow-wrap: anywhere;
+        transition: background-color 0.3s;
+      }
+      .bio-cassette-part span {
+        font-size: 1.1rem;
+      }
+      .bio-article .bio-hint {
+        font-size: 0.9rem;
+        color: #6c757d;
+        text-align: left;
+      }
+      .bio-parts {
+        margin: 36px 0;
+      }
+      .bio-part {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 26px;
+        align-items: start;
+        margin: 26px 0;
+      }
+      .bio-part h4 {
+        margin: 0;
+      }
+      .bio-part-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        border: 0;
+        border-radius: 8px;
+        padding: 18px 20px;
+        background: var(--dark-blue, #7c5bcd);
+        color: white;
+        font: inherit;
+        font-size: 1.05rem;
+        font-weight: 700;
+        text-align: left;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .bio-part-toggle:hover,
+      .bio-cassette-part:hover {
+        background: #4510a8;
+        color: white;
+      }
+      .bio-toggle-symbol {
+        font-size: 1.4rem;
+        flex-shrink: 0;
+      }
+      .bio-part-text p {
+        margin: 0;
+      }
+      .bio-part:target .bio-part-toggle {
+        outline: 3px solid var(--primary-green, #27ae60);
+        outline-offset: 3px;
+      }
+      .bio-article a:focus-visible,
+      .bio-article button:focus-visible {
+        outline: 3px solid var(--primary-green, #27ae60);
+        outline-offset: 3px;
+      }
+      .ref-link {
+        color: var(--primary-green, #27ae60);
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .ref-link:hover {
+        color: #1e8449;
+        text-decoration: underline;
+      }
+      .bio-references {
+        padding: 25px;
+        background: #f1f3f5;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        overflow-wrap: anywhere;
+      }
+      .bio-references p {
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: #6c757d;
+        text-align: left;
+        scroll-margin-top: 110px;
+      }
+      .bio-references p:last-child {
+        margin-bottom: 0;
+      }
+      .bio-references a {
+        color: inherit;
+      }
+      .bio-references p:target {
+        background: #e0ebe3;
+      }
+      @media (max-width: 1100px) {
+        .bio-cassette {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .bio-part {
+          grid-template-columns: 180px minmax(0, 1fr);
+          gap: 20px;
+        }
+        .bio-media-row {
+          grid-template-columns: 1fr;
+        }
+        .bio-cassette-part {
+          font-size: 0.9rem;
+        }
+      }
+      @media (max-width: 700px) {
+        .bio-page {
+          flex-direction: column;
+          gap: 28px;
+          padding-inline: 5vw;
+        }
+        .bio-sidebar {
+          position: static;
+          width: 100%;
+        }
+        .bio-article p {
+          text-align: left;
+        }
+        .bio-highlight {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        .bio-chevrons {
+          font-size: 2rem;
+        }
+        .bio-part {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+        .bio-section-title {
+          margin-top: 34px;
+        }
+        .bio-image-placeholder,
+        .bio-media-row .bio-image-placeholder {
+          min-height: 200px;
+        }
+        .bio-references {
+          padding: 18px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .bio-part-toggle,
+        .bio-cassette-part {
+          transition: none;
+        }
+      }
+
+/* Paleta por função: compartilhada pelo cassete e pelas descrições. */
+[data-bio-type="promoter1"] { --part-color:#247347; --part-hover:#195333; }
+[data-bio-type="promoter2"] { --part-color: #43d182; --part-hover:#195333; }
+[data-bio-type="terminator"] { --part-color:#b3333b; --part-hover:#8a242b; }
+[data-bio-type="coding"] { --part-color:#7150b1; --part-hover:#533689; }
+[data-bio-type="rbs"] { --part-color:#286ba0; --part-hover:#1c4f79; }
+[data-bio-type="insulator"] { --part-color:#a75417; --part-hover:#7c3c0f; }
+[data-bio-type="reporter"] { --part-color:#087b7a; --part-hover:#075b5a; }
+.bio-cassette-part[data-bio-type], .bio-part[data-bio-type] .bio-part-toggle {
+  background:var(--part-color); color:white;
+}
+.bio-cassette-part[data-bio-type]:hover, .bio-part[data-bio-type] .bio-part-toggle:hover {
+  background:var(--part-hover); color:white;
+}
+.bio-color-legend { display:flex; flex-wrap:wrap; gap:10px 22px; list-style:none; margin:16px 0 24px; padding:0; }
+.bio-color-legend li { display:flex; align-items:center; gap:8px; font-size:.9rem; }
+.bio-color-legend li::before { content:""; width:12px; height:12px; border-radius:3px; background:var(--part-color); flex-shrink:0; }
+/* Banner no mesmo padrão das páginas Education e Challenge. */
+.bio-page-header { margin:40px 0 30px; }
+.bio-page-header .page-header-image { display:block; width:100%; max-height:350px; object-fit:cover; border-radius:8px; box-shadow:0 4px 15px rgba(0,0,0,.08); margin:0; }
+.bio-header-placeholder { display:grid; place-items:center; width:100%; height:clamp(180px,26vw,350px); background:#f1f3f5; color:#6c757d; border:1px solid #e9ecef; border-radius:8px; box-shadow:0 4px 15px rgba(0,0,0,.08); }
+.bio-header-placeholder[hidden], .bio-page-header img[hidden] { display:none; }
+</style>
+  </head>
+  <body>
+    <div class="custom-cursor" id="customCursor"></div>
+    <nav class="navbar">
+      <div class="nav-logos">
+        <a href="{{ url_for('home') }}" class="team-logo-img">
+          <img src="https://static.igem.wiki/teams/6130/wiki/logo.avif" alt="iGEM UFRGS Logo" />
+        </a>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir Menu">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+        </svg>
+      </button>
+      <div class="nav-menu" id="navMenu">
+        <div class="nav-item">
+          <a href="{{ url_for('home') }}"
+            ><svg viewBox="0 0 24 24">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg
+            >Home</a
+          >
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('pages', page='meet24d') }}"
+            ><svg viewBox="0 0 24 24">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+              /></svg
+            >The Problem</a
+          >
+          <div class="dropdown">
+            <a href="{{ url_for('pages', page='meet24d') }}">Meet 2-4D</a>
+            <a href="{{ url_for('pages', page='challenge') }}">The Challenge of 2,4D drift</a>
+            <a href="{{ url_for('pages', page='povs') }}">POVs</a>
+            <a href="{{ url_for('pages', page='dashboard') }}">Dashboard</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('pages', page='description') }}"
+            ><svg viewBox="0 0 24 24">
+              <path
+                d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"
+              /></svg
+            >Project</a
+          >
+          <div class="dropdown">
+            <a href="{{ url_for('pages', page='description') }}">WHY - Description</a>
+            <a href="{{ url_for('pages', page='biological-design') }}">WHAT - Biological Design</a>
+            <a href="{{ url_for('pages', page='hardware-and-software') }}">WHAT - Hardware and Software</a>
+            <a href="{{ url_for('pages', page='contribution') }}">Contribution</a>
+            <a href="{{ url_for('pages', page='engineering') }}">Engineering</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('pages', page='dna-parts') }}"
+            ><svg viewBox="0 0 24 24">
+              <path
+                d="M19.8 18.4L14 10.7V4h1c.6 0 1-.4 1-1s-.4-1-1-1H9c-.6 0-1 .4-1 1s.4 1 1 1h1v6.7l-5.8 7.7c-.4.5-.5 1.1-.2 1.6.3.5.8.8 1.4.8h13.6c.6 0 1.1-.3 1.4-.8.3-.5.2-1.1-.2-1.6zM7.5 19l4.5-6 4.5 6h-9z"
+              /></svg
+            >Wet Lab</a
+          >
+          <div class="dropdown">
+            <a href="{{ url_for('pages', page='dna-parts') }}">DNA Parts</a>
+            <a href="{{ url_for('pages', page='materials-methods') }}">Material and Methods</a>
+            <a href="{{ url_for('pages', page='lab-notebook') }}">Lab Notebook</a>
+            <a href="{{ url_for('pages', page='results') }}">Results</a>
+            <a href="{{ url_for('pages', page='safety-and-security') }}">Safety and Security</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('pages', page='structural-analysis') }}"
+            ><svg viewBox="0 0 24 24">
+              <path
+                d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"
+              /></svg
+            >Dry Lab</a
+          >
+          <div class="dropdown">
+            <a href="{{ url_for('pages', page='structural-analysis') }}">Structural Analysis</a>
+            <a href="{{ url_for('pages', page='molecular-dynamics') }}">Molecular Dynamics</a>
+            <a href="{{ url_for('pages', page='interaction') }}">Interacition with 2,4D</a>
+            <a href="{{ url_for('pages', page='hardware') }}">Hardware</a>
+            <a href="{{ url_for('pages', page='software') }}">Software</a>
+            <a href="{{ url_for('pages', page='measurement') }}">Measurement</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('pages', page='human-practices') }}"
+            ><svg viewBox="0 0 24 24">
+              <path
+                d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5c0-2.3-4.7-3.5-7-3.5zm8 0c-.3 0-.6 0-.9.1 1.2.8 2 1.9 2 3.4V19h5v-2.5c0-2.3-4.7-3.5-7-3.5z"
+              /></svg
+            >Engagement</a
+          >
+          <div class="dropdown">
+            <a href="{{ url_for('pages', page='human-practices') }}">Human Practices</a>
+            <a href="{{ url_for('pages', page='education') }}">Education</a>
+            <a href="{{ url_for('pages', page='feedback') }}">Receving Feedback</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('pages', page='roaster') }}"
+            ><svg viewBox="0 0 24 24">
+              <path
+                d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z"
+              /></svg
+            >Team</a
+          >
+          <div class="dropdown">
+            <a href="{{ url_for('pages', page='roaster') }}">Team Roster</a>
+            <a href="{{ url_for('pages', page='timeline') }}">Team Timeline</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('pages', page='gallery') }}"
+            ><svg viewBox="0 0 24 24">
+              <path
+                d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
+              /></svg
+            >Gallery</a
+          >
+          <div class="dropdown"></div>
+        </div>
+      </div>
+    </nav>
+    <main class="timeline-section var-sidebar-layout bio-page">
+      <aside class="timeline-sidebar bio-sidebar" aria-label="Page chapters">
+        <h4>Chapters</h4>
+        <ul id="timeline-menu">
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#design">The design</a></li>
+          <li><a href="#design-origin">What was our cassette based on?</a></li>
+          <li><a href="#our-cassette">Our cassette</a></li>
+          <li><a href="#our-pathway">Our own pathway explained</a></li>
+          <li><a href="#cell-free-system">The system — CFS</a></li>
+          <li><a href="#final-product">Final product</a></li>
+          <li><a href="#references">References</a></li>
+        </ul>
+      </aside>
+      <div class="sidebar-content-area">
+        <article class="bio-article">
+          <!-- Substitua este arquivo pela arte definitiva do header. -->
+<div class="bio-page-header">
+<img src="https://static.igem.wiki/teams/6130/wiki/placeholder.avif" alt="Biological Design header" class="page-header-image" onload="this.nextElementSibling.hidden=true;" onerror="this.hidden=true;this.nextElementSibling.hidden=false;">
+<div class="bio-header-placeholder" hidden>Header placeholder</div>
+</div>
+          <section id="overview">
+            <h2 class="bio-section-title">Overview</h2>
+            <div class="bio-highlight">
+              <span class="bio-chevrons" aria-hidden="true">❯❯❯</span>
+              <p>
+                Aiming to uncover the hidden pathways and local sources through which 2,4-D drifts
+                and reaches nearby farms, our team engineered an existing biological pathway that
+                specifically recognizes this herbicide in bacteria and adapted it for detection
+                outside living cells. By coupling this recognition system to a detectable signal, we
+                aim to make this otherwise invisible threat visible, providing farmers with a
+                practical tool to identify 2,4-D contamination in the field.
+              </p>
+            </div>
+          </section>
+          <section id="design">
+            <h2 class="bio-section-title">The design</h2>
+            <section id="design-origin">
+              <h3 class="bio-subtitle">What was our cassette based on?</h3>
+              <p>
+                With that objective in mind, we searched the literature for organisms that naturally
+                interact with 2,4-D and, particularly, for biological systems capable of sensing the
+                compound. This search led us to <em>Bradyrhizobium</em> sp. strain HW13, a bacteria
+                previously described as a 2,4-D degrader
+                <a class="ref-link" href="#ref1" aria-label="Reference 1">[1]</a>. In this organism,
+                the cad gene cluster contains the regulatory elements associated with 2,4-D
+                degradation, including the positive transcriptional regulator CadR and the cadA
+                promoter (pCadA). We were particularly interested in these components because they
+                provided a way of separating the natural recognition of 2,4-D from the degradation
+                pathway itself. In summary there were basically 8 key points in that article
+                <a class="ref-link" href="#ref2" aria-label="Reference 2">[2]</a>:
+              </p>
+              <ol class="bio-key-points">
+                <li>
+                  Developed a whole-cell biosensor based on the cadR/cadA system from
+                  <em>Bradyrhizobium</em> sp. HW13.
+                </li>
+                <li>
+                  Transferred the regulatory system to <em>Agrobacterium tumefaciens</em> NTL4.
+                </li>
+                <li>
+                  Coupled the 2,4-D-responsive pCadA promoter to a reporter system based on
+                  formylglycine-generating enzyme and arylsulfatase.
+                </li>
+                <li>
+                  Mechanism: presence of 2,4-D activates cadR → transcription of the cassette →
+                  expression of a sulfatase enzyme → cleavage of 4-MUS → luminescence under UV
+                  light.
+                </li>
+                <li>
+                  Improved the system through directed evolution of CadR (error-prone PCR),
+                  obtaining variants with increased sensitivity to 2,4-D.
+                </li>
+                <li>
+                  Best-performing mutant detected concentrations as low as 1.56 μM, an eight-fold
+                  improvement over the wild-type system.
+                </li>
+                <li>
+                  The system could distinguish 2,4-D from several unrelated environmental
+                  contaminants, supporting its specificity.
+                </li>
+                <li>
+                  Relevance to the project: showed that the natural regulatory system from
+                  <em>Bradyrhizobium</em> could be transferred to another biological context while
+                  retaining its ability to respond to 2,4-D.
+                </li>
+              </ol>
+              <p>
+                Instead of reproducing their entire metabolic pathway required to break down the
+                herbicide, we could use the regulatory mechanism that naturally responds to its
+                presence and connect it to a different output. This approach allowed us to transform
+                a biological mechanism originally involved in pollutant degradation into a sensing
+                system. The discovery of this regulatory pathway therefore became the foundation for
+                our biosensor design, with CadR as our main protein of interest and the cadA
+                promoter as the regulatory element responsible for translating the recognition of
+                2,4-D into gene expression.
+              </p>
+              <figure class="bio-figure">
+                <img
+                  src="https://static.igem.wiki/teams/6130/wiki/pathway.avif"
+                  alt="Natural sensing pathway"
+                  loading="lazy"
+                  onload="
+                    this.hidden = false;
+                    this.nextElementSibling.hidden = true;
+                  "
+                  onerror="
+                    this.hidden = true;
+                    this.nextElementSibling.hidden = false;
+                  "
+                />
+                <div
+                  class="bio-image-placeholder"
+                  hidden
+                  role="img"
+                  aria-label="Illustration placeholder: Natural sensing pathway"
+                >
+                  <span>Natural sensing pathway</span>
+                </div>
+              </figure>
+              <p>
+                Based on these findings, we decided to use the cadR/pcadA system as the biological
+                foundation of our own biosensor. However, rather than reproducing the whole-cell
+                system described in the previous study, our goal was to adapt this mechanism to a
+                cell-free platform. This change allows us to keep the key biological feature that we
+                were looking for, which is the specific recognition of 2,4-D by CadR and the
+                consequent activation of the cadA promoter, while removing the need to maintain
+                living cells in the final detection system. For us, this was particularly important
+                because it ensures safety and practicality for the farmers to operate the hardware.
+                By combining the natural sensing mechanism identified in Bradyrhizobium with a
+                cell-free expression system and a detectable reporter, we aim to convert the
+                presence of 2,4-D into a clear signal that can be measured without requiring
+                specialized laboratory infrastructure.
+              </p>
+            </section>
+            <section id="our-cassette">
+              <h3 class="bio-subtitle">Our cassette</h3>
+              <p class="bio-hint">Select a component to read its role in the pathway.</p>
+              <div
+                class="bio-cassette"
+                aria-label="Schematic of the two genetic cassettes; not to scale"
+              >
+                <div class="bio-cassette-group">
+                  <h4>Constitutive CadR expression</h4>
+                  <div class="bio-cassette-track">
+                    <a href="#part-j23119" class="bio-cassette-part" data-bio-type="promoter1" data-part-link
+                      >J23119<span aria-hidden="true">→</span></a
+                    ><a href="#part-rbs" class="bio-cassette-part" data-bio-type="rbs" data-part-link
+                      >RBS<span aria-hidden="true">→</span></a
+                    ><a href="#part-cadr" class="bio-cassette-part" data-bio-type="coding" data-part-link
+                      >CadR<span aria-hidden="true">→</span></a
+                    ><a href="#part-terminator" class="bio-cassette-part" data-bio-type="terminator" data-part-link
+                      >Terminator<span aria-hidden="true">→</span></a
+                    >
+                  </div>
+                </div>
+                <div class="bio-cassette-group">
+                  <h4>Detection cassette</h4>
+                  <div class="bio-cassette-track">
+                    <a href="#part-pcada" class="bio-cassette-part" data-bio-type="promoter2" data-part-link
+                      >pCadA<span aria-hidden="true">→</span></a
+                    ><a href="#part-riboj" class="bio-cassette-part" data-bio-type="insulator" data-part-link
+                      >RiboJ<span aria-hidden="true">→</span></a
+                    ><a href="#part-aptamer" class="bio-cassette-part" data-bio-type="reporter" data-part-link
+                      >3WJdB<span aria-hidden="true">→</span></a
+                    ><a href="#part-terminator" class="bio-cassette-part" data-bio-type="terminator" data-part-link
+                      >Terminator<span aria-hidden="true">→</span></a
+                    >
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section id="our-pathway">
+              <h3 class="bio-subtitle">Our own pathway explained</h3>
+              <p>
+                The CadR protein has been characterized as a positive transcriptional regulator of
+                the cadA promoter in response to 2,4-D. However, the molecular mechanism underlying
+                this regulation has not yet been fully elucidated. Based on the behavior of
+                characterized members of the AraC/XylS family, to which CadR belongs, it can be
+                hypothesized that 2,4-D acts as a signal molecule that interacts with a regulatory
+                domain of CadR, inducing a conformational change that promotes its interaction with
+                the cadA regulatory region and facilitates transcriptional activation
+                <a class="ref-link" href="#ref3" aria-label="Reference 3">[3]</a>. Nevertheless,
+                this mechanism remains theoretical for CadR and requires experimental validation, as
+                the molecular responses to environmental signals can differ substantially among
+                members of the AraC/XylS family
+                <a class="ref-link" href="#ref4" aria-label="Reference 4">[4]</a>. Based on this
+                natural regulatory mechanism, we designed our own pathway to convert the
+                transcriptional response to 2,4-D into a directly detectable signal. As it follows,
+                we designed the piGEM_CadA/CadR-apt with the pcadA and CadR regulating the
+                transcription of an aptamer as a reporter, rather than relying on traditional
+                reporter protein commonly applied in biosensors
+                <a class="ref-link" href="#ref5" aria-label="Reference 5">[5]</a>, thus fastening
+                the reaction time and simplifying the cell free reaction. Also, another element
+                called RiboJ was added in the cassette, it acts as an insulator to amplify the
+                number of total mRNA and to prevent the translation of the cassette.
+              </p>
+              <div class="bio-parts">
+                <section class="bio-part" id="part-cadr" data-bio-type="coding">
+                  <h4>
+                    <button
+                      class="bio-part-toggle"
+                      type="button"
+                      aria-expanded="true"
+                      aria-controls="part-cadr-text"
+                    >
+                      CadR<span class="bio-toggle-symbol" aria-hidden="true">−</span>
+                    </button>
+                  </h4>
+                  <div id="part-cadr-text" class="bio-part-text">
+                    <p>
+                      CadR is the regulatory protein of the system, constitutively expressed under
+                      the strong J23119 promoter, with an RBS enabling its translation and a
+                      synthetic terminator ending its cassette. Its function is to act as the
+                      sensor: in the absence of 2,4-D, CadR represses transcription from the pCadA
+                      promoter; upon binding 2,4-D, it undergoes a conformational change that
+                      relieves this repression, activating transcription downstream.
+                    </p>
+                  </div>
+                </section>
+                <section class="bio-part" id="part-pcada" data-bio-type="promoter2">
+                  <h4>
+                    <button
+                      class="bio-part-toggle"
+                      type="button"
+                      aria-expanded="true"
+                      aria-controls="part-pcada-text"
+                    >
+                      pCadA<span class="bio-toggle-symbol" aria-hidden="true">−</span>
+                    </button>
+                  </h4>
+                  <div id="part-pcada-text" class="bio-part-text">
+                    <p>
+                      pCadA is the 2,4-D-responsive promoter that drives the detection cassette. Its
+                      activity is directly controlled by CadR — repressed when CadR is unbound, and
+                      activated when CadR binds 2,4-D. It functions as the input switch of the
+                      system, converting the presence of the herbicide into a transcriptional
+                      signal.
+                    </p>
+                  </div>
+                </section>
+                <section class="bio-part" id="part-riboj" data-bio-type="insulator">
+                  <h4>
+                    <button
+                      class="bio-part-toggle"
+                      type="button"
+                      aria-expanded="true"
+                      aria-controls="part-riboj-text"
+                    >
+                      RiboJ<span class="bio-toggle-symbol" aria-hidden="true">−</span>
+                    </button>
+                  </h4>
+                  <div id="part-riboj-text" class="bio-part-text">
+                    <p>
+                      RiboJ is a self-cleaving ribozyme insulator placed immediately downstream of
+                      pCadA. Its function is to standardize the 5′ end of the transcript, increasing
+                      downstream RNA abundance and producing a stronger, more detectable signal, as
+                      previously described
+                      <a class="ref-link" href="#ref6" aria-label="Reference 6">[6]</a>. It also
+                      insulates the reporter RNA from upstream promoter context and prevents its
+                      eventual translation, which is important since this cassette is designed to
+                      produce RNA only, not protein.
+                    </p>
+                  </div>
+                </section>
+                <section class="bio-part" id="part-aptamer" data-bio-type="reporter">
+                  <h4>
+                    <button
+                      class="bio-part-toggle"
+                      type="button"
+                      aria-expanded="true"
+                      aria-controls="part-aptamer-text"
+                    >
+                      3WJdB Aptamer and the DHFBI<span class="bio-toggle-symbol" aria-hidden="true"
+                        >−</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="part-aptamer-text" class="bio-part-text">
+                    <p>
+                      3WJdB is the reporter element of the system. Once transcribed, this RNA
+                      aptamer folds into a structure that specifically interacts with the
+                      fluorescent dye DHFB-I. Its function is to convert the transcriptional output
+                      of the pCadA cassette into a measurable fluorescent signal, without requiring
+                      translation into a protein. The DHFB-I is the fluorescent dye used for
+                      detection <a class="ref-link" href="#ref7" aria-label="Reference 7">[7]</a>.
+                      Its function is to bind specifically to the 3WJdB aptamer once it is
+                      transcribed, generating a fluorescence signal proportional to the amount of
+                      reporter RNA produced — and therefore proportional to pathway activation by
+                      2,4-D.
+                    </p>
+                  </div>
+                </section>
+                <section class="bio-part" id="part-j23119" data-bio-type="promoter1">
+                  <h4>
+                    <button
+                      class="bio-part-toggle"
+                      type="button"
+                      aria-expanded="true"
+                      aria-controls="part-j23119-text"
+                    >
+                      Promoter J23119<span class="bio-toggle-symbol" aria-hidden="true">−</span>
+                    </button>
+                  </h4>
+                  <div id="part-j23119-text" class="bio-part-text">
+                    <p>
+                      A strong constitutive promoter
+                      <a class="ref-link" href="#ref8" aria-label="Reference 8">[8]</a> that
+                      continuously drives transcription of the CadR coding sequence, independent of
+                      2,4-D.
+                    </p>
+                  </div>
+                </section>
+                <section class="bio-part" id="part-rbs" data-bio-type="rbs">
+                  <h4>
+                    <button
+                      class="bio-part-toggle"
+                      type="button"
+                      aria-expanded="true"
+                      aria-controls="part-rbs-text"
+                    >
+                      RBS<span class="bio-toggle-symbol" aria-hidden="true">−</span>
+                    </button>
+                  </h4>
+                  <div id="part-rbs-text" class="bio-part-text">
+                    <p>
+                      Ribosome binding site enabling translation of the CadR coding sequence into
+                      functional protein.
+                    </p>
+                  </div>
+                </section>
+                <section class="bio-part" id="part-terminator" data-bio-type="terminator">
+                  <h4>
+                    <button
+                      class="bio-part-toggle"
+                      type="button"
+                      aria-expanded="true"
+                      aria-controls="part-terminator-text"
+                    >
+                      Synthetic Terminator<span class="bio-toggle-symbol" aria-hidden="true"
+                        >−</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="part-terminator-text" class="bio-part-text">
+                    <p>
+                      Stops transcription at the end of the CadR sequence, preventing read-through
+                      into downstream elements.
+                    </p>
+                  </div>
+                </section>
+              </div>
+              <div class="bio-highlight">
+                <span class="bio-chevrons" aria-hidden="true">❯❯❯</span>
+                <p>
+                  Our biosensor plasmid consists of two cassettes: a constitutive CadR expression
+                  cassette, composed of the J23119 promoter, a ribosome binding site, the CadR
+                  coding sequence, and a synthetic terminator, which continuously produces the CadR
+                  regulatory protein responsible for sensing 2,4-D, and a detection cassette,
+                  composed of the pCadA promoter, the RiboJ insulator, the 3WJdB aptamer, and the
+                  same synthetic terminator, in which pCadA is repressed by CadR in the absence of
+                  2,4-D and activated upon CadR-2,4-D binding, RiboJ standardizes the
+                  transcript&#x27;s 5′ end to boost RNA abundance and prevent unwanted translation,
+                  and the 3WJdB aptamer serves as an RNA reporter that specifically binds the
+                  fluorescent dye DHFB-I to generate a signal proportional to pathway activation,
+                  measured with our portable field spectrophotometer; by relying on an RNA reporter
+                  rather than a protein, transcription itself becomes the final output, allowing the
+                  reporter RNA to be produced in approximately 15 minutes and enabling a rapid,
+                  cell-free platform for detecting 2,4-D contamination in the field.
+                </p>
+              </div>
+            </section>
+          </section>
+          <section id="cell-free-system">
+            <h2 class="bio-section-title">The system — CFS</h2>
+            <h3 class="bio-subtitle">Where the system is going to work (CFS)</h3>
+            <p>
+              The choice of a cell-free system was driven primarily by two considerations that are
+              central to the development of our biosensor: biosafety and response time. Although
+              whole-cell biosensors are a well-established approach for detecting environmental
+              contaminants, the use of living genetically modified cells in a device intended for
+              field application introduces additional biosafety and practical considerations. By
+              removing the living organism from the final detection system, cell-free expression
+              allows us to use the molecular machinery required for transcription and translation
+              without releasing viable genetically modified microorganisms into the environment.
+              This makes the system particularly attractive for a biosensor designed to be used
+              directly in agricultural settings, where simplicity, containment, and ease of
+              application are important.
+            </p>
+            <p>
+              In addition to this biosafety advantage, cell-free systems provide a rapid and highly
+              controllable environment for gene expression because the genetic circuit operates
+              outside the constraints of cellular growth, viability, and resource allocation. This
+              characteristic is particularly relevant to our project because our goal is to obtain a
+              rapid signal following exposure to 2,4-D rather than maintain long-term expression in
+              a living cell. Cell-free expression systems have also been increasingly explored for
+              molecular diagnostics and field-deployable biosensing because they can support the
+              rapid prototyping and operation of genetic circuits without requiring the maintenance
+              of living cells.
+            </p>
+            <div class="bio-media-row">
+              <figure class="bio-figure">
+                <img
+                  src="https://static.igem.wiki/teams/6130/wiki/cell-free.avif"
+                  alt="Cell-free expression system"
+                  loading="lazy"
+                  onload="
+                    this.hidden = false;
+                    this.nextElementSibling.hidden = true;
+                  "
+                  onerror="
+                    this.hidden = true;
+                    this.nextElementSibling.hidden = false;
+                  "
+                />
+                <div
+                  class="bio-image-placeholder"
+                  hidden
+                  role="img"
+                  aria-label="Illustration placeholder: Cell-free expression system"
+                >
+                  <span>Cell-free expression system</span>
+                </div>
+              </figure>
+              <div>
+                <p>
+                  Our cell-free platform is based on an Escherichia coli extract, specifically
+                  derived from the Rosetta 2 strain. This choice follows the established use of
+                  engineered E. coli strains for cell-free protein synthesis, which has become one
+                  of the most widely used platforms due to the extensive characterization of its
+                  genetics and metabolism. The Rosetta 2 strain is derived from E. coli BL21 and
+                  contains additional plasmid-encoded rare tRNAs, which were introduced to aggregate
+                  more tRNAs in the reaction mixture to ensure correct translation of the CadR
+                  protein. The resulting extract provides the biological machinery necessary for
+                  gene expression, including the endogenous transcriptional and translational
+                  components of E. coli. However, the extract alone is not sufficient to sustain the
+                  reaction, so it is combined with a defined mixture of substrates and cofactors
+                  that recreate the conditions required for transcription and translation in vitro.
+                </p>
+                <p>
+                  For our biosensor, this platform provides an additional advantage because the
+                  genetic circuit can be directly introduced into the reaction and immediately
+                  access the transcriptional machinery present in the extract. In our case, the
+                  plasmid containing the constitutive cadR expression cassette and the
+                  2,4-D-responsive cadA reporter cassette is added as the DNA template, allowing the
+                  circuit to operate without the need to first transform or grow a living host. This
+                  is particularly important for our design because the final output is an RNA
+                  reporter rather than a reporter protein. By eliminating the need to produce a
+                  fluorescent protein, we can take advantage of the rapid transcriptional response
+                  of the cell-free system and directly couple the activation of the cadA promoter to
+                  the production of the RNA aptamer used for detection.
+                </p>
+              </div>
+            </div>
+          </section>
+          <section id="final-product">
+            <h2 class="bio-section-title">Final product</h2>
+            <h3 class="bio-subtitle">IN SUMMARY</h3>
+            <p>
+              In summary our team set out to make the invisible thread that the 2,4-D poses visible.
+              The herbicide drifts quietly from farm to farm, often undetected until the damage is
+              already done, and we wanted to give farmers a simple way to catch it before it
+              spreads. So we turned to nature itself for the answer: buried in the genome of
+              <em>Bradyrhizobium</em> sp. HW13, a soil bacterium that naturally breaks down 2,4-D,
+              we found a regulatory system, cadR and its promoter pCadA, that already knew how to
+              sense this herbicide. Rather than rebuilding the bacterium&#x27;s entire degradation
+              pathway, we borrowed just the part that recognizes 2,4-D and repurposed it as the
+              foundation of our biosensor.
+            </p>
+            <p>
+              From there, we redesigned the pathway to fit our vision of a fast, safe, field-ready
+              tool. We built a plasmid with two cassettes: one that constantly produces CadR, the
+              sensor protein, and another where pCadA, once activated by 2,4-D, drives production of
+              a glowing RNA aptamer instead of a traditional protein reporter. By skipping
+              translation entirely and letting the RNA itself carry the signal, we cut the response
+              time down to about 15 minutes. And by moving this whole system out of living cells and
+              into a cell-free extract, we removed the risks and complications of deploying
+              genetically modified organisms in the field. The result is a biosensor that takes a
+              mechanism nature evolved for degradation and turns it into something new: a fast,
+              safe, and practical way to catch 2,4-D contamination directly in the field.
+            </p>
+            <figure class="bio-figure">
+              <img
+                src="https://static.igem.wiki/teams/6130/wiki/final-product.avif"
+                alt="Final biosensor"
+                loading="lazy"
+                onload="
+                  this.hidden = false;
+                  this.nextElementSibling.hidden = true;
+                "
+                onerror="
+                  this.hidden = true;
+                  this.nextElementSibling.hidden = false;
+                "
+              />
+              <div
+                class="bio-image-placeholder"
+                hidden
+                role="img"
+                aria-label="Illustration placeholder: Final biosensor"
+              >
+                <span>Final biosensor</span>
+              </div>
+            </figure>
+          </section>
+          <section id="references">
+            <h2 class="bio-section-title">References</h2>
+            <div class="bio-references">
+              <p id="ref1">
+                [1] KITAGAWA, W. et al. Novel 2,4-dichlorophenoxyacetic acid degradation genes from
+                oligotrophic Bradyrhizobium sp. strain HW13 isolated from a pristine environment.
+                Journal of Bacteriology, v. 184, n. 2, p. 509-518, 2002.
+              </p>
+              <p id="ref2">
+                [2] RITCHAROON, B. et al. Detection of 2,4-dichlorophenoxyacetic acid herbicide
+                using a FGE-sulfatase based whole-cell Agrobacterium biosensor. Journal of
+                Microbiological Methods, v. 175, p. 105997, 2020.
+              </p>
+              <p id="ref3">
+                [3] CORTÉS-AVALOS, D. et al. An update of the unceasingly growing and diverse
+                AraC/XylS family of transcriptional activators. FEMS Microbiology Reviews, v. 45, n.
+                5, fuab020, 2021.
+              </p>
+              <p id="ref4">
+                [4] KOLIN, A. et al. Differences in the mechanism of the allosteric L-rhamnose
+                responses of the AraC/XylS family transcription activators RhaS and RhaR. Molecular
+                Microbiology, v. 68, n. 2, p. 448-461, 2008.
+              </p>
+              <p id="ref5">
+                [5] JUNG, J. K. et al. Cell-free biosensors for rapid detection of water
+                contaminants. Nature Biotechnology, v. 38, n. 12, p. 1451-1459, 2020.
+              </p>
+              <p id="ref6">
+                [6] CLIFTON, K. P. et al. The genetic insulator RiboJ increases expression of
+                insulated genes. Journal of Biological Engineering, v. 12, p. 23, 2018.
+              </p>
+              <p id="ref7">
+                [7] ALAM, K. K.; CHANG, J. L.; BURKE, D. H. A fluorescent split aptamer for
+                visualizing RNA-RNA assembly in vivo. ACS Synthetic Biology, v. 6, n. 9, p.
+                1710-1721, 2017.
+              </p>
+              <p id="ref8">
+                [8] REGISTRY OF STANDARD BIOLOGICAL PARTS. Part BBa_J23119. iGEM Registry, 2006.
+                Disponível em:<a
+                  href="https://www.google.com/search?q=http://parts.igem.org/Part:BBa_J23119"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  http://parts.igem.org/Part:BBa_J23119</a
+                >.
+              </p>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
+    {% include 'footer.html' %}
+    <script>window.STATIC_PATH = "{{ url_for('static', filename='script.js') }}".replace(/[^/]*$/, '');</script>
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+      (() => {
+        // Mantém os parágrafos visíveis inicialmente; os botões permitem recolher cada descrição.
+        const partButtons = [...document.querySelectorAll(".bio-part-toggle")];
+        function setPartExpanded(button, expanded) {
+          document.getElementById(button.getAttribute("aria-controls")).hidden = !expanded;
+          button.setAttribute("aria-expanded", String(expanded));
+          button.querySelector(".bio-toggle-symbol").textContent = expanded ? "−" : "+";
+        }
+        partButtons.forEach((button) =>
+          button.addEventListener("click", () => {
+            setPartExpanded(button, button.getAttribute("aria-expanded") !== "true");
+          }),
+        );
+        // Os componentes do cassete levam à descrição correspondente e a abrem.
+        document.querySelectorAll("[data-part-link]").forEach((link) => {
+          link.addEventListener("click", () => {
+            const target = document.getElementById(link.hash.slice(1));
+            const button = target.querySelector(".bio-part-toggle");
+            setPartExpanded(button, true);
+            button.focus({ preventScroll: true });
+          });
+        });
+        // Destaque do capítulo atual sem repetir o menu ao longo da página.
+        const chapterLinks = [...document.querySelectorAll(".bio-sidebar a")];
+        const chapters = chapterLinks.map((link) => document.getElementById(link.hash.slice(1)));
+        let navigationPending = false;
+        function updateChapters() {
+          let current = 0;
+          chapters.forEach((section, index) => {
+            if (section.getBoundingClientRect().top <= 160) current = index;
+          });
+          chapterLinks.forEach((link, index) => {
+            link.classList.toggle("active", index === current);
+            if (index === current) link.setAttribute("aria-current", "location");
+            else link.removeAttribute("aria-current");
+          });
+          navigationPending = false;
+        }
+        function queueChapterUpdate() {
+          if (navigationPending) return;
+          navigationPending = true;
+          requestAnimationFrame(updateChapters);
+        }
+        window.addEventListener("scroll", queueChapterUpdate, { passive: true });
+        window.addEventListener("resize", queueChapterUpdate);
+        updateChapters();
+      })();
+    </script>
+  </body>
+</html>
