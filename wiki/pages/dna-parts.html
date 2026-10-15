@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>DNA Parts | iGEM UFRGS 2026</title>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='pages.css') }}" rel="stylesheet"/>
+    <style>
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        .timeline-item p {
+            text-align: justify;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .page-header-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        /* Table Styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .parts-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            min-width: 600px;
+        }
+
+        .parts-table th {
+            background-color: var(--primary-green, #27ae60);
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .parts-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #eaeaea;
+            color: #444;
+            font-size: 0.95rem;
+            vertical-align: top;
+        }
+
+        .parts-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .parts-table tbody tr:hover {
+            background-color: #f8fbfa;
+        }
+
+        .table-title {
+            color: var(--dark-blue, #2E0898);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        /* Carousel Styling */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            margin: 25px 0 40px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            background: #fff;
+            border: 2px solid #eaeaea;
+        }
+
+        .carousel-slide {
+            display: none;
+            width: 100%;
+            animation: fade 0.5s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            display: block;
+        }
+
+        /* Os iframes precisam ter uma altura alta para acomodar os mapas interativos */
+        .carousel-slide iframe {
+            width: 100%;
+            height: 850px;
+            border: none;
+            display: block;
+            background-color: #ffffff;
+        }
+
+        .carousel-caption {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            color: var(--dark-blue, #2E0898);
+            font-weight: 800;
+            text-align: center;
+            border-top: 1px solid #eaeaea;
+            letter-spacing: 0.5px;
+        }
+
+        .carousel-prev, .carousel-next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: auto;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            background-color: rgba(39, 174, 96, 0.7);
+            border: none;
+            user-select: none;
+            transition: background-color 0.3s;
+            z-index: 10;
+        }
+
+        .carousel-prev { left: 0; border-radius: 0 4px 4px 0; }
+        .carousel-next { right: 0; border-radius: 4px 0 0 4px; }
+
+        .carousel-prev:hover, .carousel-next:hover {
+            background-color: rgba(39, 174, 96, 1);
+        }
+
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"></div>
+    <nav class="navbar">
+        <div class="nav-logos">
+            <a href="{{ url_for('home') }}" class="team-logo-img">
+                <img src="https://static.igem.wiki/teams/6130/wiki/logo.avif" alt="iGEM UFRGS Logo">
+            </a>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir Menu">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </button>
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-item">
+                <a href="{{ url_for('home') }}"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></svg>Home</a>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='meet24d') }}"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" /></svg>The Problem</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='meet24d') }}">Meet 2-4D</a>
+                    <a href="{{ url_for('pages', page='challenge') }}">The Challenge of 2,4D drift</a>
+                    <a href="{{ url_for('pages', page='povs') }}">POVs</a>
+                    <a href="{{ url_for('pages', page='dashboard') }}">Dashboard</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='description') }}"><svg viewBox="0 0 24 24"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z" /></svg>Project</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='description') }}">WHY - Description</a>
+                    <a href="{{ url_for('pages', page='biological-design') }}">WHAT - Biological Design</a>
+                    <a href="{{ url_for('pages', page='hardware-and-software') }}">WHAT - Hardware and Software</a>
+                    <a href="{{ url_for('pages', page='contribution') }}">Contribution</a>
+                    <a href="{{ url_for('pages', page='engineering') }}">Engineering</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='dna-parts') }}"><svg viewBox="0 0 24 24"><path d="M19.8 18.4L14 10.7V4h1c.6 0 1-.4 1-1s-.4-1-1-1H9c-.6 0-1 .4-1 1s.4 1 1 1h1v6.7l-5.8 7.7c-.4.5-.5 1.1-.2 1.6.3.5.8.8 1.4.8h13.6c.6 0 1.1-.3 1.4-.8.3-.5.2-1.1-.2-1.6zM7.5 19l4.5-6 4.5 6h-9z" /></svg>Wet Lab</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='dna-parts') }}">DNA Parts</a>
+                    <a href="{{ url_for('pages', page='materials-methods') }}">Material and Methods</a>
+                    <a href="{{ url_for('pages', page='lab-notebook') }}">Lab Notebook</a>
+                    <a href="{{ url_for('pages', page='results') }}">Results</a>
+                    <a href="{{ url_for('pages', page='safety-and-security') }}">Safety and Security</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='structural-analysis') }}"><svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" /></svg>Dry Lab</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='structural-analysis') }}">Structural Analysis</a>
+                    <a href="{{ url_for('pages', page='molecular-dynamics') }}">Molecular Dynamics</a>
+                    <a href="{{ url_for('pages', page='interaction') }}">Interaction with 2,4D</a>
+                    <a href="{{ url_for('pages', page='hardware') }}">Hardware</a>
+                    <a href="{{ url_for('pages', page='software') }}">Software</a>
+                    <a href="{{ url_for('pages', page='measurement') }}">Measurement</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='human-practices') }}"><svg viewBox="0 0 24 24"><path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5c0-2.3-4.7-3.5-7-3.5zm8 0c-.3 0-.6 0-.9.1 1.2.8 2 1.9 2 3.4V19h5v-2.5c0-2.3-4.7-3.5-7-3.5z" /></svg>Engagement</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='human-practices') }}">Human Practices</a>
+                    <a href="{{ url_for('pages', page='education') }}">Education</a>
+                    <a href="{{ url_for('pages', page='feedback') }}">Receving Feedback</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='roaster') }}"><svg viewBox="0 0 24 24"><path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z" /></svg>Team</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='roaster') }}">Team Roster</a>
+                    <a href="{{ url_for('pages', page='timeline') }}">Team Timeline</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='gallery') }}"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" /></svg>Gallery</a>
+                <div class="dropdown">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+<main class="timeline-section var-sidebar-layout">
+    <!-- SIDEBAR -->
+    <aside class="timeline-sidebar">
+        <h4 style="margin-bottom:15px; color:#333;">Chapters</h4>
+        <ul id="timeline-menu">
+            <li><a class="active" href="#overview">Overview</a></li>
+            <li><a href="#schema">Graphic Schema</a></li>
+            <li><a href="#plasmids">Plasmids Used</a></li>
+            <li><a href="#construct1">CadR-eGFP Construct</a></li>
+            <li><a href="#construct2">apt-CadR Construct</a></li>
+            <li><a href="#construct3">aptamer Construct</a></li>
+            <li><a href="#enzymes">Enzymes and Primers</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="sidebar-content-area">
+        <div class="timeline-container var-left">
+            <img src="https://static.igem.wiki/teams/6130/wiki/dnaparts.avif" alt="DNA Parts Header" class="page-header-image" onerror="this.src='https://static.igem.wiki/teams/6130/wiki/placeholder.avif'">
+
+            <!-- OVERVIEW -->
+            <div class="timeline-phase" id="overview">
+                <h3>Overview</h3>
+            </div>
+            <div class="timeline-item">
+                <p>This page presents the DNA parts used to build our biosensor, along with a brief description of the role each one plays within the genetic circuit. The system was designed to detect the herbicide 2,4-D through a regulatory mechanism coupled to an aptamer-based fluorescent reporter, and the tables below detail each component of the construct.</p>
+                <p>Our biosensor draws on the natural CadR/pCadA regulatory system from <em>Bradyrhizobium sp. HW13</em>. In this design, CadR is constitutively expressed under the strong J23119 promoter and normally binds to the CadA promoter (pCadA), repressing transcription of the downstream cassette. When 2,4-D is present, it induces a conformational change in CadR that relieves this repression, allowing transcription to proceed.</p>
+                <p>Rather than relying on a conventional protein reporter, the system uses an RNA-based one composed of RiboJ and the 3WJdB aptamer. RiboJ processes and insulates the reporter transcript, while 3WJdB binds the fluorescent dye DFHBI-1T to generate a detectable signal. Combined with a cell-free expression platform, this design allows the construct to translate 2,4-D detection directly into RNA production and fluorescence — a fast and practical sensing strategy.</p>
+            </div>
+
+            <!-- GRAPHIC SCHEMA -->
+            <div class="timeline-phase" id="schema">
+                <h3>Graphic Schema</h3>
+            </div>
+            <div class="timeline-item">
+                <p>Explore the interactive plasmid maps below. Hover over the sequences to view the annotations for each biological part used in our assemblies.</p>
+
+                <!-- CAROUSEL START -->
+                <div class="carousel-container" id="plasmid-carousel">
+                    <!-- Slide 1 -->
+                    <div class="carousel-slide active">
+                        <iframe src="{{ url_for('static', filename='dna_parts/plasmid-map.html') }}" title="pET23a(+)_iGEMUFRGS-CadR-eGFP"></iframe>
+                        <div class="carousel-caption">pET23a(+)_iGEMUFRGS-CadR-eGFP</div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carousel-slide">
+                        <iframe src="{{ url_for('static', filename='dna_parts/pet28a-aptamer-map.html') }}" title="pET28a(+)_iGEMUFRGS-aptamer"></iframe>
+                        <div class="carousel-caption">pET28a(+)_iGEMUFRGS-aptamer</div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="carousel-slide">
+                        <iframe src="{{ url_for('static', filename='dna_parts/pet23a-apt-cadr-map.html') }}" title="pET23a+_iGEMUFRGS-apt-CadR"></iframe>
+                        <div class="carousel-caption">pET23a+_iGEMUFRGS-apt-CadR</div>
+                    </div>
+
+                    <!-- Navigation Arrows -->
+                    <button class="carousel-prev">&#10094;</button>
+                    <button class="carousel-next">&#10095;</button>
+                </div>
+                <!-- CAROUSEL END -->
+            </div>
+
+            <!-- PLASMIDS USED -->
+            <div class="timeline-phase" id="plasmids">
+                <h3 class="table-title">Plasmids Used</h3>
+            </div>
+            <div class="table-container">
+                <table class="parts-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>pET23a(+)</strong></td>
+                            <td>cloning vector</td>
+                            <td>X</td>
+                        </tr>
+                        <tr>
+                            <td><strong>pET28a(+)</strong></td>
+                            <td>cloning vector</td>
+                            <td>X</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- CONSTRUCT 1 -->
+            <div class="timeline-phase" id="construct1">
+                <h3 class="table-title">pET23a(+)_iGEMUFRGS-CadR-eGFP</h3>
+            </div>
+            <div class="table-container">
+                <table class="parts-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>CadR</strong></td><td>coding</td><td>Gene that binds to 2,4-D to activate aptamer expression via the CadA promoter.</td><td>X</td></tr>
+                        <tr><td><strong>AmpR</strong></td><td>coding</td><td>Ampicillin resistance gene. Allows for the selection of bacteria carrying the plasmid.</td><td>Bba_K4514030</td></tr>
+                        <tr><td><strong>eGFP</strong></td><td>coding</td><td>Enhanced Green Fluorescent Protein. It is the reporter gene. When expressed, it produces green fluorescence, allowing the activity of the biosensor to be detected.</td><td>Bba_K476607</td></tr>
+                        <tr><td><strong>ori</strong></td><td>origin of replication</td><td>Plasmid origin of replication. It allows for its replication within the host bacterium.</td><td>BBa_K5426004</td></tr>
+                        <tr><td><strong>f1 ori</strong></td><td>origin of replication</td><td>Origin of replication derived from the filamentous phage f1, associated with the production of single-stranded DNA in appropriate systems.</td><td>BBa_K5369113</td></tr>
+                        <tr><td><strong>rop</strong></td><td>coding</td><td>It encodes the Rop protein, which is involved in regulating the copy number of pMB1/ColE1-derived plasmids.</td><td>BBa_K4651014</td></tr>
+                        <tr><td><strong>bom</strong></td><td>regulatory</td><td>Basis of mobilization. Region associated with plasmid mobilization when used with systems that provide the necessary conjugation functions.</td><td>BBa_251IT3X7</td></tr>
+                        <tr><td><strong>AmpR promoter</strong></td><td>promoter</td><td>promoter AmpR expression</td><td>BBa_K5487112</td></tr>
+                        <tr><td><strong>T7 terminator</strong></td><td>terminator</td><td>Transcription termination sequence associated with the T7 system.</td><td>BBa_M36305</td></tr>
+                        <tr><td><strong>Synter1</strong></td><td>terminator</td><td>Synthetic terminator. Its function is to terminate transcription and reduce unwanted read-through into adjacent regions.</td><td>x</td></tr>
+                        <tr><td><strong>J23119</strong></td><td>promoter</td><td>Constitutive promoter</td><td>BBa_J23119</td></tr>
+                        <tr><td><strong>CadA_p</strong></td><td>promoter</td><td>A promoter that is activated by the regulator cadR in the presence of 2,4-D, leading to the production of reporter proteins.</td><td>x</td></tr>
+                        <tr><td><strong>BioBrick prefix</strong></td><td>Assembly</td><td>Standardized cloning region used in BioBrick architecture.</td><td>BBa_M1905</td></tr>
+                        <tr><td><strong>RBS</strong></td><td>RBS</td><td>Ribosome Binding Site. Sequence required for ribosome recruitment and the initiation of translation.</td><td>x</td></tr>
+                        <tr><td><strong>Factor Xa site</strong></td><td>Protease cleavage site</td><td>Sequence encoding a site recognized by the protease Factor Xa. It can allow for the removal of a tag or the separation of a protein of interest in an expression construct.</td><td>x</td></tr>
+                        <tr><td><strong>KpnI site</strong></td><td>restriction site</td><td>KpnI enzyme restriction site.</td><td>x</td></tr>
+                        <tr><td><strong>HindII site</strong></td><td>restriction site</td><td>HindII enzyme restriction site</td><td>x</td></tr>
+                        <tr><td><strong>BioBrick suffix</strong></td><td>Assembly</td><td>Region complementary to the prefix, also used for the standardized assembly of DNA parts.</td><td>BBa_K1945013</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- CONSTRUCT 2 -->
+            <div class="timeline-phase" id="construct2">
+                <h3 class="table-title">pET23a+_iGEMUFRGS-apt-CadR</h3>
+            </div>
+            <div class="table-container">
+                <table class="parts-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>CadR</strong></td><td>coding</td><td>Regulatory protein that responds to cadmium and controls the activity of the system associated with the CadA promoter</td><td>x</td></tr>
+                        <tr><td><strong>AmpR</strong></td><td>coding</td><td>Ampicillin resistance gene. Allows for the selection of bacteria carrying the plasmid.</td><td>Bba_K4514030</td></tr>
+                        <tr><td><strong>ori</strong></td><td>origin of replication</td><td>Plasmid origin of replication. It allows for its replication within the host bacterium.</td><td>BBa_K5426004</td></tr>
+                        <tr><td><strong>f1 ori</strong></td><td>origin of replication</td><td>Origin of replication derived from the filamentous phage f1, associated with the production of single-stranded DNA in appropriate systems.</td><td>BBa_K5369113</td></tr>
+                        <tr><td><strong>rop</strong></td><td>coding</td><td>It encodes the Rop protein, which is involved in regulating the copy number of pMB1/ColE1-derived plasmids.</td><td>BBa_K4651014</td></tr>
+                        <tr><td><strong>3wjdb</strong></td><td>RNA structural element</td><td>A three-way junction RNA scaffold that can promote RNA folding and structural stability. In this construct, it is part of the RNA regulatory/aptamer module.</td><td>BBa_K3777000</td></tr>
+                        <tr><td><strong>bom</strong></td><td>regulatory</td><td>Basis of mobilization. Region associated with plasmid mobilization when used with systems that provide the necessary conjugation functions.</td><td>BBa_251IT3X7</td></tr>
+                        <tr><td><strong>AmpR promoter</strong></td><td>promoter</td><td>promoter AmpR expression</td><td>BBa_K5487112</td></tr>
+                        <tr><td><strong>RiboJ</strong></td><td>Ribozyme / RNA regulatory element</td><td>A self-cleaving ribozyme used to process the RNA transcript and generate a defined 5′ end, helping insulate the downstream RNA element from upstream transcriptional context.</td><td>BBa_K4216041</td></tr>
+                        <tr><td><strong>sTRSV</strong></td><td>Ribozyme</td><td>RNA element with autocatalytic activity, associated with transcript processing</td><td>BBa_K2598990</td></tr>
+                        <tr><td><strong>HHRz</strong></td><td>Ribozyme</td><td>Hammerhead ribozyme capable of RNA self-cleavage</td><td>BBa_K2598990</td></tr>
+                        <tr><td><strong>T7 terminator</strong></td><td>terminator</td><td>Transcription termination sequence associated with the T7 system.</td><td>BBa_M36305</td></tr>
+                        <tr><td><strong>Synter1</strong></td><td>terminator</td><td>Synthetic terminator. Its function is to terminate transcription and reduce unwanted read-through into adjacent regions.</td><td>x</td></tr>
+                        <tr><td><strong>J23119</strong></td><td>promoter</td><td>Constitutive promoter used for CadR expression</td><td>BBa_J23119</td></tr>
+                        <tr><td><strong>CadA_p</strong></td><td>promoter</td><td>A promoter that is activated by the regulator cadR in the presence of 2,4-D, leading to the production of reporter proteins.</td><td>x</td></tr>
+                        <tr><td><strong>BioBrick prefix</strong></td><td>Assembly</td><td>Standardized cloning region used in BioBrick architecture.</td><td>BBa_M1905</td></tr>
+                        <tr><td><strong>BioBrick suffix</strong></td><td>Assembly</td><td>Region complementary to the prefix, also used for the standardized assembly of DNA parts.</td><td>BBa_K1945013</td></tr>
+                        <tr><td><strong>RBS</strong></td><td>RBS</td><td>Ribosome Binding Site, required for ribosome recruitment and translation initiation</td><td>x</td></tr>
+                        <tr><td><strong>Factor Xa site</strong></td><td>Protease cleavage site</td><td>Sequence encoding a site recognized by the protease Factor Xa. It can allow for the removal of a tag or the separation of a protein of interest in an expression construct.</td><td>x</td></tr>
+                        <tr><td><strong>HindII site</strong></td><td>restriction site</td><td>HindII enzyme restriction site</td><td>x</td></tr>
+                        <tr><td><strong>KpnI site</strong></td><td>restriction site</td><td>KpnI enzyme restriction site.</td><td>x</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- CONSTRUCT 3 -->
+            <div class="timeline-phase" id="construct3">
+                <h3 class="table-title">pET28a(+)_iGEMUFRGS-aptamer</h3>
+            </div>
+            <div class="table-container">
+                <table class="parts-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>lacl</strong></td><td>coding</td><td>Encodes the LacI transcriptional repressor, which regulates gene expression through the lac regulatory system</td><td>BBa_K5426006</td></tr>
+                        <tr><td><strong>KanR</strong></td><td>coding</td><td>Encodes kanamycin resistance, allowing selection of bacteria carrying the plasmid</td><td>BBa_K5507007</td></tr>
+                        <tr><td><strong>eGFP</strong></td><td>coding</td><td>Enhanced Green Fluorescent Protein. It is the reporter gene. When expressed, it produces green fluorescence, allowing the activity of the biosensor to be detected.</td><td>Bba_K476607</td></tr>
+                        <tr><td><strong>ori</strong></td><td>origin of replication</td><td>Plasmid origin of replication. It allows for its replication within the host bacterium.</td><td>BBa_K5426004</td></tr>
+                        <tr><td><strong>f1 ori</strong></td><td>origin of replication</td><td>Origin of replication derived from the filamentous phage f1, associated with the production of single-stranded DNA in appropriate systems.</td><td>BBa_K5369113</td></tr>
+                        <tr><td><strong>rop</strong></td><td>coding</td><td>It encodes the Rop protein, which is involved in regulating the copy number of pMB1/ColE1-derived plasmids.</td><td>BBa_K4651014</td></tr>
+                        <tr><td><strong>lacl promoter</strong></td><td>promoter</td><td>Promoter associated with expression of lacI</td><td>BBa_K5432032</td></tr>
+                        <tr><td><strong>T7 terminator</strong></td><td>terminator</td><td>Transcription termination sequence associated with the T7 system.</td><td>BBa_M36305</td></tr>
+                        <tr><td><strong>Synter1</strong></td><td>terminator</td><td>Synthetic terminator. Its function is to terminate transcription and reduce unwanted read-through into adjacent regions.</td><td>x</td></tr>
+                        <tr><td><strong>CadA_p</strong></td><td>promoter</td><td>Promoter associated with the cadmium-responsive regulatory system</td><td>x</td></tr>
+                        <tr><td><strong>BioBrick suffix</strong></td><td>Assembly</td><td>Region complementary to the prefix, also used for the standardized assembly of DNA parts.</td><td>BBa_K1945013</td></tr>
+                        <tr><td><strong>6xHis</strong></td><td>Tag coding element</td><td>Encodes a six-histidine affinity tag that can be used for protein purification or detection</td><td>x</td></tr>
+                        <tr><td><strong>RBS</strong></td><td>RBS</td><td>Ribosome Binding Site, required for ribosome recruitment and translation initiation</td><td>x</td></tr>
+                        <tr><td><strong>MCS</strong></td><td>coding</td><td>Region containing multiple restriction sites for insertion or manipulation of DNA sequences</td><td>x</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ENZYMES AND PRIMERS -->
+            <div class="timeline-phase" id="enzymes">
+                <h3 class="table-title">Enzymes and Primers</h3>
+            </div>
+            <div class="table-container">
+                <table class="parts-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>HindIII</strong></td><td>enzyme for confirmation of vector extraction and used to generate cohesive regions for subsequent cloning</td></tr>
+                        <tr><td><strong>ApaLI</strong></td><td>enzyme for confirmation of vector extraction</td></tr>
+                        <tr><td><strong>KpnI</strong></td><td>enzyme for confirmation of vector extraction</td></tr>
+                        <tr><td><strong>AfeI</strong></td><td>enzyme for confirmation of vector extraction</td></tr>
+                        <tr><td><strong>BsaI</strong></td><td>enzyme for confirmation of vector extraction</td></tr>
+                        <tr><td><strong>BamHI</strong></td><td>used to generate cohesive regions for subsequent cloning</td></tr>
+                        <tr><td><strong>T4 DNA ligase</strong></td><td>enzyme used to clone fragments</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+{% include 'footer.html' %}
+
+<script>window.STATIC_PATH = "{{ url_for('static', filename='script.js') }}".replace(/[^/]*$/, '');</script>
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+    // Logic for Sidebar Active State Based on Scroll Position
+    const sections = document.querySelectorAll('.timeline-phase');
+    const navLinks = document.querySelectorAll('.timeline-sidebar a');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -60% 0px',
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                const id = entry.target.getAttribute('id');
+                const activeLink = document.querySelector(`.timeline-sidebar a[href="#${id}"]`);
+                if(activeLink) activeLink.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        if(section.id) observer.observe(section);
+    });
+
+    // Carousel Logic for Plasmid Maps
+    document.querySelectorAll('.carousel-container').forEach(container => {
+        let currentIndex = 0;
+        const slides = container.querySelectorAll('.carousel-slide');
+        const totalSlides = slides.length;
+        const prevBtn = container.querySelector('.carousel-prev');
+        const nextBtn = container.querySelector('.carousel-next');
+
+        if(totalSlides <= 1) {
+            if(prevBtn) prevBtn.style.display = 'none';
+            if(nextBtn) nextBtn.style.display = 'none';
+            return;
+        }
+
+        function showSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            if (index >= totalSlides) currentIndex = 0;
+            else if (index < 0) currentIndex = totalSlides - 1;
+            else currentIndex = index;
+            slides[currentIndex].classList.add('active');
+        }
+
+        prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+        nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
+    });
+</script>
+</body>
+</html>

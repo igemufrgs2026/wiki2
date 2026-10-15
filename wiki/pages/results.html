@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IGEM UFRGS 2026 - Safety</title>
+<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"/>
+<link href="{{ url_for('static', filename='pages.css') }}" rel="stylesheet"/>
+<style>
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        /* Estilo para justificar os textos dos tópicos */
+        .timeline-item p {
+            text-align: justify;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        /* Estilo para os links de referência [1], [2] no meio do texto */
+        .ref-link {
+            text-decoration: none;
+            color: var(--primary-green, #27ae60);
+            font-weight: 600;
+            padding: 0 2px;
+            transition: color 0.2s ease;
+        }
+
+        .ref-link:hover {
+            color: #1e8449;
+            text-decoration: underline;
+        }
+
+.page-header-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+         .safety-key-features {
+        display: flex;
+        align-items: stretch;
+        gap: 35px;
+        margin: 45px 0 60px 0;
+        width: 100%;
+    }
+
+    .key-features-title {
+        width: 175px;
+        min-width: 175px;
+        background-color: #05c46b;
+        border-radius: 10px;
+        display: flex;
+        align-items: flex-end;
+        padding: 25px 18px;
+        box-sizing: border-box;
+    }
+
+    .key-features-title h3 {
+        color: white;
+        font-size: 1.8rem;
+        line-height: 1.05;
+        margin: 0;
+        font-weight: 700;
+    }
+
+    .key-features-list {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 5px 0;
+    }
+
+    .key-feature {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .key-feature-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        border-radius: 50%;
+        background-color: #05c46b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .key-feature-icon img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+    }
+
+    .key-feature p {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.45;
+        color: #333;
+        text-align: left;
+    }
+
+    @media (max-width: 768px) {
+        .safety-key-features {
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .key-features-title {
+            width: 100%;
+            min-width: unset;
+            min-height: 120px;
+            align-items: flex-end;
+        }
+
+        .key-features-title h3 {
+            font-size: 1.6rem;
+        }
+
+        .key-feature {
+            align-items: flex-start;
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"> </div>
+    <nav class="navbar">
+        <div class="nav-logos">
+            <a href="{{ url_for('home') }}" class="team-logo-img">
+                <img src="https://static.igem.wiki/teams/6130/wiki/logo.avif" alt="iGEM UFRGS Logo">
+            </a>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir Menu">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </button>
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-item">
+                <a href="{{ url_for('home') }}"><svg viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                    </svg>Home</a>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='meet24d') }}"><svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                    </svg>The Problem</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='meet24d') }}">Meet 2-4D</a>
+                    <a href="{{ url_for('pages', page='challenge') }}">The Challenge of 2,4D drift</a>
+                    <a href="{{ url_for('pages', page='povs') }}">POVs</a>
+                    <a href="{{ url_for('pages', page='dashboard') }}">Dashboard</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='description') }}"><svg viewBox="0 0 24 24">
+                        <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z" />
+                    </svg>Project</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='description') }}">WHY - Description</a>
+                    <a href="{{ url_for('pages', page='biological-design') }}">WHAT - Biological Design</a>
+                    <a href="{{ url_for('pages', page='hardware-and-software') }}">WHAT - Hardware and Software</a>
+                    <a href="{{ url_for('pages', page='contribution') }}">Contribution</a>
+                    <a href="{{ url_for('pages', page='engineering') }}">Engineering</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='dna-parts') }}"><svg viewBox="0 0 24 24">
+                        <path d="M19.8 18.4L14 10.7V4h1c.6 0 1-.4 1-1s-.4-1-1-1H9c-.6 0-1 .4-1 1s.4 1 1 1h1v6.7l-5.8 7.7c-.4.5-.5 1.1-.2 1.6.3.5.8.8 1.4.8h13.6c.6 0 1.1-.3 1.4-.8.3-.5.2-1.1-.2-1.6zM7.5 19l4.5-6 4.5 6h-9z" />
+                    </svg>Wet Lab</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='dna-parts') }}">DNA Parts</a>
+                    <a href="{{ url_for('pages', page='materials-methods') }}">Material and Methods</a>
+                    <a href="{{ url_for('pages', page='lab-notebook') }}">Lab Notebook</a>
+                    <a href="{{ url_for('pages', page='results') }}">Results</a>
+                    <a href="{{ url_for('pages', page='safety-and-security') }}">Safety and Security</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='structural-analysis') }}"><svg viewBox="0 0 24 24">
+                        <path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" />
+                    </svg>Dry Lab</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='structural-analysis') }}">Structural Analysis</a>
+                    <a href="{{ url_for('pages', page='molecular-dynamics') }}">Molecular Dynamics</a>
+                    <a href="{{ url_for('pages', page='interaction') }}">Interaction with 2,4D</a>
+                    <a href="{{ url_for('pages', page='hardware') }}">Hardware</a>
+                    <a href="{{ url_for('pages', page='software') }}">Software</a>
+                    <a href="{{ url_for('pages', page='measurement') }}">Measurement</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='human-practices') }}"><svg viewBox="0 0 24 24">
+                        <path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5c0-2.3-4.7-3.5-7-3.5zm8 0c-.3 0-.6 0-.9.1 1.2.8 2 1.9 2 3.4V19h5v-2.5c0-2.3-4.7-3.5-7-3.5z" />
+                    </svg>Engagement</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='human-practices') }}">Human Practices</a>
+                    <a href="{{ url_for('pages', page='education') }}">Education</a>
+                    <a href="{{ url_for('pages', page='feedback') }}">Receving Feedback</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='roaster') }}"><svg viewBox="0 0 24 24">
+                        <path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z" />
+                    </svg>Team</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='roaster') }}">Team Roster</a>
+                    <a href="{{ url_for('pages', page='timeline') }}">Team Timeline</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='gallery') }}"><svg viewBox="0 0 24 24">
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                    </svg>Gallery</a>
+                <div class="dropdown">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+<main class="timeline-section var-sidebar-layout">
+<!-- SIDEBAR DE NAVEGAÇÃO CORRIGIDA -->
+<aside class="timeline-sidebar">
+<h4 style="margin-bottom:15px; color:#333;">Chapters</h4>
+<ul id="timeline-menu">
+    <li><a class="active" href="#identification">Identification of risks</a></li>
+    <li><a href="#addressing">Addressing risks</a></li>
+    <li><a href="#lab-safety">Laboratory safety</a></li>
+    <li><a href="#training">User training</a></li>
+    <li><a href="#future">Future considerations</a></li>
+    <li><a href="#references">References</a></li>
+</ul>
+</aside>
+
+<!-- ÁREA PRINCIPAL DO CONTEÚDO -->
+<div class="sidebar-content-area">
+<div class="timeline-container var-left">
+
+    <!-- IMAGEM DE CABEÇALHO (HEADER - 1920X1080) -->
+    <img src="https://static.igem.wiki/teams/6130/wiki/safetyandsecurity.avif" alt="Safety and Security Header" class="page-header-image">
+
+    <!-- RETÂNGULO INICIAL (INTRODUÇÃO) -->
+    <div id="intro" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 25px 30px; border-radius: 8px; margin-bottom: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <p style="font-size: 1.15rem; line-height: 1.6; color: #444; margin: 0; font-weight: 500; text-align: justify;">
+            Safety and environmental responsibility guided our project from the start. Because our goal is to detect the herbicide 2,4-D in environmental samples, we prioritised a design that minimises the risks of using and releasing genetically engineered material, following a biocontainment-by-design strategy.
+        </p>
+    </div>
+
+    <!-- TÓPICOS -->
+    <div class="timeline-phase" id="identification">
+        <h3>Identification of Potential Risks</h3>
+    </div>
+    <div class="timeline-item">
+        <p>We first mapped the risks inherent to the project. Three points required particular attention: the handling of 2,4-D itself, a chemical that demands appropriate protective equipment and storage; the use of genetically modified microorganisms, since the DNA templates that program the sensor are produced in transformed, non-pathogenic laboratory strains of Escherichia coli; and the possible release of engineered components during field use. These transformed strains are genetically modified organisms, so they are handled under laboratory containment and are never part of the final biosensor, which is cell-free. Identifying these risks early guided the design choices described below.</p>
+    </div>
+
+    <div class="timeline-phase" id="addressing">
+        <h3>How We Address These Risks</h3>
+    </div>
+    <div class="timeline-item">
+        <p>Our biosensor runs on a cell-free expression system: instead of living cells, it uses only the molecular machinery needed for transcription and translation <a href="#ref1" class="ref-link">[1]</a>, <a href="#ref5" class="ref-link">[5]</a>. When 2,4-D is present, a genetic network expresses a reporter protein that produces a measurable signal. Because the assay contains no living organism, it avoids the main hazards of conventional whole-cell biosensors while staying stable enough to be transported, stored, and used in the field <a href="#ref1" class="ref-link">[1]</a>, <a href="#ref2" class="ref-link">[2]</a>, <a href="#ref4" class="ref-link">[4]</a>. Cell-free biosensors of this type have already detected herbicides such as atrazine and other water contaminants, confirming that the approach is effective and safe under realistic conditions <a href="#ref3" class="ref-link">[3]</a>, <a href="#ref4" class="ref-link">[4]</a>.</p>
+    </div>
+
+    <!-- KEY FEATURES -->
+<div class="safety-key-features">
+
+    <div class="key-features-title">
+        <h3>Key<br>features</h3>
+    </div>
+
+    <div class="key-features-list">
+
+        <div class="key-feature">
+            <div class="key-feature-icon">
+                <img src="https://static.igem.wiki/teams/6130/wiki/semilogo.avif" alt="iGEM UFRGS">
+            </div>
+            <p>
+                No living genetically modified organisms are present in the final assay,
+                which therefore cannot replicate or persist in the environment.
+            </p>
+        </div>
+
+        <div class="key-feature">
+            <div class="key-feature-icon">
+                <img src="https://static.igem.wiki/teams/6130/wiki/semilogo.avif" alt="iGEM UFRGS">
+            </div>
+            <p>
+                No pathogenic organisms, virulence factors, or toxins are involved at any stage.
+            </p>
+        </div>
+
+        <div class="key-feature">
+            <div class="key-feature-icon">
+                <img src="https://static.igem.wiki/teams/6130/wiki/semilogo.avif" alt="iGEM UFRGS">
+            </div>
+            <p>
+                Genetic components perform only sensing and reporting,
+                with no selective advantage in the environment.
+            </p>
+        </div>
+
+        <div class="key-feature">
+            <div class="key-feature-icon">
+                <img src="https://static.igem.wiki/teams/6130/wiki/semilogo.avif" alt="iGEM UFRGS">
+            </div>
+            <p>
+                Greatly reduced risk of horizontal gene transfer.
+            </p>
+        </div>
+
+        <div class="key-feature">
+            <div class="key-feature-icon">
+                <img src="https://static.igem.wiki/teams/6130/wiki/semilogo.avif" alt="iGEM UFRGS">
+            </div>
+            <p>
+                Minimal environmental impact in the unlikely event of accidental release.
+            </p>
+        </div>
+
+        <div class="key-feature">
+            <div class="key-feature-icon">
+                <img src="https://static.igem.wiki/teams/6130/wiki/semilogo.avif" alt="iGEM UFRGS">
+            </div>
+            <p>
+                Aligned with iGEM safety principles through biocontainment by design.
+            </p>
+        </div>
+
+    </div>
+</div>
+
+    <div class="timeline-phase" id="lab-safety">
+        <h3>Safety in Our Laboratory</h3>
+    </div>
+    <div class="timeline-item">
+        <p>All experimental work followed our institution's biosafety rules and Brazilian biosafety legislation (Lei nº 11.105/2005), regulated nationally by the National Technical Commission on Biosafety (CTNBio). Work with genetically modified organisms requires a Biosafety Quality Certificate (CQB) issued by CTNBio, and our activities were conducted in compliance with this requirement. The laboratory operates under CQB No. 060/98 (UFRGS), approved by CTNBio and published in the Brazilian Official Gazette (DOU) on 08/28/2018 (Technical Opinion No. 6,012/2018). At UFRGS, biosafety is overseen by the Internal Biosafety Commission (CIBio), linked to the Office of the Dean of Research (Pró-Reitoria de Pesquisa, PROPESQ), and laboratory practice follows the CIBio's Biosafety and Good Laboratory Practices Manual, which sets the standards for handling biological and chemical materials, using protective equipment, and following emergency procedures <a href="#ref6" class="ref-link">[6]</a>.</p>
+        <p>Biosafety training is provided at several levels. In the Biology and Biotechnology programs, containment and good laboratory practices are integrated into regular coursework and supervised internships. In addition, the university periodically offers mandatory internal biosafety training for staff, students, and researchers through the Office of Human Resources (Pró-Reitoria de Gestão de Pessoas, PROGESP). This includes a specific course on research with genetically modified organisms (GMOs), covering the Brazilian regulatory framework (CTNBio, CIBio, and the CQB), GMO risk classification and physical containment, and the transport and disposal of GMOs and chemical waste. Dedicated chemical waste-management training is also provided by the Institute of Chemistry, and every team member completed the applicable training before starting laboratory work.</p>
+        <p>Waste is segregated and discarded according to institutional guidelines: biological residues follow ANVISA rules, and chemical residues are routed through the UFRGS Chemical Waste Management Center (CGTRQ) <a href="#ref8" class="ref-link">[8]</a>. Residues are identified and separated by chemical class at the point of generation, stored temporarily in suitable containers, and collected by the CGTRQ for treatment and final disposal, consistent with the chemical-safety practices adopted in UFRGS laboratories <a href="#ref7" class="ref-link">[7]</a>.</p>
+    </div>
+
+    <div class="timeline-phase" id="training">
+        <h3>User Training and Safe-Use Guidance</h3>
+    </div>
+    <div class="timeline-item">
+        <p>To support safe use beyond the laboratory, we prepared a short user manual centred on operator and environmental safety. Because the assay is cell-free and contains no living organisms, the biological risk is minimal; the manual therefore focuses on the correct handling and storage of reagents, the use of basic protective equipment when collecting and applying samples, avoiding contact with the samples (which may contain the herbicide), and the proper disposal of used materials. You can find our user manual HERE.</p>
+    </div>
+
+    <div class="timeline-phase" id="future">
+        <h3>Future Biosafety Considerations</h3>
+    </div>
+    <div class="timeline-item">
+        <p>Although cell-free systems already provide strong biocontainment, further development will focus on reagent stabilisation and on environmental risk assessment for field deployment. Evaluating the long-term stability of the biosensor under field conditions will help ensure it remains safe, reliable, and environmentally sustainable throughout its lifecycle.</p>
+    </div>
+
+    <!-- CAIXA CINZA DE REFERÊNCIAS -->
+    <div class="timeline-phase" id="references">
+        <h3>References</h3>
+    </div>
+    <div class="timeline-item">
+        <div style="background-color: #f1f3f5; padding: 25px; border-radius: 8px; border: 1px solid #e9ecef;">
+            <p id="ref1" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">
+                [1] Green, T. P., Talley, J. P., & Bundy, B. C. (2025). Recent advances in developing cell-free protein synthesis biosensors for medical diagnostics and environmental monitoring. Biosensors, 15(8), 499. https://doi.org/10.3390/bios15080499
+            </p>
+            <p id="ref2" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">
+                [2] Mendes, F., Machado, B. O., Castro, B. B., Sousa, M. J., & Chaves, S. R. (2025). Harnessing the power of biosensors for environmental monitoring of pesticides in water. Applied Microbiology and Biotechnology, 109, 92. https://doi.org/10.1007/s00253-025-13461-x
+            </p>
+            <p id="ref3" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">
+                [3] Silverman, A. D., Akova, U., Alam, K. K., Jewett, M. C., & Lucks, J. B. (2020). Design and optimization of a cell-free atrazine biosensor. ACS Synthetic Biology, 9(3), 671-677. https://doi.org/10.1021/acssynbio.9b00388
+            </p>
+            <p id="ref4" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">
+                [4] Jung, J. K., Alam, K. K., Verosloff, M. S., et al. (2020). Cell-free biosensors for rapid detection of water contaminants. Nature Biotechnology, 38(12), 1451-1459. https://doi.org/10.1038/s41587-020-0571-7
+            </p>
+            <p id="ref5" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">
+                [5] Silverman, A. D., Karim, A. S., & Jewett, M. C. (2020). Cell-free gene expression: an expanded repertoire of applications. Nature Reviews Genetics, 21(3), 151-170. https://doi.org/10.1038/s41576-019-0186-3
+            </p>
+            <p id="ref6" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">
+                [6] Universidade Federal do Rio Grande do Sul (UFRGS), Comissão Interna de Biossegurança (CIBio). Manual de Biossegurança e Boas Práticas de Laboratório. Porto Alegre: UFRGS, 2015. https://www.ufrgs.br/cbiot/wp-content/uploads/2017/10/CIBio_UFRGS-Manual-de-Biosseguran%C3%A7a-BPL-2015_11_03.pdf
+            </p>
+            <p id="ref7" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 12px; text-align: left;">
+                [7] Universidade Federal do Rio Grande do Sul (UFRGS), Instituto de Química (COSAT). Manual de Segurança em Laboratórios. Porto Alegre: UFRGS. http://www.iq.ufrgs.br/cosat/images/manual_seguranca.pdf
+            </p>
+            <p id="ref8" style="font-size: 0.85rem; color: #6c757d; line-height: 1.5; margin-bottom: 0; text-align: left;">
+                [8] Universidade Federal do Rio Grande do Sul (UFRGS), Instituto de Química, Central de Gerenciamento e Tratamento de Resíduos Químicos (CGTRQ). Gestão de Resíduos Químicos. Porto Alegre: UFRGS, 2022. http://www.iq.ufrgs.br/cgtrq/images/Gesto-de-Resduos-Qumicos-red.-2022.pdf
+            </p>
+        </div>
+    </div>
+
+</div>
+</div>
+</main>
+
+{% include 'footer.html' %}
+
+<script>window.STATIC_PATH = "{{ url_for('static', filename='script.js') }}".replace(/[^/]*$/, '');</script>
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+        const sections = document.querySelectorAll('.timeline-phase');
+        const navLinks = document.querySelectorAll('.timeline-sidebar a');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -60% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    const id = entry.target.getAttribute('id');
+                    const activeLink = document.querySelector(`.timeline-sidebar a[href="#${id}"]`);
+                    if(activeLink) activeLink.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            if(section.id) observer.observe(section);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IGEM UFRGS 2026 - Hardware</title>
+<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"/>
+<link href="{{ url_for('static', filename='pages.css') }}" rel="stylesheet"/>
+<style>
+html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+.hardware-page .sidebar-content-area { min-width: 0; }
+.hardware-page .timeline-item p { text-align: justify; font-size: 1.1rem; line-height: 1.6; color: #444; margin-bottom: 15px; }
+.hardware-page .page-header-image { display: block; width: 100%; max-height: 350px; object-fit: cover; border-radius: 8px; margin-top: 40px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,.08); }
+.fluorescence-explorer { margin-top: 30px; padding: 24px; border: 1px solid #e9ecef; border-radius: 12px; background: #f8f9fa; }
+.fluorescence-explorer h4 { color: var(--dark-blue); font-size: 1.3rem; margin-bottom: 8px; }
+.fluorescence-path { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin: 24px 0; }
+.fluorescence-step { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 8px; border: 1px solid var(--primary-green); border-radius: 8px; background: white; color: #333; font: inherit; font-weight: 600; cursor: pointer; }
+.fluorescence-step:not(:last-child)::after { content: '→'; position: absolute; right: -18px; top: 42px; color: var(--primary-green); }
+.fluorescence-step:first-child::after { color: #2878cc; }
+.fluorescence-step[aria-pressed="true"] { background: #e8f5ed; box-shadow: inset 0 0 0 2px var(--primary-green); }
+.fluorescence-step:hover { background: #e8f5ed; }
+.fluorescence-step:focus-visible { outline: 3px solid var(--dark-blue); outline-offset: 3px; }
+.optical-icon { display: grid; place-items: center; height: 64px; width: 54px; }
+.optical-led { width: 36px; height: 36px; border-radius: 50%; background: #2878cc; box-shadow: 0 0 0 8px #e3effc; }
+.optical-sample { width: 30px; height: 56px; border: 3px solid #608678; border-top-width: 7px; border-radius: 4px 4px 15px 15px; background: linear-gradient(to top, #7ce3a5 55%, transparent 55%); }
+.optical-filter { width: 18px; height: 55px; border: 3px solid var(--primary-green); border-radius: 4px; background: #bdebd0; transform: skewY(-15deg); }
+.optical-sensor { width: 45px; height: 40px; border: 5px solid #64706b; border-radius: 8px; background: #d2f3df; box-shadow: inset 0 0 0 7px white; }
+.fluorescence-detail { border-left: 4px solid var(--primary-green); padding: 16px 20px; background: white; border-radius: 0 8px 8px 0; }
+.hardware-page .fluorescence-explorer p { text-align: left; }
+.hardware-page .fluorescence-note { font-size: .85rem; color: #666; margin: 16px 0 0; }
+@media (max-width: 600px) { .fluorescence-path { grid-template-columns: 1fr; } .fluorescence-step { flex-direction: row; padding: 12px 20px; } .fluorescence-step:not(:last-child)::after { content: '↓'; right: 50%; top: auto; bottom: -24px; } .fluorescence-explorer { padding: 18px; } }
+.hardware-header { margin: 40px 0 30px; }
+.hardware-header h1 { color: var(--dark-blue); font-size: clamp(2rem, 5vw, 4rem); }
+.hardware-intro { background: #f8f9fa; border: 1px solid #e9ecef; padding: 25px 30px; border-radius: 8px; margin-bottom: 50px; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
+.hardware-intro p { font-size: 1.15rem; line-height: 1.6; color: #444; margin-bottom: 15px; }
+.hardware-intro p:last-child { margin-bottom: 0; }
+.hardware-forum-button { display: inline-block; padding: 11px 16px; border: 1px solid var(--primary-green); border-radius: 8px; background: var(--primary-green); color: white; font: inherit; font-weight: 700; text-decoration: none; }
+.hardware-forum-button:hover { background: white; color: var(--primary-green); }
+.hardware-forum-button:focus-visible { outline: 3px solid var(--dark-blue); outline-offset: 3px; }
+@media (max-width: 600px) {
+    .hardware-page .timeline-phase { margin-left: 0; }
+    .hardware-page .timeline-item { padding-left: 0; }
+    .hardware-intro { padding: 20px; }
+    .hardware-page .timeline-item p { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"> </div>
+    <nav class="navbar">
+        <div class="nav-logos">
+            <a href="{{ url_for('home') }}" class="team-logo-img">
+                <img src="https://static.igem.wiki/teams/6130/wiki/logo.avif" alt="iGEM UFRGS Logo">
+            </a>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir Menu">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </button>
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-item">
+                <a href="{{ url_for('home') }}"><svg viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                    </svg>Home</a>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='meet24d') }}"><svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                    </svg>The Problem</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='meet24d') }}">Meet 2-4D</a>
+                    <a href="{{ url_for('pages', page='challenge') }}">The Challenge of 2,4D drift</a>
+                    <a href="{{ url_for('pages', page='povs') }}">POVs</a>
+                    <a href="{{ url_for('pages', page='dashboard') }}">Dashboard</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='description') }}"><svg viewBox="0 0 24 24">
+                        <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z" />
+                    </svg>Project</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='description') }}">WHY - Description</a>
+                    <a href="{{ url_for('pages', page='biological-design') }}">WHAT - Biological Design</a>
+                    <a href="{{ url_for('pages', page='hardware-and-software') }}">WHAT - Hardware and Software</a>
+                    <a href="{{ url_for('pages', page='contribution') }}">Contribution</a>
+                    <a href="{{ url_for('pages', page='engineering') }}">Engineering</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='dna-parts') }}"><svg viewBox="0 0 24 24">
+                        <path d="M19.8 18.4L14 10.7V4h1c.6 0 1-.4 1-1s-.4-1-1-1H9c-.6 0-1 .4-1 1s.4 1 1 1h1v6.7l-5.8 7.7c-.4.5-.5 1.1-.2 1.6.3.5.8.8 1.4.8h13.6c.6 0 1.1-.3 1.4-.8.3-.5.2-1.1-.2-1.6zM7.5 19l4.5-6 4.5 6h-9z" />
+                    </svg>Wet Lab</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='dna-parts') }}">DNA Parts</a>
+                    <a href="{{ url_for('pages', page='materials-methods') }}">Material and Methods</a>
+                    <a href="{{ url_for('pages', page='lab-notebook') }}">Lab Notebook</a>
+                    <a href="{{ url_for('pages', page='results') }}">Results</a>
+                    <a href="{{ url_for('pages', page='safety-and-security') }}">Safety and Security</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='structural-analysis') }}"><svg viewBox="0 0 24 24">
+                        <path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" />
+                    </svg>Dry Lab</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='structural-analysis') }}">Structural Analysis</a>
+                    <a href="{{ url_for('pages', page='molecular-dynamics') }}">Molecular Dynamics</a>
+                    <a href="{{ url_for('pages', page='interaction') }}">Interaction with 2,4D</a>
+                    <a href="{{ url_for('pages', page='hardware') }}">Hardware</a>
+                    <a href="{{ url_for('pages', page='software') }}">Software</a>
+                    <a href="{{ url_for('pages', page='measurement') }}">Measurement</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='human-practices') }}"><svg viewBox="0 0 24 24">
+                        <path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5c0-2.3-4.7-3.5-7-3.5zm8 0c-.3 0-.6 0-.9.1 1.2.8 2 1.9 2 3.4V19h5v-2.5c0-2.3-4.7-3.5-7-3.5z" />
+                    </svg>Engagement</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='human-practices') }}">Human Practices</a>
+                    <a href="{{ url_for('pages', page='education') }}">Education</a>
+                    <a href="{{ url_for('pages', page='feedback') }}">Receving Feedback</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='roaster') }}"><svg viewBox="0 0 24 24">
+                        <path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z" />
+                    </svg>Team</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('pages', page='roaster') }}">Team Roster</a>
+                    <a href="{{ url_for('pages', page='timeline') }}">Team Timeline</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('pages', page='gallery') }}"><svg viewBox="0 0 24 24">
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                    </svg>Gallery</a>
+                <div class="dropdown">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+<main class="timeline-section var-sidebar-layout hardware-page">
+<aside class="timeline-sidebar" aria-label="Hardware chapters">
+<h4 style="margin-bottom:15px; color:#333;">Chapters</h4>
+<ul id="timeline-menu">
+    <li><a class="active" href="#intro">Our Hardware</a></li>
+    <li><a href="#fluorescence">Fluorescence Detection</a></li>
+    <li><a href="#reaction">Controlled Reaction Environment</a></li>
+    <li><a href="#operation">Autonomous Operation</a></li>
+    <li><a href="#portable">Portable and Accessible Design</a></li>
+</ul>
+</aside>
+<div class="sidebar-content-area">
+<div class="timeline-container var-left">
+    <img src="https://static.igem.wiki/teams/6130/wiki/placeholder.avif" alt="Hardware header placeholder" class="page-header-image">
+    <header class="hardware-header" id="intro">
+        <h1>Our Hardware</h1>
+    </header>
+    <div class="hardware-intro">
+        <p>A fundamental part of our environmental biosensor is the ability to reliably quantify the fluorescence produced by the biological construct in response to the presence of 2,4-D. To address this challenge, we developed a compact, portable device that combines fluorescence detection, temperature control, data processing, and user interaction in a single platform.</p>
+        <p>Our goal was not simply to build a fluorescence reader, but to develop a system that could be portable, affordable, autonomous, and easy to operate. The device guides the user through the measurement process, maintains the conditions required for the biological reaction, detects the resulting fluorescence, and converts the measurement into an interpretable result.</p>
+        <p>The system is built around four main functions:</p>
+    </div>
+
+    <div class="timeline-phase" id="fluorescence">
+        <h3>Fluorescence Detection</h3>
+    </div>
+    <div class="timeline-item">
+        <p>The biological construct produces a fluorescent signal when exposed to 2,4-D. The device illuminates the sample with blue light, exciting the fluorescent molecules, and measures the resulting green fluorescence with an optical sensor.</p>
+        <p>A filter separates the excitation and emission wavelengths, preventing the blue excitation light from dominating the fluorescence measurement. This allows the device to distinguish the signal produced by the biological reaction from the light used to excite it.</p>
+        <section class="fluorescence-explorer" aria-labelledby="optical-title">
+            <h4 id="optical-title">Follow the light</h4>
+            <p>Select a component to explore how fluorescence reaches the sensor.</p>
+            <div class="fluorescence-path" role="group" aria-label="Optical pathway">
+                <button class="fluorescence-step" type="button" aria-pressed="true" aria-controls="optical-detail" data-optical-step="0"><span class="optical-icon" aria-hidden="true"><span class="optical-led"></span></span><span>1. Blue light</span></button>
+                <button class="fluorescence-step" type="button" aria-pressed="false" aria-controls="optical-detail" data-optical-step="1"><span class="optical-icon" aria-hidden="true"><span class="optical-sample"></span></span><span>2. Sample</span></button>
+                <button class="fluorescence-step" type="button" aria-pressed="false" aria-controls="optical-detail" data-optical-step="2"><span class="optical-icon" aria-hidden="true"><span class="optical-filter"></span></span><span>3. Filter</span></button>
+                <button class="fluorescence-step" type="button" aria-pressed="false" aria-controls="optical-detail" data-optical-step="3"><span class="optical-icon" aria-hidden="true"><span class="optical-sensor"></span></span><span>4. Sensor</span></button>
+            </div>
+            <div class="fluorescence-detail" id="optical-detail" aria-live="polite" aria-atomic="true">
+                <h4>Blue light · excitation</h4>
+                <p>Blue light illuminates the sample and excites the fluorescent molecules produced by the biological construct.</p>
+            </div>
+        </section>
+    </div>
+
+    <div class="timeline-phase" id="reaction">
+        <h3>Controlled Reaction Environment</h3>
+    </div>
+    <div class="timeline-item">
+        <p>Fluorescence measurements depend not only on the optical signal but also on the conditions in which the biological reaction takes place. The device therefore incorporates an automated incubation system that maintains the sample at 37°C during the reaction.</p>
+        <p>Temperature is monitored continuously, and the system automatically controls the heating process. Safety limits are also incorporated to prevent excessive temperatures and protect both the sample and the equipment.</p>
+    </div>
+
+    <div class="timeline-phase" id="operation">
+        <h3>Autonomous Operation and User Interface</h3>
+    </div>
+    <div class="timeline-item">
+        <p>The device was designed to operate without requiring an external computer, server, or internet connection. It creates its own local Wi-Fi network, allowing the user to access the control interface from a smartphone or computer through a web browser.</p>
+        <p>The interface provides real-time information about the measurement and the state of the device. It also handles the main stages of the measurement workflow, including incubation, signal processing, calibration, and system diagnostics.</p>
+        <p>The device can additionally communicate measurement results to our 2,4-D monitoring platform, allowing users to share measurements and contribute to a broader picture of herbicide occurrence across different locations.</p>
+        <a class="hardware-forum-button" href="https://igemufrgs2026.github.io/forum/">Explore our monitoring forum →</a>
+    </div>
+
+    <div class="timeline-phase" id="portable">
+        <h3>Portable and Accessible Design</h3>
+    </div>
+    <div class="timeline-item">
+        <p>The device is powered by a rechargeable battery pack and continuously monitors its available charge, allowing measurements to be performed without access to a laboratory power supply.</p>
+        <p>We also prioritized the use of commercially available and relatively inexpensive components. The estimated cost of the complete hardware is approximately <strong>R$280 (~US$55)</strong>, making the platform substantially more accessible than conventional laboratory-based analytical approaches such as HPLC, which costs thousands of Brazilian reais.</p>
+        <p>By combining biological sensing with accessible electronics and automated analysis, our hardware is intended to bring environmental monitoring closer to the communities and users who need it.</p>
+    </div>
+</div>
+</div>
+</main>
+
+{% include 'footer.html' %}
+
+<script>window.STATIC_PATH = "{{ url_for('static', filename='script.js') }}".replace(/[^/]*$/, '');</script>
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="{{ url_for('static', filename='hardware.js') }}" defer></script>
+<script>
+        const sections = document.querySelectorAll('.timeline-phase, .hardware-header');
+        const navLinks = document.querySelectorAll('.timeline-sidebar a');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -60% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    const id = entry.target.getAttribute('id');
+                    const activeLink = document.querySelector(`.timeline-sidebar a[href="#${id}"]`);
+                    if(activeLink) activeLink.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            if(section.id) observer.observe(section);
+        });
+    </script>
+</body>
+</html>
